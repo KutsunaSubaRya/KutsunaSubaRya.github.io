@@ -70,7 +70,7 @@
 <li>沒有penalty。</li>
 <li>上述兩點加起來根本就是今年比賽的主打，SAD<h2 id="過程"><a href="#過程" class="headerlink" title="過程"></a>過程</h2>pI是簽到題，bj4<br>pA在某種程度下也是簽到題，因為只要先回到(0,0)，在按照題目輸出即可。<br>之後我根原齊在某種奇怪的量子糾纏之下一人一半把pB給AC了(他寫上半部(fold)，我寫下半部(overlapping condition)) -&gt; 過程中我把condition寫成了噁心的巢狀結構，然後因為了1個變數忘了修改而debug了幾百年(拖時間大師is me)。<h3 id="以下是沒解開的"><a href="#以下是沒解開的" class="headerlink" title="以下是沒解開的"></a>以下是沒解開的</h3>pC 我們想不到<strong>多點同速率擴張圓</strong>的最寫法，文元原本想要寫最近點對，但沒以實做的想法。<br>pD 是聽了學長的解後才恍然大悟的數學幾何題。<br>pG 我以為是貪婪加二分圖，之後以為是匹配，但之後看了fb上大老們的心得文後才知道這題是<strong>二分圖最大點獨立集</strong>。<br>pEFHJ 我都沒看QQ<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2>名次：52/146<br>整場打下來配合度雨默契有比上次NCPC還要好，但我們的實力與刷題量皆不足，我們事後也有分配我們的合作模式與個人專項(擅長的算法)衝刺。<br>雖然以為沒有進ICPC而感到失望，但幾天後的遞補信又讓我重拾了鬥志與信心<br>ICPC Taipei on Site 加油吧～</li>
 </ul>
-<p><img src="https://i.imgur.com/WNIq9bK.jpg"></p>
+<p><img src="https://i.imgur.com/WNIq9bK.jpg" loading="lazy"></p>
 ]]></content>
       <categories>
         <category>心得</category>
@@ -362,7 +362,7 @@ map<span class="token operator">&lt;</span><span class="token keyword">long</spa
 <li>文元使用goto，然後整個人變得很母湯www</li>
 <li>Sad~檢討文就不發了，反正都知道我自己的問題出在那OwO</li>
 </ul>
-<p><img src="https://i.imgur.com/aAoKV8x.png"></p>
+<p><img src="https://i.imgur.com/aAoKV8x.png" loading="lazy"></p>
 ]]></content>
       <categories>
         <category>心得</category>
@@ -401,7 +401,7 @@ map<span class="token operator">&lt;</span><span class="token keyword">long</spa
 </ol>
 <p>最後我們21:45就先離場了，總共打了3hr35m。</p>
 <p>總之，ICPC加油啦！我會好好練 clean code的 QAQ</p>
-<p><img src="https://i.imgur.com/lMG2pH2.jpg"></p>
+<p><img src="https://i.imgur.com/lMG2pH2.jpg" loading="lazy"></p>
 ]]></content>
       <categories>
         <category>心得</category>
@@ -1004,7 +1004,7 @@ tags:
   <entry>
     <title>大學面試總心得</title>
     <url>/2020/04/26/%E5%A4%A7%E5%AD%B8%E9%9D%A2%E8%A9%A6%E7%B8%BD%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<p><img src="https://i.imgur.com/IeHQ56h.jpg"></p>
+    <content><![CDATA[<p><img src="https://i.imgur.com/IeHQ56h.jpg" loading="lazy"></p>
 <h2 id="交大資工-APCS組-面試-amp-心得-4-23"><a href="#交大資工-APCS組-面試-amp-心得-4-23" class="headerlink" title="交大資工(APCS組)(面試&amp;心得)(4/23)"></a>交大資工(APCS組)(面試&amp;心得)(4/23)</h2><p>這是我的備審<br>連結：<a href="https://drive.google.com/open?id=1v4fw_F4DYsee9jLfdwLjFZ5MW5tFjUOv">https://drive.google.com/open?id=1v4fw_F4DYsee9jLfdwLjFZ5MW5tFjUOv</a><br>備註我的學測成績(國11 數14 英14 自11)</p>
 <p>由左到右ABC三個教授，B是主面試官，也是競賽指導的教授，C聽說是資安的教授。<br>自介1分鐘，但我介紹1分半。</p>
 <hr>
@@ -1107,7 +1107,7 @@ tags:
 <blockquote>
 <p>為什麼會有人main函式寫signed main() ?</p>
 </blockquote>
-<p><del>別問你會怕OwO</del><br>好啦，其實C99 ISO/IEC 9899:1999第99,100頁有規定到（如圖）<br><img src="https://i.imgur.com/yyx8gfb.png"></p>
+<p><del>別問你會怕OwO</del><br>好啦，其實C99 ISO/IEC 9899:1999第99,100頁有規定到（如圖）<br><img src="https://i.imgur.com/yyx8gfb.png" loading="lazy"></p>
 <p>就像把<code>long long int</code>打成<code>long long</code>一樣啦，<strong>粗略來說</strong>就是名字不一樣但性質一樣。</p>
 <p>用途就是有人跟我一樣毒瘤到懶的開<code>long long</code>時就<code>#define int long long</code>。</p>
 <p>這時就要談到main為什麼只回傳int了 QAQ</p>
@@ -1128,7 +1128,7 @@ tags:
 <blockquote>
 <p>你不知道為什麼scanf編譯時吃了warning?</p>
 </blockquote>
-<p><img src="https://i.imgur.com/S3q1XnO.png"></p>
+<p><img src="https://i.imgur.com/S3q1XnO.png" loading="lazy"></p>
 <p>其實scanf是會回傳值的，只是單純警告你忽略了回傳值（就像宣告了一個變數，但整個程式都沒用到它，就會給你一個warning提醒使用者），在這點到為止，有興趣的看<a href="https://stackoverflow.com/questions/10043841/c-error-ignoring-return-value-of-scanf">這裡</a>，-Wunused-result看<a href="https://stackoverflow.com/questions/40576003/ignoring-warning-wunused-result">這裡</a>。</p>
 <blockquote>
 <p>題目要求連續輸入直到EOF時(End of File)(ctrl+z是Windows的EOF)(ctrl+d是Linux的EOF)</p>
@@ -1168,7 +1168,7 @@ tags:
 <h2 id="-2"><a href="#-2" class="headerlink" title=""></a><hw0103></h2><p>物理算術題。</p>
 <p>下面第21行的<code>%.2f</code> , <code>%.3f</code><strong>極粗略上來說</strong>是取四捨五入當第多少位，如果不足位數則補0，如果需要實做輔助看<a href="https://blog.csdn.net/wonglong01/article/details/6074887">這裡</a>。</p>
 <h2 id="-3"><a href="#-3" class="headerlink" title=""></a><hw0104></h2><p>我先使用 <code>whereis stdio.h</code> 尋找 stdio.h 的 path，跟著路徑<code>/usr/include/</code>找到stdio.h後將它mv成不同名字（<code>sudo mv stdio.h stdioo.h</code>）(沒加sudo會permission denied，所以提高權限)，改完後回去直接<code>$ make clean</code> <code>$ make</code>會得到”fatal error”，不能過編。但是，如果我把程式裡的<code>#include&lt;stdio.h&gt;</code>砍掉就「可以過編」，但會吃warning，原因在於<code>[-Wimplicit-function-declaration]</code>(隱式宣告函式)也就是C語言有規定，<strong>「對於沒有宣告的函式，自動使用隱式宣告」</strong>。</p>
-<p><img src="https://i.imgur.com/oHga5aJ.jpg"></p>
+<p><img src="https://i.imgur.com/oHga5aJ.jpg" loading="lazy"></p>
 <h2 id="-4"><a href="#-4" class="headerlink" title=""></a><hw0105></h2><h3 id="解釋10進位負數轉16進位"><a href="#解釋10進位負數轉16進位" class="headerlink" title="解釋10進位負數轉16進位"></a>解釋10進位負數轉16進位</h3><p>首先將此十進位數字部份轉成二進位，反碼後加1，4個數字一組轉成16進位（共8組）($2^{4*8}$)。</p>
 <p>或是可以參考<a href="https://www.itread01.com/content/1543721235.html">這裡</a>。</p>
 <h2 id="Bonus"><a href="#Bonus" class="headerlink" title="Bonus "></a>Bonus <hw0106></h2><p>我先使用<code>whereis cd</code>尋找cd，之後又用<code>ls /bin | grep cd</code>也找不到，於是詢問一下他的type是什麼<code>type cd</code>，出現了以下我簡化後的敘述。</p>

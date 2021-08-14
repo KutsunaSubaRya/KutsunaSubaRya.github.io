@@ -81,6 +81,123 @@
       </tags>
   </entry>
   <entry>
+    <title>HDU 1864 - 最大报销额</title>
+    <url>/2021/08/14/HDU%201864%20-%20%E6%9C%80%E5%A4%A7%E6%8A%A5%E9%94%80%E9%A2%9D/</url>
+    <content><![CDATA[<p>題目連結： <a href="https://vjudge.net/problem/HDU-2955">這裡</a></p>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ul>
+<li>小細節：<ul>
+<li>單張帳單只能出現 A 或 B 或 C </li>
+<li>單張帳單不能超過 1000 元</li>
+<li>單張帳單中的 A 或 B 或 C 總和不能超過 600 元</li>
+</ul>
+</li>
+<li>轉移方程： <code>dp[j] = max(dp[j], dp[j - 1] + cost[i]</code> <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token comment">/*-----define-----*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">jizz ios_base<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP1</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">CN cout<span class="token operator">&lt;&lt;</span></span><span class="token string">"\n"</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    jizz<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">ONLINE_JUDGE</span></span>
+    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"output.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">,</span> <span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"input.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+    <span class="token keyword">int</span> TC<span class="token punctuation">,</span> N<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> tmp<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> Q<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>cin <span class="token operator">>></span> Q <span class="token operator">>></span> TC <span class="token operator">&amp;&amp;</span> TC<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">double</span> cost<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> c<span class="token punctuation">;</span>
+        <span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> TC<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">double</span> id<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+            <span class="token keyword">bool</span> det <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            cin <span class="token operator">>></span> N<span class="token punctuation">;</span>
+            <span class="token function">REP</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> N<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                cin <span class="token operator">>></span> <span class="token function">setw</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">>></span> tmp <span class="token operator">>></span> c<span class="token punctuation">;</span> <span class="token comment">//set(n) 讀 n 個字元進 tmp</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'A'</span><span class="token punctuation">)</span> id<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+=</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'B'</span><span class="token punctuation">)</span> id<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+=</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'C'</span><span class="token punctuation">)</span> id<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">+=</span> c<span class="token punctuation">;</span>
+                <span class="token keyword">else</span> det <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>id<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">600</span> <span class="token operator">||</span> id<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">600</span> <span class="token operator">||</span> id<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">600</span> <span class="token operator">||</span> det <span class="token operator">||</span> id<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> id<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> id<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">1000</span><span class="token punctuation">)</span> cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> id<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> id<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> id<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> TC<span class="token punctuation">)</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> j<span class="token operator">--</span><span class="token punctuation">)</span>
+                dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> TC<span class="token punctuation">;</span> i <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> Q<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                cout <span class="token operator">&lt;&lt;</span> fixed <span class="token operator">&lt;&lt;</span> <span class="token function">setprecision</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+]]></content>
+      <categories>
+        <category>演算法</category>
+      </categories>
+      <tags>
+        <tag>HDU</tag>
+        <tag>Dynamic Programming (DP)</tag>
+        <tag>0/1 背包問題</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HDU 2955 - Robberies</title>
+    <url>/2021/08/14/HDU%202955%20-%20Robberies%20/</url>
+    <content><![CDATA[<p>題目連結： <a href="https://vjudge.net/problem/HDU-2955">這裡</a></p>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ul>
+<li>如果是用正常 0/1 背包的思維構造，會發現這題的風險 (重量) 是小數，無法以重量做狀態轉移。</li>
+<li>換個思路，把風險變成 <code> 1 - 風險（重量）</code> ，也就是 <strong>成功率</strong> 。</li>
+<li>轉移式： <code>dp[i]=max(dp[j], dp[j-cost[i]]*weight[i])</code><br>  因為已將題意轉為 <strong>成功率</strong> ，所以連續地成功是用乘法。</li>
+<li>最後取大於原『成功率』的最大 cost 即可。</li>
+</ul>
+<h2 id="AC-原始碼"><a href="#AC-原始碼" class="headerlink" title="AC 原始碼"></a>AC 原始碼</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token comment">/*-----define-----*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">jizz ios_base<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP1</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	jizz<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">ONLINE_JUDGE</span></span>
+	<span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"output.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">,</span> <span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"input.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+	<span class="token keyword">int</span> T<span class="token punctuation">,</span>n<span class="token punctuation">;</span>
+	<span class="token keyword">double</span> P<span class="token punctuation">;</span>
+	cin <span class="token operator">>></span> T<span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>T<span class="token operator">--</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+		<span class="token keyword">int</span> cost<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token punctuation">,</span>tot_w<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>tmp<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+		<span class="token keyword">double</span> weight<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+		cin <span class="token operator">>></span> P <span class="token operator">>></span> n<span class="token punctuation">;</span>
+		dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//不搶就必定成功</span>
+		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+			cin <span class="token operator">>></span> cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">>></span> weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+			weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token operator">-</span>weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">//轉成成功的機率</span>
+			tot_w<span class="token operator">+=</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>n<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span>tot_w<span class="token punctuation">;</span>j<span class="token operator">>=</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>j<span class="token operator">--</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span>j<span class="token operator">-</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">*</span>weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>tot_w<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">1</span><span class="token operator">-</span>P<span class="token punctuation">)</span> tmp<span class="token operator">=</span>i<span class="token punctuation">;</span> <span class="token comment">//成功率大於原定的，表示成功</span>
+		cout <span class="token operator">&lt;&lt;</span> tmp <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>演算法</category>
+      </categories>
+      <tags>
+        <tag>HDU</tag>
+        <tag>Dynamic Programming (DP)</tag>
+        <tag>0/1 背包問題</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TIOJ 1152 銀河帝國旅行社</title>
     <url>/2019/02/22/TIOJ%201152%20%E9%8A%80%E6%B2%B3%E5%B8%9D%E5%9C%8B%EF%A6%83%EF%A8%88%E7%A4%BE/</url>
     <content><![CDATA[<p>題目連結:<a href="https://tioj.ck.tp.edu.tw/problems/1152">https://tioj.ck.tp.edu.tw/problems/1152</a></p>
@@ -220,7 +337,7 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
   <entry>
     <title>Uva10534 - Wavio Sequence</title>
     <url>/2021/08/06/Uva10534%20-%20Wavio%20Sequence/</url>
-    <content><![CDATA[<p>Uva10534 - Wavio Sequence<br><strong>題目連結: <a href="https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1475">這裡</a></strong></p>
+    <content><![CDATA[<p><strong>題目連結: <a href="https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1475">這裡</a></strong></p>
 <h2 id="題目大意"><a href="#題目大意" class="headerlink" title="題目大意"></a>題目大意</h2><blockquote>
 <p>Wavio sequence 的定義 :</p>
 <ul>
@@ -328,8 +445,8 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
         <category>演算法</category>
       </categories>
       <tags>
-        <tag>UVA</tag>
         <tag>Dynamic Programming (DP)</tag>
+        <tag>UVA</tag>
         <tag>最長遞增子序列 (LIS)</tag>
       </tags>
   </entry>
@@ -483,8 +600,8 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
         <category>演算法</category>
       </categories>
       <tags>
-        <tag>UVA</tag>
         <tag>Dynamic Programming (DP)</tag>
+        <tag>UVA</tag>
         <tag>最長遞增子序列 (LIS)</tag>
         <tag>最長共同子序列 (LCS)</tag>
       </tags>
@@ -1167,6 +1284,646 @@ node <span class="token function">query</span><span class="token punctuation">(<
       <tags>
         <tag>SPOJ</tag>
         <tag>線段樹</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>自定義 Stylish Plugin</title>
+    <url>/2021/08/15/%5BStylus%5D%20%E8%87%AA%E5%AE%9A%E7%BE%A9%20Stylish%20Plugin/</url>
+    <content><![CDATA[<p>參考自： <a href="https://userstyles.org/styles/169533/g36">這裡</a><br>並使用 Chrome 的 Plugin <a href="https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne?hl=zh-TW">Stylus</a></p>
+<h2 id="原始碼"><a href="#原始碼" class="headerlink" title="原始碼"></a>原始碼</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">body</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #F1F4ED <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/page.webp<span class="token punctuation">)</span></span> no-repeat fixed top right <span class="token important">!important</span><span class="token punctuation">;</span> 
+      <span class="token property">background-attachment</span><span class="token punctuation">:</span> fixed <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">background-position</span><span class="token punctuation">:</span> center <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">background-size</span><span class="token punctuation">:</span>cover <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">div.ifM9O</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> #2869c5 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.appbar</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span>transparent <span class="token important">!important</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">div.rl_feature, .rlc__slider, .rlc__slider-page</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> transparent<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.rl_center</span><span class="token punctuation">&#123;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span> none
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.kp-blk</span><span class="token punctuation">&#123;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span> none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.bkWMgd .g a:hover h3</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">text-decoration</span><span class="token punctuation">:</span>none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.B6fmyf</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">visibility</span><span class="token punctuation">:</span> visible<span class="token punctuation">;</span>
+      <span class="token property">top</span><span class="token punctuation">:</span> 8px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.NJjxre</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.aajZCb,.minidiv .aajZCb</span><span class="token punctuation">&#123;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 5px 10px <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span> 0
+  <span class="token punctuation">&#125;</span>
+  
+
+  <span class="token selector">.GHDvEf.ab_button,.GHDvEf.ab_button:hover</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> transparent
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.Wnoohf</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>0.5<span class="token punctuation">)</span> <span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 5px 10px <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">transition</span><span class="token punctuation">:</span> all 0.5s<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.mnr-c  :hover</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>1<span class="token punctuation">)</span> <span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+          <span class="token property">transition</span><span class="token punctuation">:</span> all 1s<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.kno-ftr :hover</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> transparent
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.rhsvw .kno-ftr:hover</span><span class="token punctuation">&#123;</span>
+         <span class="token property">background</span><span class="token punctuation">:</span><span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#main .mw #rhs</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">margin-left</span><span class="token punctuation">:</span> 1020px<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.kp-header:first-child .kno-liu .img-kc-m,.kp-blk .kp-header:first-child .img-brk</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">border-top-right-radius</span><span class="token punctuation">:</span> 0px <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">border-top-left-radius</span><span class="token punctuation">:</span> 0px <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.srg .g:last-of-type</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.vk_c, .vk_cxp, .vk_ic</span><span class="token punctuation">&#123;</span>
+         <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>0.3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span> 0 <span class="token important">!important</span><span class="token punctuation">;</span>
+          <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 5px 10px <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">width</span><span class="token punctuation">:</span>104%<span class="token punctuation">;</span>
+      <span class="token property">margin-left</span><span class="token punctuation">:</span> -17px<span class="token punctuation">;</span>
+      <span class="token property">margin-bottom</span><span class="token punctuation">:</span>20px <span class="token important">!important</span><span class="token punctuation">;</span>
+         <span class="token property">transition</span><span class="token punctuation">:</span> all 0.5s
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.vk_c:hover, .vk_cxp:hover, .vk_ic:hover</span><span class="token punctuation">&#123;</span>
+         <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.lu-fs</span><span class="token punctuation">&#123;</span>
+         <span class="token property">width</span><span class="token punctuation">:</span>100%<span class="token punctuation">;</span>
+         <span class="token property">height</span><span class="token punctuation">:</span>120%
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.yyjhs</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span> 255<span class="token punctuation">,</span> 255<span class="token punctuation">,</span> .8<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> 3px 16px<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">#myuser .myuserconfig</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span>transparent <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span>grey  <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span>none  <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span>0 <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">margin-right</span><span class="token punctuation">:</span>10px <span class="token important">!important</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#myuser .myuserconfig:hover</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span>transparent <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span>black  <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span>0
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.minidiv .sfbg</span><span class="token punctuation">&#123;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>0.8<span class="token punctuation">)</span> <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 5px 10px <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#hdtbSum</span><span class="token punctuation">&#123;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> transparent <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#hdtb</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.RNNXgb, .minidiv .RNNXgb</span><span class="token punctuation">&#123;</span>
+      <span class="token property">border-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">border-style</span><span class="token punctuation">:</span> solid<span class="token punctuation">;</span>
+      <span class="token property">border-width</span><span class="token punctuation">:</span> 0px 0px 1px<span class="token punctuation">;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> transparent <span class="token punctuation">;</span>
+      <span class="token property">transition</span><span class="token punctuation">:</span> all 0.5s
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.emcav .RNNXgb</span><span class="token punctuation">&#123;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span>none<span class="token punctuation">;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #fff <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span>0 0 0 2px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.sbfc</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #fff <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+      <span class="token property">border-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.1<span class="token punctuation">)</span><span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.RNNXgb:hover, .minidiv .RNNXgb:hover</span><span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #fff <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> none <span class="token important">!important</span><span class="token punctuation">;</span>
+      <span class="token property">border-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">border-style</span><span class="token punctuation">:</span> solid<span class="token punctuation">;</span>
+      <span class="token property">border-width</span><span class="token punctuation">:</span> 0px 0px 1px<span class="token punctuation">;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">.aR1mEe</span><span class="token punctuation">&#123;</span>
+         <span class="token property">border-bottom</span><span class="token punctuation">:</span> none <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">g-section-with-header</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> 10px 5px<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token selector">div.res_top_banner #foot,
+  #page .fk,
+  #head .headBlock,
+  #rs_top_new,
+  #content_right,
+  .srg>table,
+  .srg>div[id*="30"],
+  .srg .c-recommend,
+  .srg .leftBlock,
+  .srg .hit_top_new,
+  .srg #fld,
+  .srg div.rrecom-btn-parent,
+  #content_right,
+  #demo</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">display</span><span class="token punctuation">:</span>none<span class="token important">!important</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">body[google]</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">background-color</span><span class="token punctuation">:</span>#fdfdfd
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#form .bdsug</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>76%
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#ala_img_results</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">overflow</span><span class="token punctuation">:</span>hidden
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">a,
+  a em</span> <span class="token punctuation">&#123;</span>
+     <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+   <span class="token property">text-decoration</span><span class="token punctuation">:</span>none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#head,
+  #s_tab</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">background-color</span><span class="token punctuation">:</span>#f8f8f8
+       
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#head</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+   <span class="token property">border-bottom</span><span class="token punctuation">:</span>0
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#form</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+   <span class="token property">background-color</span><span class="token punctuation">:</span>unset
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#form .bdsug li</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>auto<span class="token punctuation">;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#000<span class="token punctuation">;</span>
+   <span class="token property">font</span><span class="token punctuation">:</span>15px arial<span class="token punctuation">;</span>
+   <span class="token property">line-height</span><span class="token punctuation">:</span>26px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#form .s_ipt_wr.bg</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">background</span><span class="token punctuation">:</span>#fff<span class="token punctuation">;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>76%
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#form .s_btn</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">background</span><span class="token punctuation">:</span>#2866bd<span class="token punctuation">;</span>
+   <span class="token property">border-bottom</span><span class="token punctuation">:</span>1px solid #4879bd
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#form .s_btn:hover</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">background</span><span class="token punctuation">:</span>#4879bd<span class="token punctuation">;</span>
+   <span class="token property">border-bottom</span><span class="token punctuation">:</span>1px solid #2866bd
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#s_tab b</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#2866bd<span class="token punctuation">;</span>
+   <span class="token property">border-bottom</span><span class="token punctuation">:</span>3px #2866bd solid
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#s_tab</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">border-bottom</span><span class="token punctuation">:</span>#e0e0e0 1px solid
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#u a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">text-decoration</span><span class="token punctuation">:</span>none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#container .head_nums_cont_outer .search_tool_conter,
+  #container .head_nums_cont_outer .nums</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>630px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#search .srg,
+  .med>#ires .bkWMgd>.srg</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">animation-name</span><span class="token punctuation">:</span>left_logoR<span class="token punctuation">;</span>
+   <span class="token property">-webkit-animation-duration</span><span class="token punctuation">:</span>.1s<span class="token punctuation">;</span>
+   <span class="token property">-webkit-animation-timing-function</span><span class="token punctuation">:</span>ease
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs,
+  .bkWMgd .g</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>760px<span class="token punctuation">;</span>
+   <span class="token property">padding</span><span class="token punctuation">:</span>0 20px 15px<span class="token punctuation">;</span>
+   <span class="token property">margin-top</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+   <span class="token property">margin-bottom</span><span class="token punctuation">:</span>40px<span class="token punctuation">;</span>
+   <span class="token property">background-color</span><span class="token punctuation">:</span><span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>0.3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token property">transition</span><span class="token punctuation">:</span> all 0.5s<span class="token punctuation">;</span>
+   <span class="token property">box-sizing</span><span class="token punctuation">:</span>border-box<span class="token punctuation">;</span>
+   <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 5px 10px <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token property">border-radius</span><span class="token punctuation">:</span> 0
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs,
+  .bkWMgd .g div.rc .s</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">max-width</span><span class="token punctuation">:</span>unset
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.bkWMgd .g:hover</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">box-shadow</span><span class="token punctuation">:</span>none<span class="token punctuation">;</span>
+   <span class="token property">background</span><span class="token punctuation">:</span><span class="token function">rgb</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span> 255<span class="token punctuation">,</span> 255<span class="token punctuation">)</span><span class="token important">!important</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.bkWMgd .g[tpl=soft] .op-soft-title,
+  .bkWMgd .g div.r</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">background-color</span><span class="token punctuation">:</span><span class="token function">rgba</span><span class="token punctuation">(</span>248<span class="token punctuation">,</span> 248<span class="token punctuation">,</span> 248<span class="token punctuation">,</span> .6<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token property">margin</span><span class="token punctuation">:</span>0 -20px 10px<span class="token punctuation">;</span>
+   <span class="token property">padding</span><span class="token punctuation">:</span>8px 20px 5px<span class="token punctuation">;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span> 0
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .f13 a,
+  .srg .f13 em,
+  .srg .c-span18 a,
+  .srg .subLink_factory a,
+  .srg .c-tabs-content a,
+  .srg .op_offical_weibo_content a,
+  .srg .op_offical_weibo_pz a,
+  .srg .op_tieba2_tablinks_container a,
+  .srg .op-tieba-general-right,
+  .srg .op_dq01_title,
+  .srg .op_dq01_table a,
+  .srg .op_dq01_morelink a,
+  .srg .op-tieba-general-mainpl a,
+  .srg .op-se-listen-recommend,
+  .srg .c-offset>div a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">text-decoration</span><span class="token punctuation">:</span>none<span class="token punctuation">;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#2866bd
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .f13 a:hover,
+  .srg .f13 em:hover,
+  .srg .subLink_factory a:hover,
+  .srg .c-tabs-content a:hover,
+  .srg .op_tieba2_tablinks_container a:hover,
+  .srg .op-tieba-general-right:hover,
+  .srg .op_dq01_title:hover,
+  .srg .op_dq01_table a:hover,
+  .srg .op_dq01_morelink a:hover,
+  .srg .op-tieba-general-mainpl a:hover,
+  .srg .op-se-listen-recommend:hover,
+  .srg .c-offset>div a:hover</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">text-decoration</span><span class="token punctuation">:</span>underline<span class="token important">!important</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .f13 a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>green
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .c-span18,
+  .srg .c-span24</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>100%<span class="token punctuation">;</span>
+   <span class="token property">min-width</span><span class="token punctuation">:</span>unset
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .c-border</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>auto<span class="token punctuation">;</span>
+   <span class="token property">border</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+   <span class="token property">border-bottom-color</span><span class="token punctuation">:</span>transparent<span class="token punctuation">;</span>
+   <span class="token property">border-right-color</span><span class="token punctuation">:</span>transparent<span class="token punctuation">;</span>
+   <span class="token property">box-shadow</span><span class="token punctuation">:</span>0 0 0 transparent<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .se_com_irregular_gallery ul li,
+  .srg .op_jingyan_list,
+  .bkWMgd .g .op-img-address-link-type</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">display</span><span class="token punctuation">:</span>inline-block<span class="token punctuation">;</span>
+   <span class="token property">margin-left</span><span class="token punctuation">:</span>10px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.bkWMgd .g[tpl=soft] .op-soft-title a,
+  .bkWMgd .g[tpl=soft] .op-soft-title a em,
+  .bkWMgd .g div.r>a,
+  .bkWMgd .g a h3,
+  .bkWMgd .g div.r>a em</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#2866bd<span class="token punctuation">;</span>
+   <span class="token property">font-weight</span><span class="token punctuation">:</span>700
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a:visited,
+  .srg .op-soft-title a:visited em,
+  .bkWMgd .g div.r>a:visited,
+  .bkWMgd .g div.r>a:visited em,
+  .bkWMgd .g a:visited h3</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#609
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a,
+  .bkWMgd .g div.r>a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">position</span><span class="token punctuation">:</span>relative
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a em,
+  .bkWMgd .g div.r>a em</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">text-decoration</span><span class="token punctuation">:</span>none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a:hover:after,
+  .bkWMgd .g div.r>a:hover:after</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">left</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>100%<span class="token punctuation">;</span>
+   <span class="token property">-webkit-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">;</span>
+   <span class="token property">-moz-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">;</span>
+   <span class="token property">transition</span><span class="token punctuation">:</span>width 350ms
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a:after,
+  .bkWMgd .g div.r>a:after</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">content</span><span class="token punctuation">:</span><span class="token string">""</span><span class="token punctuation">;</span>
+   <span class="token property">position</span><span class="token punctuation">:</span>absolute<span class="token punctuation">;</span>
+   <span class="token property">border-bottom</span><span class="token punctuation">:</span>2px solid #2866bd<span class="token punctuation">;</span>
+   <span class="token property">bottom</span><span class="token punctuation">:</span>-2px<span class="token punctuation">;</span>
+   <span class="token property">left</span><span class="token punctuation">:</span>100%<span class="token punctuation">;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+   <span class="token property">-webkit-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">,</span>left 350ms<span class="token punctuation">;</span>
+   <span class="token property">-moz-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">,</span>left 350ms<span class="token punctuation">;</span>
+   <span class="token property">transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">,</span>left 350ms
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a .bkWMgd .g div.r>a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">position</span><span class="token punctuation">:</span>relative
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a:visited:hover:after,
+  .bkWMgd .g div.r>a:visited:hover:after</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">left</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>100%<span class="token punctuation">;</span>
+   <span class="token property">-webkit-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">;</span>
+   <span class="token property">-moz-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">;</span>
+   <span class="token property">transition</span><span class="token punctuation">:</span>width 350ms
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.srg .op-soft-title a:visited:after,
+  .bkWMgd .g div.r>a:visited:after</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">content</span><span class="token punctuation">:</span><span class="token string">""</span><span class="token punctuation">;</span>
+   <span class="token property">position</span><span class="token punctuation">:</span>absolute<span class="token punctuation">;</span>
+   <span class="token property">border-bottom</span><span class="token punctuation">:</span>2px solid #609<span class="token punctuation">;</span>
+   <span class="token property">bottom</span><span class="token punctuation">:</span>-2px<span class="token punctuation">;</span>
+   <span class="token property">left</span><span class="token punctuation">:</span>100%<span class="token punctuation">;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+   <span class="token property">-webkit-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">,</span>left 350ms<span class="token punctuation">;</span>
+   <span class="token property">-moz-transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">,</span>left 350ms<span class="token punctuation">;</span>
+   <span class="token property">transition</span><span class="token punctuation">:</span>width 350ms<span class="token punctuation">,</span>left 350ms
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin-top</span><span class="token punctuation">:</span>0<span class="token punctuation">;</span>
+   <span class="token property">padding</span><span class="token punctuation">:</span>0 20px 15px<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs .tt</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin</span><span class="token punctuation">:</span>0 -20px 5px<span class="token punctuation">;</span>
+   <span class="token property">padding</span><span class="token punctuation">:</span>5px 20px<span class="token punctuation">;</span>
+   <span class="token property">background-color</span><span class="token punctuation">:</span>#f8f8f8<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs table</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>630px<span class="token punctuation">;</span>
+   <span class="token property">padding</span><span class="token punctuation">:</span>5px 15px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs table tr a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin-top</span><span class="token punctuation">:</span>5px<span class="token punctuation">;</span>
+   <span class="token property">margin-bottom</span><span class="token punctuation">:</span>5px<span class="token punctuation">;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#2866bd
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs table tr a:hover</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">text-decoration</span><span class="token punctuation">:</span>underline
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#page</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">min-width</span><span class="token punctuation">:</span>710px<span class="token punctuation">;</span>
+   <span class="token property">height</span><span class="token punctuation">:</span>40px<span class="token punctuation">;</span>
+   <span class="token property">line-height</span><span class="token punctuation">:</span>40px<span class="token punctuation">;</span>
+   <span class="token property">padding-top</span><span class="token punctuation">:</span>5px<span class="token punctuation">;</span>
+   <span class="token property">margin</span><span class="token punctuation">:</span>0 0 50px 80px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.op-img-address-desktop-cont</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">overflow</span><span class="token punctuation">:</span>hidden
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#page a,
+  #page strong</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#2866bd<span class="token punctuation">;</span>
+   <span class="token property">height</span><span class="token punctuation">:</span>auto<span class="token punctuation">;</span>
+   <span class="token property">box-shadow</span><span class="token punctuation">:</span>none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#page .n:hover,
+  #page a:hover .pc</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">border</span><span class="token punctuation">:</span>1px solid <span class="token function">rgba</span><span class="token punctuation">(</span>237<span class="token punctuation">,</span> 255<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token property">background</span><span class="token punctuation">:</span>#d8d8d8<span class="token punctuation">;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#0057da
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#page strong .pc</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">background</span><span class="token punctuation">:</span>#4879bd<span class="token punctuation">;</span>
+   <span class="token property">color</span><span class="token punctuation">:</span>#fff
+  <span class="token punctuation">&#125;</span>
+  <span class="token atrule"><span class="token rule">@-webkit-keyframes</span> left_logoR</span> <span class="token punctuation">&#123;</span>
+   <span class="token selector">0%</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">-webkit-transform</span><span class="token punctuation">:</span><span class="token function">translateY</span><span class="token punctuation">(</span>64px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span>0
+   <span class="token punctuation">&#125;</span>
+   <span class="token selector">50%</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span>0
+   <span class="token punctuation">&#125;</span>
+   <span class="token selector">100%</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span>1
+   <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.bkWMgd>div:not([class])</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>730px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.bkWMgd>div:not([class])</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin-left</span><span class="token punctuation">:</span>18px<span class="token punctuation">;</span>
+   <span class="token property">margin-right</span><span class="token punctuation">:</span>18px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.bkWMgd .g .exp-outline</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">display</span><span class="token punctuation">:</span>none
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#main .mw #rhs</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin-left</span><span class="token punctuation">:</span>1020px
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#res .g .ts</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">max-width</span><span class="token punctuation">:</span>unset
+  <span class="token punctuation">&#125;</span>
+  <span class="token atrule"><span class="token rule">@media</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span>1400px<span class="token punctuation">)</span></span> <span class="token punctuation">&#123;</span>
+   <span class="token selector">.mw #rhs</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">display</span><span class="token punctuation">:</span>none
+   <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">cite</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token punctuation">;</span>
+   <span class="token property">font-weight</span><span class="token punctuation">:</span>400
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#res .r</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">line-height</span><span class="token punctuation">:</span>1.3
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#res</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">padding</span><span class="token punctuation">:</span>0
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#rs,
+  .bkWMgd .g</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin-bottom</span><span class="token punctuation">:</span>20px<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.c2xzTb .g,
+  .ruTcId .g,
+  .fm06If .g,
+  .cUnQKe .g,
+  .HanQmf .g</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">width</span><span class="token punctuation">:</span>758px<span class="token punctuation">;</span>
+   <span class="token property">padding-left</span><span class="token punctuation">:</span>20px<span class="token important">!important</span><span class="token punctuation">;</span>
+   <span class="token property">padding-right</span><span class="token punctuation">:</span>20px<span class="token important">!important</span><span class="token punctuation">;</span>
+   <span class="token property">box-shadow</span><span class="token punctuation">:</span>0 0 0 0 <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">div .xfxx5d</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin-bottom</span><span class="token punctuation">:</span>-18px<span class="token important">!important</span><span class="token punctuation">;</span>
+   <span class="token property">margin-top</span><span class="token punctuation">:</span>-25px<span class="token important">!important</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">div .xaqJzf.xfxx5d .kno-ftr</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">margin-top</span><span class="token punctuation">:</span>10px<span class="token important">!important</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">div .kno-ftr a</span> <span class="token punctuation">&#123;</span>
+   <span class="token property">position</span><span class="token punctuation">:</span>sticky
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">div .LHJvCe</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.yDYNvb.lyLwlc</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.yXK7lf em</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.dyjrff</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.O3JH7.qLBFXd</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.dvDNH</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.gyWzne</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.WZ8Tjf</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>91<span class="token punctuation">,</span> 247<span class="token punctuation">,</span> 135<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.k8XOCe</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>236<span class="token punctuation">,</span> 255<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> .5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.GmE3X</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.MXl0lf</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #52ef7a<span class="token punctuation">;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #263a62<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.GHDvEf, .GHDvEf:hover, .GHDvEf.selected, .GHDvEf.selected:hover</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> #fe8a12
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.I6TXqe</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>192 243 3 / 35%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.uo4vr</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.sWISj</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.S1FAPd</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.O3JH7</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.YyVfkd</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>0 250 227<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.AaVjTc a:link</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.sfbg</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>0 255 255 / 50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.gLFyf</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>3 22 251<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.yg51vc</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>0 255 255 / 50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.hdtb-mitem.hdtb-msel</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #4b00ff<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.hdtb-mitem a</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e4f304<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.hdtb-mitem .GOE98c, .hdtb-mitem a, .hdtb-mitem.hdtb-msel, .t2vtad</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e4f304<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.iv236</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #1c00ff<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.Lj9fsd</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>0 255 255 / 50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.s8GCU</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>0 255 255 / 50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.usJj9c .st</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.TXwUJf</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">a.fl:link, .fl a, .gl a:link</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.f6F9Be</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #e10b0b<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#Wprf1b</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.unknown_loc</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #007efc<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">g-inner-card</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> #140f5d<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.UlIbl</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> #93c2f3<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.KFFQ0c .YfftMc, .KFFQ0c .YfftMc span, .KFFQ0c .YfftMc div, .KFFQ0c .YfftMc a</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.hMJ0yc</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.FzCfme</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.FalWJb</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> #93c2f3<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.c93Gbe</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> #ff0000<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">#SIvCob</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.QCzoEc</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> #e6ff02 <span class="token important">!important</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>Plugin Template</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+        <tag>Stylus</tag>
       </tags>
   </entry>
   <entry>

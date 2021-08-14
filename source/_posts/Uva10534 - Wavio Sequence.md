@@ -7,7 +7,6 @@ tags:
 - Dynamic Programming (DP)
 - 最長遞增子序列 (LIS)
 ---
-Uva10534 - Wavio Sequence
 **題目連結: [這裡](https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1475)**
 ## 題目大意 
 >Wavio sequence 的定義 :

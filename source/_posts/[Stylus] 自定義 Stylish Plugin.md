@@ -10,29 +10,29 @@ tags:
 並使用 Chrome 的 Plugin [Stylus](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne?hl=zh-TW)
 ## 原始碼
 ```css=
-/**背景*/
+
 body{
   background: #F1F4ED url(https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/page.webp) no-repeat fixed top right !important; 
     background-attachment: fixed !important;
     background-position: center !important;
 	background-size:cover !important;
-    color: #e6ff02 !important;
+    color: #e6ff02 ;
 }
 div.ifM9O{
     background-color: #2869c5 !important;
 }
-/**计数器背景*/
+
 .appbar{
     background:transparent !important
 }
-/*额外结果*/
+
 div.rl_feature, .rlc__slider, .rlc__slider-page{
     background: transparent;
 }
 .rl_center{
     border: none
 }
-/**搜索结果*/
+
 .kp-blk{
     border-radius:0;
     border: none
@@ -47,17 +47,17 @@ div.rl_feature, .rlc__slider, .rlc__slider-page{
 .NJjxre {
     display: none;
 }
-/*联想结果*/
+
 .aajZCb,.minidiv .aajZCb{
     box-shadow: 0 5px 10px rgba(0,0,0,0.05);
     border-radius: 0
 }
 
-/*链接右边的小箭头*/
+
 .GHDvEf.ab_button,.GHDvEf.ab_button:hover{
     background: transparent
 }
-/**侧栏*/
+
 .Wnoohf {
 	background: rgba(255,255,255,0.5) ;
     box-shadow: 0 5px 10px rgba(0,0,0,0.05);
@@ -81,7 +81,7 @@ div.rl_feature, .rlc__slider, .rlc__slider-page{
     border-top-right-radius: 0px !important;
     border-top-left-radius: 0px !important;
 }
-/**地图结果**/
+
 .srg .g:last-of-type {
     margin-bottom: 20px;
 }
@@ -107,7 +107,7 @@ div.rl_feature, .rlc__slider, .rlc__slider-page{
     background: rgba(255, 255, 255, .8);
     padding: 3px 16px;
 }
-/**自定义按钮**/
+
 #myuser .myuserconfig{
     background:transparent !important;
     color:grey  !important;
@@ -120,7 +120,7 @@ div.rl_feature, .rlc__slider, .rlc__slider-page{
     color:black  !important;
 	border:0
 }
-/**顶栏**/
+
 .minidiv .sfbg{
 background: rgba(255,255,255,0.8) !important;
     box-shadow: 0 5px 10px rgba(0,0,0,0.05);
@@ -131,7 +131,7 @@ background: transparent !important;
 #hdtb {
     border: none;
 }
-/*文本框*/
+
 .RNNXgb, .minidiv .RNNXgb{
     border-color: rgba(0,0,0,0.1);
     border-style: solid;
@@ -158,16 +158,16 @@ background: transparent !important;
     border-width: 0px 0px 1px;
     border-radius: 0;
 }
-/**相关内容下划线**/
+
 .aR1mEe{
        border-bottom: none !important;
 }
-/**图片结果**/
+
 g-section-with-header {
     margin: 0;
     padding: 10px 5px;
 }
-/**AC-Baidu**/
+
 div.res_top_banner #foot,
 #page .fk,
 #head .headBlock,
@@ -661,6 +661,21 @@ textarea {
     color: #e6ff02
 }
 .tw-bilingual-pos {
+    color: #e6ff02
+}
+.gXmnc {
+    background-color: rgb(1 1 1 / 37%);
+}
+div#tsuid15.xpdbox.xpdclose{
+    background-color: rgb(34 133 255 / 59%);
+}
+.YrbPuc, .qHx7jd {
+    color: #e6ff02
+}
+.ubHt5c {
+    color: #e6ff02
+}
+.pdpvld {
     color: #e6ff02
 }
 ```

@@ -663,9 +663,6 @@ textarea {
 .tw-bilingual-pos {
     color: #e6ff02
 }
-div#tsuid15.xpdbox.xpdclose{
-    background-color: rgb(34 133 255 / 59%);
-}
 .YrbPuc, .qHx7jd {
     color: #e6ff02
 }
@@ -677,5 +674,8 @@ div#tsuid15.xpdbox.xpdclose{
 }
 .e9EfHf {
     background-color: rgb(1 1 1 / 62%);
+}
+div.lr_container{
+    background-color: rgb(34 133 255 / 59%);
 }
 ```

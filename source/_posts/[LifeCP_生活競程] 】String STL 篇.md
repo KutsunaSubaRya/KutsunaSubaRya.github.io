@@ -73,6 +73,7 @@ transform(ALL(s1), s1.begin(), :: tolower);  // 全部轉小寫
 for(int i=0;i<s1.size();i++) s1[i]=toupper(s1[i]) //逐一轉大寫
 for(int i=0;i<s1.size();i++) s1[i]=tolower(s1[i]) //逐一轉小寫
 ```
+
 ### back_insert
 * `back_inserter()`
 * 好處：不需先知道容器的大小

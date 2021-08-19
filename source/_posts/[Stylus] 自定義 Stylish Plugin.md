@@ -678,4 +678,13 @@ textarea {
 div.lr_container{
     background-color: rgb(34 133 255 / 59%);
 }
+.hb8SAc {
+    color: #e6ff02
+}
+.cwUqwd {
+    color: #e6ff02
+}
+.ckp3Pb {
+    color: #e6ff02
+}
 ```

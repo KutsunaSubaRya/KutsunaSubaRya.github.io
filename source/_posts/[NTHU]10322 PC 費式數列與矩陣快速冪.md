@@ -18,6 +18,7 @@ tags:
 - NTHU
 - 矩陣快速冪
 - 數論
+- 2019
 ---  
 題目連結:https://acm.cs.nthu.edu.tw/problem/10322/
 

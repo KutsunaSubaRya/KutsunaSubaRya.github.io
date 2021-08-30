@@ -6,6 +6,7 @@ tags:
 - UVA
 - Dynamic Programming (DP)
 - 最長遞增子序列 (LIS)
+- 2021
 ---
 **題目連結: [這裡](https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1475)**
 ## 題目大意 

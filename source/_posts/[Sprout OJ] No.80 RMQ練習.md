@@ -17,6 +17,7 @@ categories: 資料結構
 tags: 
 - SPOJ
 - 線段樹
+- 2018
 ---
 題目來源:https://neoj.sprout.tw/problem/80/
 參考: https://slides.com/sylveon/2017wds#/2

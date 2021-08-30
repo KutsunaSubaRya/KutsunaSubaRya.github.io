@@ -7,6 +7,7 @@ tags:
 - Dynamic Programming (DP)
 - 最長遞增子序列 (LIS)
 - 最長共同子序列 (LCS)
+- 2021
 ---
 **題目連結: [這裡](https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem=1890)**
 ## 題目大意 

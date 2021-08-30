@@ -18,6 +18,7 @@ tags:
 - SOJ
 - MST
 - 並查集
+- 2018
 ---
 
 題目URL:https://pc2.tfcis.org/dev/index.php/problem/view/43/

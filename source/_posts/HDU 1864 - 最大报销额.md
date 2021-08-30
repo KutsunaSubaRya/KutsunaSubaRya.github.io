@@ -6,6 +6,7 @@ tags:
 - HDU
 - Dynamic Programming (DP)
 - 0/1 背包問題
+- 2021
 ---
 題目連結： [這裡](https://vjudge.net/problem/HDU-2955)
 

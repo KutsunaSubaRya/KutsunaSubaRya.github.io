@@ -1163,7 +1163,7 @@ map<span class="token operator">&lt;</span><span class="token keyword">char</spa
 <h2 id="Failure-Function"><a href="#Failure-Function" class="headerlink" title="Failure Function"></a>Failure Function</h2><p>參考資料：</p>
 <ul>
 <li><a href="https://www.csie.ntu.edu.tw/~sprout/algo2018/">資訊之芽算法班第13週KMP</a></li>
-<li><a href="http://web.ntnu.edu.tw/~algo/StringSearching.html#2">演算法筆記 String Searching</a><br>模板題：<a href="https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1239">Uva-10298</a><br>這題先做完Failure Function後直接判斷其size-Failure Function最後一個的值的結果是否整除原本的size。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<li><a href="https://web.ntnu.edu.tw/~algo/Substring.html#2">演算法筆記 String Searching</a><br>模板題：<a href="https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1239">Uva-10298</a><br>這題先做完Failure Function後直接判斷其size-Failure Function最後一個的值的結果是否整除原本的size。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
 <span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span> 
 <span class="token keyword">int</span> F<span class="token punctuation">[</span><span class="token number">1000005</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token keyword">inline</span> <span class="token keyword">void</span> <span class="token function">fail</span><span class="token punctuation">(</span>string<span class="token operator">&amp;</span> str<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>	
@@ -1248,7 +1248,8 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
 			<span class="token keyword">else</span> cout <span class="token operator">&lt;&lt;</span> <span class="token string">"y\n"</span><span class="token punctuation">;</span>  
 		<span class="token punctuation">&#125;</span>
 	<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
       <categories>
         <category>競程紀錄</category>
       </categories>
@@ -2448,6 +2449,68 @@ a em</span> <span class="token punctuation">&#123;</span>
         <tag>2018</tag>
         <tag>時間標記</tag>
         <tag>前綴和</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>調 Ubuntu 20.04 時採的坑.md</title>
+    <url>/2021/10/18/%5BUbuntu%2020.04%5D%20%E8%AA%BF%20Ubuntu%2020.04%20%E6%99%82%E6%8E%A1%E7%9A%84%E5%9D%91/</url>
+    <content><![CDATA[<h2 id="Dash-to-Dock-Can’t-make-and-make-install"><a href="#Dash-to-Dock-Can’t-make-and-make-install" class="headerlink" title="Dash to Dock Can’t make and make install"></a>Dash to Dock Can’t <code>make</code> and <code>make install</code></h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> sassc
+$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> gettext<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Dash-to-Dock-Somthing’s-gone-wrong"><a href="#Dash-to-Dock-Somthing’s-gone-wrong" class="headerlink" title="Dash to Dock : Somthing’s gone wrong"></a>Dash to Dock : Somthing’s gone wrong</h2><p>According to this link <a href="https://github.com/micheleg/dash-to-dock/issues/1445">Github issue : Unable to use the extension #1445</a><br>We know that Dash to Dock doesn’t support Gnome 40 yet.<br>And Tuxman2 said that,</p>
+<blockquote>
+<p>Note: I took the Dash to dock extension from here: <a href="https://github.com/ewlsh/dash-to-dock/tree/ewlsh/gnome-40">https://github.com/ewlsh/dash-to-dock/tree/ewlsh/gnome-40</a><br>That version works with Gnome 40. Of course, it is not perfect yet (some bugs) but it does the job.</p>
+</blockquote>
+<blockquote>
+<p>@Sidpatchy: <strong>Dash to Dock extension works with Gnome 40 but you must take the version from Ewlsh and not from Micheleg.</strong></p>
+</blockquote>
+<h2 id="Cannot-turn-on-Tweak-User-Themes-and-Shell-button-locked"><a href="#Cannot-turn-on-Tweak-User-Themes-and-Shell-button-locked" class="headerlink" title="Cannot turn on Tweak User Themes and Shell button locked"></a>Cannot turn on Tweak User Themes and Shell button locked</h2><p>The first problem is the <code>Tweak &gt; Appearance &gt; Shell (Locked by the triangle mark) </code><br><strong>Solution</strong> : Go to <code>Tweak &gt; Extension &gt; (Turn on) User Themes</code><br>The second problem is “After I turn on the User Themes, it will turn of by itself.”.<br>Hence, refer to this <a href="https://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/">https://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/</a><br>Open terminal (Ctrl + Alt + T)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> chrome-gnome-shell<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>go to <a href="https://extensions.gnome.org/extension/19/user-themes/">https://extensions.gnome.org/extension/19/user-themes/</a> and turn on the button.</p>
+<h2 id="What-is-sudo-nautilus"><a href="#What-is-sudo-nautilus" class="headerlink" title="What is sudo nautilus"></a>What is <code>sudo nautilus</code></h2><p>Nautilus is a file manager in Ubuntu.<br>When you type the command <code>sudo nautilus</code> , you are entering the file manager as a root.</p>
+<h2 id="VSCode-transparent"><a href="#VSCode-transparent" class="headerlink" title="VSCode transparent"></a>VSCode transparent</h2><h3 id="Devilspie"><a href="#Devilspie" class="headerlink" title="Devilspie"></a>Devilspie</h3><p>參考資料：<a href="https://www.youtube.com/watch?v=PzObHq72Vug&t=301s&ab_channel=ThatDevOpsGuy">這裡</a><br>以下程式碼複製貼上至 Terminal</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> devilspie
+$ <span class="token function">mkdir</span> -p ~/.devilspie
+$ <span class="token builtin class-name">echo</span> <span class="token string">'
+(if (contains (window_class) "Code")
+	(begin
+		(spawn_async (str "xprop -id " (window_xid) " -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 "))
+		(spawn_async (str "xprop -id " (window_xid) " -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0xD8000000"))
+	)
+)
+'</span> <span class="token operator">></span> ~/.devilspie/vscode_transparent.ds<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用前前往 Terminal</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ devilspie<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>就可以啟動了</p>
+<h3 id="Auto-Start-Devilspie"><a href="#Auto-Start-Devilspie" class="headerlink" title="Auto Start Devilspie"></a>Auto Start Devilspie</h3><p><code>vim ~/.config/autostart/devilspie.desktop</code></p>
+<pre class="line-numbers language-none"><code class="language-none">[Desktop Entry]
+Name&#x3D;&quot;devilspie&quot;
+GenericName&#x3D;&quot;devilspie&quot;
+Comment&#x3D;&quot;is this necesery?&quot;
+Exec&#x3D;&#x2F;usr&#x2F;bin&#x2F;devilspie
+Terminal&#x3D;false
+Type&#x3D;Application
+X-Gnome-Autostart&#x3D;true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>:wq</code> 就完成了</p>
+<h2 id="Ubuntu-20-04-Lock-screen-background-cannot-change"><a href="#Ubuntu-20-04-Lock-screen-background-cannot-change" class="headerlink" title="Ubuntu 20.04 Lock screen background cannot change"></a>Ubuntu 20.04 Lock screen background cannot change</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> libglib2.0-dev-bin
+$ <span class="token function">git</span> clone https://github.com/thiggy01/change-gdm-background.git
+$ <span class="token function">chmod</span> +x change-gdm-background
+$ <span class="token builtin class-name">cd</span> change-gdm-background
+$ <span class="token function">sudo</span> ./change-gdm-background <span class="token punctuation">[</span>your image path<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>Line 5 <strong>[ your image path ]</strong> : 可以用 <code>sudo nautilus</code> 進去 <code>/usr/share/backgrounds</code> 把你想要更換的桌布放進去。</li>
+</ul>
+<p>詳細的可以參考以下這兩篇</p>
+<ul>
+<li><a href="https://www.linuxmadesimple.info/2020/08/how-to-change-login-picture-in-ubuntu.html">How to change the login picture in Ubuntu 20.04</a></li>
+<li><a href="https://www.youtube.com/watch?v=KY6uB3lUT8s&ab_channel=linuxmadesimple">How to change the login picture in Ubuntu 20.04 (Youtube)</a><h2 id="雜項"><a href="#雜項" class="headerlink" title="雜項"></a>雜項</h2><h3 id="Vimrc-配置"><a href="#Vimrc-配置" class="headerlink" title="Vimrc 配置"></a>Vimrc 配置</h3>我是參考 <a href="https://blog.smallten.tk/">余原齊</a> 電神的文章 <a href="https://hackmd.io/@Adam7066/SJ5ERzgHv">Use Vim as IDE</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2021</tag>
+        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>

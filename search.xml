@@ -2452,7 +2452,7 @@ a em</span> <span class="token punctuation">&#123;</span>
       </tags>
   </entry>
   <entry>
-    <title>調 Ubuntu 20.04 時採的坑.md</title>
+    <title>調 Ubuntu 20.04 時採的坑</title>
     <url>/2021/10/18/%5BUbuntu%2020.04%5D%20%E8%AA%BF%20Ubuntu%2020.04%20%E6%99%82%E6%8E%A1%E7%9A%84%E5%9D%91/</url>
     <content><![CDATA[<h2 id="Dash-to-Dock-Can’t-make-and-make-install"><a href="#Dash-to-Dock-Can’t-make-and-make-install" class="headerlink" title="Dash to Dock Can’t make and make install"></a>Dash to Dock Can’t <code>make</code> and <code>make install</code></h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> sassc
 $ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> gettext<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>

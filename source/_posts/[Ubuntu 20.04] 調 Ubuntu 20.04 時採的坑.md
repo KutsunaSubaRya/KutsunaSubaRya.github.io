@@ -95,6 +95,7 @@ $ sudo ./change-gdm-background [your image path]
 詳細的可以參考以下這兩篇
 * [How to change the login picture in Ubuntu 20.04](https://www.linuxmadesimple.info/2020/08/how-to-change-login-picture-in-ubuntu.html)
 * [How to change the login picture in Ubuntu 20.04 (Youtube)](https://www.youtube.com/watch?v=KY6uB3lUT8s&ab_channel=linuxmadesimple)
+
 ## 雜項
 ### Vimrc 配置
 我是參考 [余原齊](https://blog.smallten.tk/) 電神的文章 [Use Vim as IDE](https://hackmd.io/@Adam7066/SJ5ERzgHv)

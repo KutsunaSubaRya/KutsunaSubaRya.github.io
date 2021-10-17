@@ -1,5 +1,5 @@
 ---
-title: 調 Ubuntu 20.04 時採的坑.md
+title: 調 Ubuntu 20.04 時採的坑
 date: 2021-10-18 07:29:00
 highlight:
   enable: true

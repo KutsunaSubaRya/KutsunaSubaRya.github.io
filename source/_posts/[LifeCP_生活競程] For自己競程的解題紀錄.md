@@ -28,7 +28,7 @@ tags:
 ## Failure Function
 參考資料：
 * [資訊之芽算法班第13週KMP](https://www.csie.ntu.edu.tw/~sprout/algo2018/)
-* [演算法筆記 String Searching](http://web.ntnu.edu.tw/~algo/StringSearching.html#2)
+* [演算法筆記 String Searching](https://web.ntnu.edu.tw/~algo/Substring.html#2)
 模板題：[Uva-10298](https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1239)
 這題先做完Failure Function後直接判斷其size-Failure Function最後一個的值的結果是否整除原本的size。
 ```cpp=

@@ -2502,8 +2502,9 @@ $ <span class="token function">sudo</span> ./change-gdm-background <span class="
 <p>詳細的可以參考以下這兩篇</p>
 <ul>
 <li><a href="https://www.linuxmadesimple.info/2020/08/how-to-change-login-picture-in-ubuntu.html">How to change the login picture in Ubuntu 20.04</a></li>
-<li><a href="https://www.youtube.com/watch?v=KY6uB3lUT8s&ab_channel=linuxmadesimple">How to change the login picture in Ubuntu 20.04 (Youtube)</a><h2 id="雜項"><a href="#雜項" class="headerlink" title="雜項"></a>雜項</h2><h3 id="Vimrc-配置"><a href="#Vimrc-配置" class="headerlink" title="Vimrc 配置"></a>Vimrc 配置</h3>我是參考 <a href="https://blog.smallten.tk/">余原齊</a> 電神的文章 <a href="https://hackmd.io/@Adam7066/SJ5ERzgHv">Use Vim as IDE</a></li>
+<li><a href="https://www.youtube.com/watch?v=KY6uB3lUT8s&ab_channel=linuxmadesimple">How to change the login picture in Ubuntu 20.04 (Youtube)</a></li>
 </ul>
+<h2 id="雜項"><a href="#雜項" class="headerlink" title="雜項"></a>雜項</h2><h3 id="Vimrc-配置"><a href="#Vimrc-配置" class="headerlink" title="Vimrc 配置"></a>Vimrc 配置</h3><p>我是參考 <a href="https://blog.smallten.tk/">余原齊</a> 電神的文章 <a href="https://hackmd.io/@Adam7066/SJ5ERzgHv">Use Vim as IDE</a></p>
 ]]></content>
       <categories>
         <category>心得</category>

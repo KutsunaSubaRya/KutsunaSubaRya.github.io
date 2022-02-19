@@ -1,6 +1,7 @@
 ---
 title: 競程用模板
 date: 2021-04-11 20:25:00
+updated: 2021-04-11 20:25:00
 highlight:
   enable: true
   line_number: true

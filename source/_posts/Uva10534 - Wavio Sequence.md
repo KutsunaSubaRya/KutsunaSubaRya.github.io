@@ -1,6 +1,7 @@
 ---
 title: Uva10534 - Wavio Sequence
 date: 2021-08-06 12:34:07
+updated: 2021-08-06 12:34:07
 categories: 演算法
 tags: 
 - UVA

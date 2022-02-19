@@ -1,6 +1,7 @@
 ---
 title: 調 Ubuntu 20.04 時採的坑
 date: 2021-10-18 07:29:00
+updated: 2021-10-18 07:29:00
 highlight:
   enable: true
   line_number: true

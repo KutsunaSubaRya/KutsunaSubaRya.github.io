@@ -1,6 +1,7 @@
 ---
 title: ICPC模擬賽 2015 ICPC Singapore Clone
 date: 2020-11-06 02:00:00
+updated: 2020-11-06 02:00:00
 highlight:
   enable: true
   line_number: true

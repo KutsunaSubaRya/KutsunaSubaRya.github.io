@@ -1,6 +1,7 @@
 ---
 title: NTHU 10322 PC 費式數列與矩陣快速冪
 date: 2019-02-21 14:30:00
+updated: 2019-02-21 14:30:00
 highlight:
   enable: true
   line_number: true

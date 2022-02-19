@@ -1,6 +1,7 @@
 ---
 title: SOJ 41 大顆壽司
 date: 2018-08-16 10:12:00
+updated: 2018-08-16 10:12:00
 highlight:
   enable: true
   line_number: true

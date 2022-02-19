@@ -12,6 +12,10 @@ tags:
 並使用 Chrome 的 Plugin [Stylus](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne?hl=zh-TW)
 將 Stylus 安裝後，在瀏覽器由上方找到相對的圖示，點選後按**管理已安裝樣式**。
 進入已安裝的樣式的頁面後，點選左邊**動作**欄位的**編寫新樣式**，輸入完名稱後，將以下原始碼複製貼上至**代碼1**的欄位，然後點選**覆蓋樣式**，並按 `Ctrl+S` 儲存。
+
+參考圖片：
+![](https://i.imgur.com/yyFeyKj.jpg)
+
 ## 原始碼
 ```css=
 @-moz-document regexp("^http[s]?://www.google.com.*"){

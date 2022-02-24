@@ -1,6 +1,7 @@
 ---
 title: Sprout OJ RMQ練習
 date: 2018-12-26 21:58:00
+updated: 2018-12-26 21:58:00
 highlight:
   enable: true
   line_number: true

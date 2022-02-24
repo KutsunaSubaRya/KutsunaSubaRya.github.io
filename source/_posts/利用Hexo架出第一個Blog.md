@@ -1,6 +1,7 @@
 ---
 title: 利用Hexo架出第一個Blog
 date: 2020-10-11 05:07:00
+updated: 2020-10-11 05:07:00
 highlight:
   enable: true
   line_number: true

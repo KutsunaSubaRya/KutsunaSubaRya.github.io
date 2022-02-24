@@ -1,6 +1,7 @@
 ---
 title: For自己競程的解題紀錄
 date: 2020-12-01 00:27:00
+updated: 2020-12-01 00:27:00
 highlight:
   enable: true
   line_number: true

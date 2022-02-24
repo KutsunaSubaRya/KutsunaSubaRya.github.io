@@ -1,6 +1,7 @@
 ---
 title: Timus Online Judge 1297.Palindrome
 date: 2021-08-18 18:45:24
+updated: 2021-08-18 18:45:24
 categories: 演算法
 tags: 
 - Timus Online Judge

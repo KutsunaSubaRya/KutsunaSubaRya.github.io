@@ -1,6 +1,7 @@
 ---
 title: Uva10949 - Kids in a Grid
 date: 2021-08-06 14:30:24
+updated: 2021-08-06 14:30:24
 categories: 演算法
 tags: 
 - UVA

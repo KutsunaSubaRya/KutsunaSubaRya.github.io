@@ -408,110 +408,6 @@ PII <span class="token function">manacher</span><span class="token punctuation">
       </tags>
   </entry>
   <entry>
-    <title>Uva10917 - Walk Through the Forest</title>
-    <url>/2021/08/16/Uva10917%20-%20Walk%20Through%20the%20Forest/</url>
-    <content><![CDATA[<p><strong>題目連結: <a href="https://vjudge.net/problem/UVA-10917">這裡</a></strong></p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
-<li>注意這句： <blockquote>
-<ul>
-<li>He considers taking a path from A to B to be progress if there exists a route from B to his home that is shorter than any possible route from A.</li>
-<li>( A , B ) 為了找存在一條從 B 出發，比『所有』從 A 出發回家的路還短，求這種路有幾條。</li>
-</ul>
-</blockquote>
-</li>
-<li>這題要尋找符合題目所敘的所有回到家裡的路徑，如果利用 Dijkstra 進行單源搜索，反過來以家裡為起點做 Dijkstra 會恰好得到我們想要的結果。</li>
-<li>再來就是利用 DFS 將符合的路徑 ( dist [ $\forall$A ] &lt; dist [ B ] ) 用一個陣列存取，就有一種 DP 的味道了。</li>
-</ul>
-<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><p><a href="https://blog.csdn.net/ccsu_cat/article/details/80868520">[CSDN] UVA 10917 Walk Through the Forest 迪杰斯特拉+记忆化搜索</a></p>
-<h2 id="AC-原始碼"><a href="#AC-原始碼" class="headerlink" title="AC 原始碼"></a>AC 原始碼</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span> <span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">region define<span class="token operator">/</span><span class="token keyword">typedef</span></span></span>
-<span class="token comment">/*-----define-----*/</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">jizz ios_base<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">ALL</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP1</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">SORT_UNIQUE</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">sort</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation">(</span><span class="token function">distance</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">unique</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">GET_POS</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">lower_bound</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>x<span class="token punctuation">)</span><span class="token operator">-</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">MS0</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token function">memset</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">maxE</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">max_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">minE</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">min_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">INF <span class="token number">0x3f3f3f3f</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">NINF <span class="token number">0xc0c0c0c0</span></span></span>
-<span class="token comment">/*-----typedef-----*/</span>
-<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> LL<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span> PII<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> VI<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span>PII<span class="token operator">></span> VPII<span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">endregion</span></span>
-VPII adj<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> dist<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-priority_queue<span class="token operator">&lt;</span>PII<span class="token punctuation">,</span>vector<span class="token operator">&lt;</span>PII<span class="token operator">></span><span class="token punctuation">,</span>greater<span class="token operator">&lt;</span>PII<span class="token operator">>></span> pq<span class="token punctuation">;</span>
-<span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token function">memset</span><span class="token punctuation">(</span>dist<span class="token punctuation">,</span> INF<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>dist<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">1005</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> adj<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">void</span> <span class="token function">dijkstra</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> vis<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    dist<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//從終點做單源最短有利於從其他點求到終點最短路</span>
-    pq<span class="token punctuation">.</span><span class="token function">emplace</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>pq<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        PII now <span class="token operator">=</span> pq<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        pq<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment">//if(dist[now.first]!=now.second) continue;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>vis<span class="token punctuation">[</span>now<span class="token punctuation">.</span>second<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
-        vis<span class="token punctuation">[</span>now<span class="token punctuation">.</span>second<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        <span class="token keyword">int</span> now_node <span class="token operator">=</span> now<span class="token punctuation">.</span>second<span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> i <span class="token operator">:</span> adj<span class="token punctuation">[</span>now_node<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">//i.first: 點   i.second: 權重</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span> <span class="token operator">></span> dist<span class="token punctuation">[</span>now_node<span class="token punctuation">]</span> <span class="token operator">+</span> i<span class="token punctuation">.</span>second<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span> <span class="token operator">=</span> dist<span class="token punctuation">[</span>now_node<span class="token punctuation">]</span> <span class="token operator">+</span> i<span class="token punctuation">.</span>second<span class="token punctuation">;</span>
-                pq<span class="token punctuation">.</span><span class="token function">emplace</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token punctuation">.</span>first<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">int</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token keyword">int</span> idx<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> dp<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>idx <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token comment">//  為了找存在一條從 B 出發，比『所有』從 A 出發回家的路還短，求這種路有幾條。</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> i <span class="token operator">:</span> adj<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">if</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span> <span class="token operator">&lt;</span> dist<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span> sum <span class="token operator">+=</span> <span class="token function">dfs</span><span class="token punctuation">(</span>i<span class="token punctuation">.</span>first<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> dp<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> sum<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    jizz<span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">ONLINE_JUDGE</span></span>
-    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"output.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">,</span> <span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"input.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
-    <span class="token keyword">int</span> n<span class="token punctuation">,</span> m<span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> w<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span>cin <span class="token operator">>></span> n <span class="token operator">&amp;&amp;</span> n <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        cin <span class="token operator">>></span> m<span class="token punctuation">;</span>
-        <span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> m<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            cin <span class="token operator">>></span> a <span class="token operator">>></span> b <span class="token operator">>></span> w<span class="token punctuation">;</span>
-            adj<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> w<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            adj<span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> w<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token function">dijkstra</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        cout <span class="token operator">&lt;&lt;</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>演算法</category>
-      </categories>
-      <tags>
-        <tag>2021</tag>
-        <tag>UVA</tag>
-        <tag>Dijkstra</tag>
-        <tag>最短路徑</tag>
-        <tag>DFS</tag>
-        <tag>DP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Uva10534 - Wavio Sequence</title>
     <url>/2021/08/06/Uva10534%20-%20Wavio%20Sequence/</url>
     <content><![CDATA[<p><strong>題目連結: <a href="https://onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1475">這裡</a></strong></p>
@@ -626,6 +522,110 @@ priority_queue<span class="token operator">&lt;</span>PII<span class="token punc
         <tag>2021</tag>
         <tag>UVA</tag>
         <tag>最長遞增子序列 (LIS)</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Uva10917 - Walk Through the Forest</title>
+    <url>/2021/08/16/Uva10917%20-%20Walk%20Through%20the%20Forest/</url>
+    <content><![CDATA[<p><strong>題目連結: <a href="https://vjudge.net/problem/UVA-10917">這裡</a></strong></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li>注意這句： <blockquote>
+<ul>
+<li>He considers taking a path from A to B to be progress if there exists a route from B to his home that is shorter than any possible route from A.</li>
+<li>( A , B ) 為了找存在一條從 B 出發，比『所有』從 A 出發回家的路還短，求這種路有幾條。</li>
+</ul>
+</blockquote>
+</li>
+<li>這題要尋找符合題目所敘的所有回到家裡的路徑，如果利用 Dijkstra 進行單源搜索，反過來以家裡為起點做 Dijkstra 會恰好得到我們想要的結果。</li>
+<li>再來就是利用 DFS 將符合的路徑 ( dist [ $\forall$A ] &lt; dist [ B ] ) 用一個陣列存取，就有一種 DP 的味道了。</li>
+</ul>
+<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><p><a href="https://blog.csdn.net/ccsu_cat/article/details/80868520">[CSDN] UVA 10917 Walk Through the Forest 迪杰斯特拉+记忆化搜索</a></p>
+<h2 id="AC-原始碼"><a href="#AC-原始碼" class="headerlink" title="AC 原始碼"></a>AC 原始碼</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span> <span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">region define<span class="token operator">/</span><span class="token keyword">typedef</span></span></span>
+<span class="token comment">/*-----define-----*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">jizz ios_base<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">ALL</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">REP1</span><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">SORT_UNIQUE</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">sort</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation">(</span><span class="token function">distance</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">unique</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">GET_POS</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">lower_bound</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>x<span class="token punctuation">)</span><span class="token operator">-</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">MS0</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token function">memset</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">maxE</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">max_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token function">minE</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">min_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">INF <span class="token number">0x3f3f3f3f</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">NINF <span class="token number">0xc0c0c0c0</span></span></span>
+<span class="token comment">/*-----typedef-----*/</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> LL<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span> PII<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> VI<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span>PII<span class="token operator">></span> VPII<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">endregion</span></span>
+VPII adj<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> dist<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+priority_queue<span class="token operator">&lt;</span>PII<span class="token punctuation">,</span>vector<span class="token operator">&lt;</span>PII<span class="token operator">></span><span class="token punctuation">,</span>greater<span class="token operator">&lt;</span>PII<span class="token operator">>></span> pq<span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">memset</span><span class="token punctuation">(</span>dist<span class="token punctuation">,</span> INF<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>dist<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">1005</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> adj<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">dijkstra</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> vis<span class="token punctuation">[</span><span class="token number">1005</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    dist<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">//從終點做單源最短有利於從其他點求到終點最短路</span>
+    pq<span class="token punctuation">.</span><span class="token function">emplace</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>pq<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        PII now <span class="token operator">=</span> pq<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pq<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//if(dist[now.first]!=now.second) continue;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>vis<span class="token punctuation">[</span>now<span class="token punctuation">.</span>second<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        vis<span class="token punctuation">[</span>now<span class="token punctuation">.</span>second<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> now_node <span class="token operator">=</span> now<span class="token punctuation">.</span>second<span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> i <span class="token operator">:</span> adj<span class="token punctuation">[</span>now_node<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">//i.first: 點   i.second: 權重</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span> <span class="token operator">></span> dist<span class="token punctuation">[</span>now_node<span class="token punctuation">]</span> <span class="token operator">+</span> i<span class="token punctuation">.</span>second<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span> <span class="token operator">=</span> dist<span class="token punctuation">[</span>now_node<span class="token punctuation">]</span> <span class="token operator">+</span> i<span class="token punctuation">.</span>second<span class="token punctuation">;</span>
+                pq<span class="token punctuation">.</span><span class="token function">emplace</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token punctuation">.</span>first<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token keyword">int</span> idx<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> dp<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>idx <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token comment">//  為了找存在一條從 B 出發，比『所有』從 A 出發回家的路還短，求這種路有幾條。</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> i <span class="token operator">:</span> adj<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">if</span><span class="token punctuation">(</span>dist<span class="token punctuation">[</span>i<span class="token punctuation">.</span>first<span class="token punctuation">]</span> <span class="token operator">&lt;</span> dist<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span> sum <span class="token operator">+=</span> <span class="token function">dfs</span><span class="token punctuation">(</span>i<span class="token punctuation">.</span>first<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> dp<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    jizz<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">ONLINE_JUDGE</span></span>
+    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"output.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">,</span> <span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"input.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+    <span class="token keyword">int</span> n<span class="token punctuation">,</span> m<span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> w<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>cin <span class="token operator">>></span> n <span class="token operator">&amp;&amp;</span> n <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cin <span class="token operator">>></span> m<span class="token punctuation">;</span>
+        <span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> m<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            cin <span class="token operator">>></span> a <span class="token operator">>></span> b <span class="token operator">>></span> w<span class="token punctuation">;</span>
+            adj<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>b<span class="token punctuation">,</span> w<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            adj<span class="token punctuation">[</span>b<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span><span class="token function">make_pair</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> w<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">dijkstra</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>演算法</category>
+      </categories>
+      <tags>
+        <tag>2021</tag>
+        <tag>UVA</tag>
+        <tag>Dijkstra</tag>
+        <tag>最短路徑</tag>
+        <tag>DFS</tag>
+        <tag>DP</tag>
       </tags>
   </entry>
   <entry>
@@ -1248,6 +1248,45 @@ map<span class="token operator">&lt;</span><span class="token keyword">char</spa
       </tags>
   </entry>
   <entry>
+    <title>ICPC模擬賽 2015 ICPC Singapore Clone</title>
+    <url>/2020/11/06/%5BICPC%E6%A8%A1%E6%93%AC%E8%B3%BD%5D%202015%20ICPC%20Singapore%20Clone/</url>
+    <content><![CDATA[<h1 id="校內-ICPC-模擬賽-心得"><a href="#校內-ICPC-模擬賽-心得" class="headerlink" title="校內 ICPC 模擬賽 心得"></a>校內 ICPC 模擬賽 心得</h1><h2 id="模擬賽題目：2015-ICPC-Singapore"><a href="#模擬賽題目：2015-ICPC-Singapore" class="headerlink" title="模擬賽題目：2015 ICPC Singapore"></a>模擬賽題目：2015 ICPC Singapore</h2><p>連結：<a href="https://open.kattis.com/contests/niih2v">https://open.kattis.com/contests/niih2v</a></p>
+<p><strong>之前的我們：我們打競程打健康的。</strong><br><strong>現在的我們：為了出國一起捨棄GPA OwO</strong></p>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>天使宗哲設錯日期，設到明天晚上，調整後延後10分鐘考www<br>比賽時間：2020/11/05 18:10~23:10</p>
+<p>開頭小差曲：我們到了一間不是電腦教室的地方上機，原齊想用vim，文元想用sublime，但我的筆電只有vim，所以比賽開始後文元現場直接裝，sad。</p>
+<p>一開場我先看pC，第一次知道ICPC的題敘超可怕的長，裡面的劇情用詞超強的 &lt;- (這不是重點XD)</p>
+<p>pC: n表示接下來有n個食譜，每個食譜有m個數字表示combine在一起，<strong>必定</strong>由上往下的食譜進行合併，合併過後的數字不能單獨跟他沒有合併過的合併，然後合併的條件是</p>
+<ol>
+<li>合併過不得單獨跟沒合併過的合併</li>
+<li>合併過的可以<strong>一起</strong>跟沒有合併過的合併</li>
+<li>呈2，或是可以一起跟合併過的一起合併</li>
+</ol>
+<p>看完後跟文元(SAD)、原齊說我的想法，我們同時表示：「裸的DSU啊！」，然後交給DSU刻超快的SAD刻。</p>
+<p>中間小插曲：文元突然轉不過來第3點怎麼刻，我就說：沒做過的砍掉，每一個dsu的size總和一定會等於剩下的。C就這樣被首殺掉了。</p>
+<p>然後我看pE，看到一半後被抓去想pI，就三種字母，給分別三種的數量，將其排列但相同字母的不能相鄰，我想了一下，資芽算法班貌似在DP那章有紅藍綠著色問題，但我又忘了怎麼轉移，現場推我腦袋燒雞，交給原齊後他也宣告放棄，於是就跟他們說pE想法。</p>
+<p>我只說了一半(誰叫我只看一半ㄎㄎ)，順便他們跟我解釋pF，後來發現pE完全就是模擬題(模擬比賽算penalty)(而且一堆人AC了)，他們趕緊刻完AC後交給我寫pF。</p>
+<p>pF: 每隻細菌都有自己適合的[U,L]，表示溫度範圍，然候有n隻細菌，每個保溫箱有固定的溫度，求最少需要多少保溫箱。</p>
+<p>其實pF沒有很難，但一開始原齊想法錯了導致送上去兩次WA，後來他製造了奇怪的測資把自己的想法ban掉OwO，我就重刻。由於我沒有好好維護while導致某些比較大的測資會infinite loop，我又WA了兩次，而且我的code超級不clean，於是原齊打算重刻，果然刻完送上去AC了。</p>
+<p>這讓我想起打R6時天兆常跟我說：「不會玩女鬼就不要玩; 不會玩大盾就不要玩！」我現在想：「不會刻while就……好好維護啊！然後code乾淨一點！」(我真是欠譴責OwO)</p>
+<p>後來我們pG想不出最優解，原本想說是greedy，但文元說dp才對，可是沒想法。<br>pG題序如下：<br>有一個stack，裡面有一排數字，逐一取出分堆。<br>分堆定義：</p>
+<ol>
+<li>取出後可以加起前一個並組成一堆</li>
+<li>依序以左至右的每堆數量必須為非嚴格遞增</li>
+<li>呈1.取出後可以選擇併入前一堆，或是自立一堆<br>題目所求：最多分幾堆</li>
+</ol>
+<p>最後我們21:45就先離場了，總共打了3hr35m。</p>
+<p>總之，ICPC加油啦！我會好好練 clean code的 QAQ</p>
+<p><img src="https://i.imgur.com/lMG2pH2.jpg" loading="lazy"></p>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2020</tag>
+        <tag>模擬賽</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>競程用模板</title>
     <url>/2021/04/11/%5BLifeCP_template%5D%20%E7%AB%B6%E7%A8%8B%E7%94%A8%E6%A8%A1%E6%9D%BF(%E6%8C%81%E7%BA%8C%E6%9B%B4%E6%96%B0%E4%B8%AD)/</url>
     <content><![CDATA[<h1 id="競程用模板-持續更新中"><a href="#競程用模板-持續更新中" class="headerlink" title="競程用模板 (持續更新中)"></a>競程用模板 (持續更新中)</h1><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span> <span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
@@ -1285,45 +1324,6 @@ map<span class="token operator">&lt;</span><span class="token keyword">char</spa
         <tag>競程</tag>
         <tag>算法</tag>
         <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ICPC模擬賽 2015 ICPC Singapore Clone</title>
-    <url>/2020/11/06/%5BICPC%E6%A8%A1%E6%93%AC%E8%B3%BD%5D%202015%20ICPC%20Singapore%20Clone/</url>
-    <content><![CDATA[<h1 id="校內-ICPC-模擬賽-心得"><a href="#校內-ICPC-模擬賽-心得" class="headerlink" title="校內 ICPC 模擬賽 心得"></a>校內 ICPC 模擬賽 心得</h1><h2 id="模擬賽題目：2015-ICPC-Singapore"><a href="#模擬賽題目：2015-ICPC-Singapore" class="headerlink" title="模擬賽題目：2015 ICPC Singapore"></a>模擬賽題目：2015 ICPC Singapore</h2><p>連結：<a href="https://open.kattis.com/contests/niih2v">https://open.kattis.com/contests/niih2v</a></p>
-<p><strong>之前的我們：我們打競程打健康的。</strong><br><strong>現在的我們：為了出國一起捨棄GPA OwO</strong></p>
-<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>天使宗哲設錯日期，設到明天晚上，調整後延後10分鐘考www<br>比賽時間：2020/11/05 18:10~23:10</p>
-<p>開頭小差曲：我們到了一間不是電腦教室的地方上機，原齊想用vim，文元想用sublime，但我的筆電只有vim，所以比賽開始後文元現場直接裝，sad。</p>
-<p>一開場我先看pC，第一次知道ICPC的題敘超可怕的長，裡面的劇情用詞超強的 &lt;- (這不是重點XD)</p>
-<p>pC: n表示接下來有n個食譜，每個食譜有m個數字表示combine在一起，<strong>必定</strong>由上往下的食譜進行合併，合併過後的數字不能單獨跟他沒有合併過的合併，然後合併的條件是</p>
-<ol>
-<li>合併過不得單獨跟沒合併過的合併</li>
-<li>合併過的可以<strong>一起</strong>跟沒有合併過的合併</li>
-<li>呈2，或是可以一起跟合併過的一起合併</li>
-</ol>
-<p>看完後跟文元(SAD)、原齊說我的想法，我們同時表示：「裸的DSU啊！」，然後交給DSU刻超快的SAD刻。</p>
-<p>中間小插曲：文元突然轉不過來第3點怎麼刻，我就說：沒做過的砍掉，每一個dsu的size總和一定會等於剩下的。C就這樣被首殺掉了。</p>
-<p>然後我看pE，看到一半後被抓去想pI，就三種字母，給分別三種的數量，將其排列但相同字母的不能相鄰，我想了一下，資芽算法班貌似在DP那章有紅藍綠著色問題，但我又忘了怎麼轉移，現場推我腦袋燒雞，交給原齊後他也宣告放棄，於是就跟他們說pE想法。</p>
-<p>我只說了一半(誰叫我只看一半ㄎㄎ)，順便他們跟我解釋pF，後來發現pE完全就是模擬題(模擬比賽算penalty)(而且一堆人AC了)，他們趕緊刻完AC後交給我寫pF。</p>
-<p>pF: 每隻細菌都有自己適合的[U,L]，表示溫度範圍，然候有n隻細菌，每個保溫箱有固定的溫度，求最少需要多少保溫箱。</p>
-<p>其實pF沒有很難，但一開始原齊想法錯了導致送上去兩次WA，後來他製造了奇怪的測資把自己的想法ban掉OwO，我就重刻。由於我沒有好好維護while導致某些比較大的測資會infinite loop，我又WA了兩次，而且我的code超級不clean，於是原齊打算重刻，果然刻完送上去AC了。</p>
-<p>這讓我想起打R6時天兆常跟我說：「不會玩女鬼就不要玩; 不會玩大盾就不要玩！」我現在想：「不會刻while就……好好維護啊！然後code乾淨一點！」(我真是欠譴責OwO)</p>
-<p>後來我們pG想不出最優解，原本想說是greedy，但文元說dp才對，可是沒想法。<br>pG題序如下：<br>有一個stack，裡面有一排數字，逐一取出分堆。<br>分堆定義：</p>
-<ol>
-<li>取出後可以加起前一個並組成一堆</li>
-<li>依序以左至右的每堆數量必須為非嚴格遞增</li>
-<li>呈1.取出後可以選擇併入前一堆，或是自立一堆<br>題目所求：最多分幾堆</li>
-</ol>
-<p>最後我們21:45就先離場了，總共打了3hr35m。</p>
-<p>總之，ICPC加油啦！我會好好練 clean code的 QAQ</p>
-<p><img src="https://i.imgur.com/lMG2pH2.jpg" loading="lazy"></p>
-]]></content>
-      <categories>
-        <category>心得</category>
-      </categories>
-      <tags>
-        <tag>2020</tag>
-        <tag>模擬賽</tag>
       </tags>
   </entry>
   <entry>
@@ -1544,6 +1544,82 @@ s2<span class="token punctuation">.</span><span class="token function">erase</sp
       </tags>
   </entry>
   <entry>
+    <title>NTHU 10322 PC 費式數列與矩陣快速冪</title>
+    <url>/2019/02/21/%5BNTHU%5D10322%20PC%20%E8%B2%BB%E5%BC%8F%E6%95%B8%E5%88%97%E8%88%87%E7%9F%A9%E9%99%A3%E5%BF%AB%E9%80%9F%E5%86%AA/</url>
+    <content><![CDATA[<p>題目連結:<a href="https://acm.cs.nthu.edu.tw/problem/10322/">https://acm.cs.nthu.edu.tw/problem/10322/</a></p>
+<p>一題矩陣快速冪裸題(題目就表明(?)</p>
+<p>當然是好好地把矩陣的乘法定義定好，注意一些0/1擺放的細節，把其套上快速冪的模板，就大功告成了。&gt;&lt;</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span><span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token keyword">int</span> <span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token keyword">int</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">jizz ios_base<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cout<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">pb push_back</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">po pop_back<span class="token punctuation">;</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">F first</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">S second</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">CN cout<span class="token operator">&lt;&lt;</span></span><span class="token string">"\n"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">m <span class="token number">100000007</span></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> array<span class="token operator">&lt;</span>array<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span> Matrix<span class="token punctuation">;</span>
+Matrix <span class="token keyword">operator</span><span class="token operator">*</span><span class="token punctuation">(</span>Matrix A <span class="token punctuation">,</span> Matrix B<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Matrix C<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>k<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span>
+                C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">(</span>C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">+</span><span class="token punctuation">(</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">*</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> C<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+Matrix <span class="token function">power</span><span class="token punctuation">(</span>Matrix A<span class="token punctuation">,</span><span class="token keyword">int</span> n<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Matrix ans<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&amp;</span><span class="token number">1</span><span class="token punctuation">)</span>
+            ans<span class="token operator">=</span>ans<span class="token operator">*</span>A<span class="token punctuation">;</span>
+        n<span class="token operator">>>=</span><span class="token number">1</span><span class="token punctuation">;</span>
+        A<span class="token operator">=</span>A<span class="token operator">*</span>A<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    jizz<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> num<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>cin <span class="token operator">>></span> num <span class="token operator">||</span> num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span> 
+        <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token number">0</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">&#123;</span>
+            Matrix A<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+            Matrix C<span class="token operator">=</span><span class="token function">power</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span>num<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cout <span class="token operator">&lt;&lt;</span> C<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>演算法</category>
+      </categories>
+      <tags>
+        <tag>2019</tag>
+        <tag>NTHU</tag>
+        <tag>矩陣快速冪</tag>
+        <tag>數論</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SOJ 41 大顆壽司</title>
     <url>/2018/08/16/%5BSOJ%5D%2041%20%E5%A4%A7%E9%A1%86%E5%A3%BD%E5%8F%B8/</url>
     <content><![CDATA[<p>題目URL:<a href="https://pc2.tfcis.org/dev/index.php/problem/view/41/">https://pc2.tfcis.org/dev/index.php/problem/view/41/</a><br>來到了清大的營隊，回顧一下最短路徑的裸題~<br>debug到死才發現我是垃圾~(因為我忘了把adj clear掉)</p>
@@ -1720,82 +1796,6 @@ vector<span class="token operator">&lt;</span>edge<span class="token operator">>
       </tags>
   </entry>
   <entry>
-    <title>NTHU 10322 PC 費式數列與矩陣快速冪</title>
-    <url>/2019/02/21/%5BNTHU%5D10322%20PC%20%E8%B2%BB%E5%BC%8F%E6%95%B8%E5%88%97%E8%88%87%E7%9F%A9%E9%99%A3%E5%BF%AB%E9%80%9F%E5%86%AA/</url>
-    <content><![CDATA[<p>題目連結:<a href="https://acm.cs.nthu.edu.tw/problem/10322/">https://acm.cs.nthu.edu.tw/problem/10322/</a></p>
-<p>一題矩陣快速冪裸題(題目就表明(?)</p>
-<p>當然是好好地把矩陣的乘法定義定好，注意一些0/1擺放的細節，把其套上快速冪的模板，就大功告成了。&gt;&lt;</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span><span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression"><span class="token keyword">int</span> <span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token keyword">int</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">jizz ios_base<span class="token operator">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cout<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">pb push_back</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">po pop_back<span class="token punctuation">;</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">F first</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">S second</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">CN cout<span class="token operator">&lt;&lt;</span></span><span class="token string">"\n"</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token expression">m <span class="token number">100000007</span></span></span>
-<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> array<span class="token operator">&lt;</span>array<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span> Matrix<span class="token punctuation">;</span>
-Matrix <span class="token keyword">operator</span><span class="token operator">*</span><span class="token punctuation">(</span>Matrix A <span class="token punctuation">,</span> Matrix B<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    Matrix C<span class="token punctuation">;</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>k<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span>
-                C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">(</span>C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">+</span><span class="token punctuation">(</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">*</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> C<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-Matrix <span class="token function">power</span><span class="token punctuation">(</span>Matrix A<span class="token punctuation">,</span><span class="token keyword">int</span> n<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    Matrix ans<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&amp;</span><span class="token number">1</span><span class="token punctuation">)</span>
-            ans<span class="token operator">=</span>ans<span class="token operator">*</span>A<span class="token punctuation">;</span>
-        n<span class="token operator">>>=</span><span class="token number">1</span><span class="token punctuation">;</span>
-        A<span class="token operator">=</span>A<span class="token operator">*</span>A<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    jizz<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> num<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span>cin <span class="token operator">>></span> num <span class="token operator">||</span> num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span> 
-        <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            cout <span class="token operator">&lt;&lt;</span> <span class="token number">0</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
-            <span class="token keyword">continue</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
-            <span class="token keyword">break</span><span class="token punctuation">;</span>
-        <span class="token keyword">else</span>
-        <span class="token punctuation">&#123;</span>
-            Matrix A<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-            Matrix C<span class="token operator">=</span><span class="token function">power</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span>num<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            cout <span class="token operator">&lt;&lt;</span> C<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>演算法</category>
-      </categories>
-      <tags>
-        <tag>2019</tag>
-        <tag>NTHU</tag>
-        <tag>矩陣快速冪</tag>
-        <tag>數論</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Sprout OJ RMQ練習</title>
     <url>/2018/12/26/%5BSprout%20OJ%5D%20No.80%20RMQ%E7%B7%B4%E7%BF%92/</url>
     <content><![CDATA[<p>題目來源:<a href="https://neoj.sprout.tw/problem/80/">https://neoj.sprout.tw/problem/80/</a><br>參考: <a href="https://slides.com/sylveon/2017wds#/2">https://slides.com/sylveon/2017wds#/2</a></p>
@@ -1929,6 +1929,178 @@ node <span class="token function">query</span><span class="token punctuation">(<
         <tag>2018</tag>
         <tag>前綴和</tag>
         <tag>時間標記</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Install Logiops and Customize in Ubuntu</title>
+    <url>/2022/02/26/%5BUbuntu%2020.04%5D%20Install%20Logiops%20and%20Customize%20in%20Ubuntu/</url>
+    <content><![CDATA[<h2 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h2><p>Driver: <a href="https://github.com/PixlOne/logiops">Logiops project address</a><br>Compatible Devices: <a href="https://github.com/PixlOne/logiops/blob/master/TESTED.md">Check here</a><br>Logiops wiki: <a href="https://github.com/PixlOne/logiops/wiki">Check Here</a></p>
+<h2 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h2><p>This project requires a C++14 compiler, <code>cmake</code>, <code>libevdev</code>, <code>libudev</code>, and <code>libconfig</code>.</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> cmake libevdev-dev libudev-dev libconfig++-dev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>Clone <a href="https://github.com/PixlOne/logiops">this</a></p>
+<h2 id="Building"><a href="#Building" class="headerlink" title="Building"></a>Building</h2><ol>
+<li><p>Enter directory</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token builtin class-name">cd</span> logiops<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>Compile project</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">mkdir</span> build
+$ <span class="token builtin class-name">cd</span> build
+$ cmake <span class="token punctuation">..</span>
+$ <span class="token function">make</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>Install</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>Something you will like …</p>
+<ul>
+<li>Set the daemon to start at boot<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> --now logid<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li>Check the running status<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">service</span> logid status<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<img src="https://i.imgur.com/mXcQTTT.png" loading="lazy"></li>
+<li>Restart<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">service</span> logid restart<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="Check-CID-Control-IDs"><a href="#Check-CID-Control-IDs" class="headerlink" title="Check CID (Control IDs)"></a>Check CID (Control IDs)</h2><p>Check CID that your mouse support.</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> logid -v<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>will be like … (All CIDs and it’s corresponding function are in <a href="https://github.com/PixlOne/logiops/wiki/CIDs">CIDs List</a>)</p>
+<p><img src="https://i.imgur.com/WgE59mU.png" loading="lazy"></p>
+<h2 id="Configuration-File"><a href="#Configuration-File" class="headerlink" title="Configuration File"></a>Configuration File</h2><p>Your default configuration file is located in <code>/etc/logid.cfg</code>.</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># If you have logid.cfg</span>
+$ <span class="token function">sudo</span> <span class="token function">vim</span> /etc/logid.cfg<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>However, if you didn’t find it, why not new one. (lol)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># If you didn't find logid.cfg</span>
+$ <span class="token function">sudo</span> <span class="token function">vim</span> /etc/logid.cfg<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>You can customize it on your own !!! OwOb<br>This is official configuration file syntax detailed reference: <a href="https://github.com/PixlOne/logiops/wiki/Configuration">Check here</a><br>Or you can refer to mine.</p>
+<ul>
+<li>device name: <ul>
+<li>Mine: Wireless Mobile Mouse MX Anywhere 2S</li>
+<li>Check your <a href="https://github.com/PixlOne/logiops/blob/master/TESTED.md">Compatible Devices</a></li>
+</ul>
+</li>
+<li>keys: <ul>
+<li>Mine input event:<ul>
+<li>forward/back button: Switch desktop</li>
+<li>left/right scroll: Switch page</li>
+<li>etc …</li>
+</ul>
+</li>
+<li>Check what input event you want: <a href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h?fbclid=IwAR0oABkgq30BDnmV2LCanjIemtGdmGIVcCrwc4p0vzC5ftiJnJiqAHLgt7k">Here</a></li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">devices: (
+&#123;
+    name: "Wireless Mobile Mouse MX Anywhere 2S";
+    buttons: (
+        &#123;
+            cid: 0x56;
+<span class="token constant">            action</span> <span class="token attr-value"><span class="token punctuation">=</span></span>
+            &#123;
+                type: "Keypress";
+                keys: ["KEY_LEFTCTRL","KEY_LEFTALT","KEY_RIGHT"];
+            &#125;;
+        &#125;,
+        &#123;
+            cid: 0x53;
+<span class="token constant">            action</span> <span class="token attr-value"><span class="token punctuation">=</span></span>
+            &#123;
+                type: "Keypress";
+                keys: ["KEY_LEFTCTRL","KEY_LEFTALT","KEY_LEFT"];
+            &#125;;
+        &#125;,
+        &#123;
+            cid: 0x5b;
+<span class="token constant">            action</span> <span class="token attr-value"><span class="token punctuation">=</span></span>
+            &#123;
+                type: "Keypress";
+                keys:["KEY_LEFTCTRL","KEY_PAGEUP"];
+            &#125;;
+        &#125;,
+        &#123;
+            cid: 0x5d;
+<span class="token constant">            action</span> <span class="token attr-value"><span class="token punctuation">=</span></span>
+            &#123;
+                type: "Keypress";
+                keys:["KEY_LEFTCTRL","KEY_PAGEDOWN"];
+            &#125;;
+        &#125;,
+        &#123;
+            cid: 0xd7;
+<span class="token constant">            action</span> <span class="token attr-value"><span class="token punctuation">=</span></span>
+            &#123;
+                type: "Gestures";
+                gestures:(
+                &#123;
+                    direction:"Up";
+<span class="token constant">                    mode</span><span class="token attr-value"><span class="token punctuation">=</span>"OnInterval";</span>
+<span class="token constant">                    interval</span><span class="token attr-value"><span class="token punctuation">=</span>75;</span>
+<span class="token constant">                    action</span><span class="token attr-value"><span class="token punctuation">=</span></span>
+                    &#123;
+                        type:"Keypress";
+                        keys:["KEY_VOLUMEUP"];
+                    &#125;
+                &#125;,
+                &#123;
+                    direction:"Down";
+<span class="token constant">                    mode</span><span class="token attr-value"><span class="token punctuation">=</span>"OnInterval";</span>
+<span class="token constant">                    interval</span><span class="token attr-value"><span class="token punctuation">=</span>75;</span>
+<span class="token constant">                    action</span><span class="token attr-value"><span class="token punctuation">=</span></span>
+                    &#123;
+                        type:"Keypress";
+                        keys:["KEY_VOLUMEDOWN"];
+                    &#125;
+                &#125;,
+                &#123;
+                    direction:"Left";
+<span class="token constant">                    mode</span><span class="token attr-value"><span class="token punctuation">=</span>"OnRelease";</span>
+<span class="token constant">                    action</span><span class="token attr-value"><span class="token punctuation">=</span></span>
+                    &#123;
+                        type:"Keypress";
+                        keys:["KEY_LEFTCTRL","KEY_C"];
+                    &#125;
+                &#125;,
+                &#123;
+                    direction:"Right";
+<span class="token constant">                    mode</span><span class="token attr-value"><span class="token punctuation">=</span>"OnRelease";</span>
+<span class="token constant">                    action</span><span class="token attr-value"><span class="token punctuation">=</span></span>
+                    &#123;
+                        type:"Keypress";
+                        keys:["KEY_LEFTCTRL","KEY_V"];
+                    &#125;
+                &#125;,
+                &#123;
+                    direction:"None";
+<span class="token constant">                    mode</span><span class="token attr-value"><span class="token punctuation">=</span>"OnRelease";</span>
+<span class="token constant">                    action</span><span class="token attr-value"><span class="token punctuation">=</span></span>
+                    &#123;
+                        type:"Keypress";
+                        keys:["KEY_ENTER"];
+                    &#125;
+                &#125;
+                )
+            &#125;;
+        &#125;
+
+    );
+    hiresscroll:
+    &#123;
+        hires: true;
+        invert: false;
+        target: false;
+    &#125;;
+&#125;
+);
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2022</tag>
+        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>

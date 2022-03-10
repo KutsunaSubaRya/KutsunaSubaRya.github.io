@@ -194,9 +194,21 @@ devices: (
     {
         hires: true;
         invert: false;
-        target: false;
-    };
+        target: true;
+        up: {
+            mode: "Axis";
+            axis: "REL_WHEEL_HI_RES";
+            axis_multiplier: 2;
+        },
+        down: {
+            mode: "Axis";
+            axis: "REL_WHEEL_HI_RES";
+            axis_multiplier: -2;
+        },
+    }
 }
 );
+
+
 
 ```

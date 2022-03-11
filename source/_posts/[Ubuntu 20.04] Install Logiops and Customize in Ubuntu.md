@@ -53,9 +53,6 @@ $ sudo make install
     ```bash=
     $ sudo service logid restart
     ```
-    * Startup Script
-    [reference here](https://linuxconfig.org/how-to-run-script-on-startup-on-ubuntu-20-04-focal-fossa-server-desktop)
-
 ## Check CID (Control IDs)
 
 Check CID that your mouse support.

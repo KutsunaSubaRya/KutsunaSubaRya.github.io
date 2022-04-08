@@ -1111,6 +1111,116 @@ LL <span class="token function">Query</span><span class="token punctuation">(</s
       </tags>
   </entry>
   <entry>
+    <title>Coding Style 命名法</title>
+    <url>/2022/04/08/%5BCoding%20Style%5D%20%E5%91%BD%E5%90%8D%E6%B3%95/</url>
+    <content><![CDATA[<p>參考資料：<br><a href="https://cmmobile.gitbook.io/androidbook/xin-ren-xun-lian/code-style#ming-ming">CMAndroidBook - Coding Style</a><br><a href="https://ithelp.ithome.com.tw/articles/10263403">2021 iThome 鐵人賽 Day 11. Coding style</a><br><a href="https://zh.wikipedia.org/wiki/%E9%A7%9D%E5%B3%B0%E5%BC%8F%E5%A4%A7%E5%B0%8F%E5%AF%AB">Wiki 駝峰式大小寫</a></p>
+<h2 id="駝峰式大小寫-Camel-Case"><a href="#駝峰式大小寫-Camel-Case" class="headerlink" title="駝峰式大小寫 (Camel-Case)"></a>駝峰式大小寫 (Camel-Case)</h2><ul>
+<li>單字間不以空格、連接號、底線連結<ul>
+<li>錯誤寫法 -&gt; my variable、my-variable、my_variable  </li>
+</ul>
+</li>
+<li>命名形式分為兩種<ol>
+<li>小駝峰式命名法（lower camel case）<ul>
+<li>第一個單字以小寫字母開始，第二個單字的首字母大寫</li>
+<li>Ex. myVariable</li>
+</ul>
+</li>
+<li>大駝峰式命名法（upper camel case）<ul>
+<li>每一個單字的首字母都採用大寫字母</li>
+<li>Ex. MyVariable</li>
+<li>也可以稱為<strong>Pascal命名法（Pascal Case）</strong></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="整體結論"><a href="#整體結論" class="headerlink" title="整體結論"></a>整體結論</h2><ol>
+<li>Code 裡除了<strong>註解</strong>和<strong>字串</strong>，其餘不得使用中文字</li>
+<li>No <code>region</code>、<code>endregion</code></li>
+<li>MagicNumber 請一律宣告成<strong>常數</strong>、<strong>變數</strong>或<strong>enum</strong></li>
+<li>禁用無大括號單行 else -&gt; <a href="https://en.wikipedia.org/wiki/Dangling_else">Dangling Else</a></li>
+<li>Compile 後有 Warning 的程式碼就是有問題，更不用說有 Error</li>
+<li>常數命名一律用<strong>全大寫配底限分隔</strong> Ex. MAX_MAP_WIDTH</li>
+<li>命名時請勿自行縮寫單字，除非該單字縮寫是通用的</li>
+<li>Class、方法須遵守 大駝峰式命名 規則</li>
+<li>參數、區域變數須遵守 小駝峰式命名 規則</li>
+<li>方法的第一個單字必須為動詞(Get、Push、Delete、Update…等等)</li>
+<li>單字不能超過3個(太長的專有名詞須先建立縮寫表，統一所有人使用的縮寫)</li>
+</ol>
+<h2 id="檔案"><a href="#檔案" class="headerlink" title="檔案"></a>檔案</h2><ol>
+<li>大駝峰命名 Ex. StringParser.cpp</li>
+<li>檔案名與類別需同名<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// StringParser.cpp</span>
+<span class="token comment">// 正確</span>
+<span class="token keyword">class</span> <span class="token class-name">StringParser</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// 錯誤</span>
+<span class="token keyword">class</span> <span class="token class-name">OtherClass</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>理論上一個檔案<strong>只有</strong>一個主要類別<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// StringParser.cpp</span>
+<span class="token keyword">class</span> <span class="token class-name">StringParser</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">class</span> <span class="token class-name">DoAnything</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+</li>
+</ol>
+<h2 id="類別的命名"><a href="#類別的命名" class="headerlink" title="類別的命名"></a>類別的命名</h2><ol>
+<li>大駝峰命名</li>
+<li>使用<strong>名詞</strong>或<strong>形容詞 + 名詞</strong>的方式命名<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// 正確</span>
+<span class="token keyword">class</span> <span class="token class-name">NestedStructure</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//錯誤</span>
+<span class="token keyword">class</span> <span class="token class-name">GetPosition</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+</li>
+</ol>
+<h2 id="方法的命名"><a href="#方法的命名" class="headerlink" title="方法的命名"></a>方法的命名</h2><ol>
+<li>小駝峰命名</li>
+<li>使用<strong>動詞</strong>或<strong>動詞 + 名詞</strong>的方式命名<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">std<span class="token operator">::</span>pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span>  getPosition<span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li><strong>方法的參數</strong>或<strong>區域變數</strong>名使用<strong>小駝峰命名</strong><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">std<span class="token operator">::</span>pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">getPosition</span><span class="token punctuation">(</span>std<span class="token operator">::</span>string objectName<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li>以 Boolean 作為回傳值的命名，需使用 isXXX, canXXX, hasXXX, 或 XXXable 命名。<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">bool</span> <span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+</li>
+</ol>
+<h2 id="Package-name-的命名"><a href="#Package-name-的命名" class="headerlink" title="Package name 的命名"></a>Package name 的命名</h2><ul>
+<li>全小寫</li>
+</ul>
+<h2 id="Resource-的命名"><a href="#Resource-的命名" class="headerlink" title="Resource 的命名"></a>Resource 的命名</h2><ul>
+<li>全小寫</li>
+<li>以畫面使用的位置＋功能 來命名<ul>
+<li>activity_xxx.xml</li>
+<li>layout_xxx.xml</li>
+<li>selector_xxx.xml</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h2 id="View-id-的命名"><a href="#View-id-的命名" class="headerlink" title="View id 的命名"></a>View id 的命名</h2><ul>
+<li>功能＋使用元件 來命名<ul>
+<li>login_textView</li>
+<li>reply_us_editText</li>
+<li>xxx_textView</li>
+<li>xxx_editText</li>
+<li>xxx_button</li>
+<li>xxx_linearLayout(constraintLayout,..)</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Coding Style</category>
+      </categories>
+      <tags>
+        <tag>2022</tag>
+        <tag>Coding Style</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Facebook Hacker Cup 2021 Qualification Round</title>
     <url>/2021/08/30/%5BFacebook%20Hacker%20Cup%202021%5D%20Qualification%20Round/</url>
     <content><![CDATA[<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>目前只是資格賽，僅需解開一題即可晉階至 Round 1<br>比賽時間總共 72 小時，共 5 題<br>我是在比賽結束前 5 小時才想到要開始來解題，就當作是休閒打，最後寫了兩題水題並提交，分別是 A1 和 B<br>比賽連結：<a href="https://www.facebook.com/codingcompetitions/hacker-cup/2021/qualification-round">這裡</a></p>

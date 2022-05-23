@@ -941,6 +941,105 @@ map<span class="token operator">&lt;</span><span class="token keyword">long</spa
       </tags>
   </entry>
   <entry>
+    <title>Better Discord 美化 Discord - ClearVision</title>
+    <url>/2022/05/23/%5BBetter%20Discord%5D%20%E7%BE%8E%E5%8C%96%20Discord%20-%20Clear%20Vision/</url>
+    <content><![CDATA[<p>先附上成品:</p>
+<p><img src="https://i.imgur.com/IPc7axA.jpg" loading="lazy"></p>
+<h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows:"></a>Windows:</h3><p>前往 Better Discord 官網下載 exe 檔案 : <a href="https://betterdiscord.app/">官網連結</a></p>
+<h3 id="Arch-Linux"><a href="#Arch-Linux" class="headerlink" title="Arch Linux:"></a>Arch Linux:</h3><p><a href="https://aur.archlinux.org/packages/betterdiscordctl">AUR Arch Linux - betterdiscordctl</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ yay -S betterdiscordctl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>install betterdiscordctl</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ betterdiscordctl <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>下載 PluginRepo : <a href="https://betterdiscord.app/plugin/PluginRepo">PluginRepo 連結</a><br>下載後將此 Plugin 放進 BetterDiscord 資料夾</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ .config
+$ BetterDiscord
+$ <span class="token function">mv</span> ~/Downloads/*.plugin.* <span class="token builtin class-name">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="挑選-Theme"><a href="#挑選-Theme" class="headerlink" title="挑選 Theme"></a>挑選 Theme</h2><p>我十分推薦 <a href="https://betterdiscord.app/theme/ClearVision">ClearVision - Theme</a></p>
+<p>主要原因是:</p>
+<ul>
+<li>版面簡單</li>
+<li>有網頁版的 <a href="https://bdeditor.dev/theme/clearvision">Theme Editor</a> 可以做預覽，不須用自己改 <code>.css</code> 檔</li>
+</ul>
+<h2 id="ClearVision-Theme-Editor"><a href="#ClearVision-Theme-Editor" class="headerlink" title="ClearVision Theme Editor"></a>ClearVision Theme Editor</h2><p>這裡來介紹此 Theme Editor 可修改的內容以及注意事項。</p>
+<blockquote>
+<p>以下有提到 Fixed attachment 要設為 False 的項目依定要注意，因為此主題的 User popout 和 User profile 的背景圖片是對整個 Discord 去做中心調整，而非對兩者的 container 做調整，因此這裡的 Fixed attachment 要把預設的 True 改為 False。 by - 採坑的作者 ( SubaRya )</p>
+</blockquote>
+<h3 id="最左邊直排的欄位"><a href="#最左邊直排的欄位" class="headerlink" title="最左邊直排的欄位"></a>最左邊直排的欄位</h3><ol>
+<li>Colours: <ul>
+<li>可選擇整體的版面顏色</li>
+</ul>
+</li>
+<li>App background:<ul>
+<li>整個 Discord 背景圖片</li>
+</ul>
+</li>
+<li>User popout:<ul>
+<li>側邊用戶點擊開的小介面</li>
+<li><strong>Fixed attachment: False</strong></li>
+</ul>
+</li>
+<li>User profile:<ul>
+<li>側邊用戶點小介面點開後詳細的大介面</li>
+<li><strong>Fixed attachment: False</strong></li>
+</ul>
+</li>
+<li>Home button icon:<ul>
+<li>左上角 Discord Icon 自定義</li>
+</ul>
+</li>
+<li>Channel colours:<ul>
+<li>頻道文字已讀、未讀、靜音的文字顏色</li>
+</ul>
+</li>
+<li>Status colours:<ul>
+<li>用戶狀態顏色自定義</li>
+</ul>
+</li>
+<li>Custom fonts:<ul>
+<li>主要字體 (推薦 <a href="https://fonts.google.com/specimen/Roboto?query=Roboto">Roboto</a>)</li>
+<li>Code Block 的字體 (推薦 <a href="https://fonts.google.com/specimen/Fira+Code?query=Fira">Fira Code</a>)</li>
+</ul>
+</li>
+<li>Others:<ul>
+<li>寬度調整</li>
+</ul>
+</li>
+<li>Addons:<ul>
+<li>伺服器換到上方橫排</li>
+<li>伺服器並排數</li>
+<li>用戶狀態改成環繞頭像</li>
+</ul>
+</li>
+</ol>
+<h2 id="將-Theme-加入-Plugin"><a href="#將-Theme-加入-Plugin" class="headerlink" title="將 Theme 加入 Plugin"></a>將 Theme 加入 Plugin</h2><p>兩個步驟如下:</p>
+<ol>
+<li>從 Theme Editor 下載剛剛調好的 <code>.css</code> 檔</li>
+<li>去 Discord 點擊 <code>使用者設定</code> -&gt; <code>Better Discord 的 佈景主題</code> -&gt; <code>開啟佈景主題資料夾</code> -&gt; <code>將剛剛載的 .css 檔案放入此資料夾</code> -&gt; <code>開關打開</code></li>
+</ol>
+<h2 id="其他有趣的-Plugin"><a href="#其他有趣的-Plugin" class="headerlink" title="其他有趣的 Plugin"></a>其他有趣的 Plugin</h2><ul>
+<li><a href="https://betterdiscord.app/plugin/CallTimeCounter">CallTimeCounter</a>: 計算你連進語音經過多久時間</li>
+<li><a href="https://betterdiscord.app/plugin/ShowHiddenChannels">ShowHiddenChannels</a>: 顯示伺服器被隱藏(不是你身分組的)的語音或文字頻道，但你還是無權限連線進去。</li>
+<li><a href="https://betterdiscord.app/plugin/Typing%20Users%20Avatars">Typing Users Avatars</a>: 多個人在打字時可以看到正在打字那幾個人的頭像</li>
+<li><a href="https://betterdiscord.app/plugin/Double%20Click%20To%20Edit">Double Click To Edit</a>: 對你已發送的訊息點兩下即可編輯</li>
+<li><a href="https://betterdiscord.app/plugin/WhoReacted">WhoReacted</a>: 按此表情符號的用戶頭貼會顯示</li>
+<li><a href="https://betterdiscord.app/plugin/OnlineFriendCount">OnlineFriendCount</a>: 左上角 Discord Icon 下顯示你有幾位朋友在線上</li>
+</ul>
+<h3 id="Plugin-放入相對應資料夾"><a href="#Plugin-放入相對應資料夾" class="headerlink" title="Plugin 放入相對應資料夾"></a>Plugin 放入相對應資料夾</h3><ol>
+<li>去 Discord 點擊 <code>使用者設定</code> -&gt; <code>Better Discord 的 附加元件</code> -&gt; <code>開啟附加元件資料夾</code> -&gt; <code>將剛剛載的 .js 檔案放入此資料夾</code> </li>
+<li>過程中需要更新舊更新、要 download 就 download </li>
+<li>開關打開</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Better Discord</category>
+      </categories>
+      <tags>
+        <tag>Better Discord</tag>
+        <tag>2022</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>區間詢問類題目總集(更新中)</title>
     <url>/2022/02/22/%5BCSES%20FI%5D%20Range%20Queries/</url>
     <content><![CDATA[<h2 id="靜態區間總和-非帶修改"><a href="#靜態區間總和-非帶修改" class="headerlink" title="靜態區間總和 (非帶修改)"></a>靜態區間總和 (非帶修改)</h2><p>參考題目：<a href="https://cses.fi/problemset/task/1646">Static Range Sum Queries</a></p>
@@ -1103,9 +1202,9 @@ LL <span class="token function">Query</span><span class="token punctuation">(</s
         <category>競程紀錄</category>
       </categories>
       <tags>
+        <tag>2022</tag>
         <tag>RMQ</tag>
         <tag>線段樹</tag>
-        <tag>2022</tag>
         <tag>前綴和</tag>
         <tag>ST表</tag>
       </tags>
@@ -1730,7 +1829,7 @@ Matrix <span class="token function">power</span><span class="token punctuation">
       </tags>
   </entry>
   <entry>
-    <title>Install Logiops and Customize in Ubuntu</title>
+    <title>NTNU 演算法課程第一週作業 Writeup</title>
     <url>/2022/03/11/%5BNTNU_Algo%5D%20%E7%AC%AC%E4%B8%80%E9%80%B1%E4%BD%9C%E6%A5%AD%20Writeup/</url>
     <content><![CDATA[<h2 id="pA-293-Triangle"><a href="#pA-293-Triangle" class="headerlink" title="pA [293] Triangle"></a>pA [293] Triangle</h2><p>題目概述：<br>最初狀態有一個正三角形，每一個時間單位會使每一個三角形分割成 4 個正三角形(一個朝下、三個朝上)。<br>詢問時間點 n ，求有幾個<strong>朝上</strong>的三角形。</p>
 <p>作法：</p>
@@ -2061,8 +2160,8 @@ LL Bit<span class="token punctuation">[</span><span class="token number">200005<
         <category>Writeup</category>
       </categories>
       <tags>
-        <tag>RMQ</tag>
         <tag>2022</tag>
+        <tag>RMQ</tag>
         <tag>算法</tag>
         <tag>NTNU</tag>
         <tag>BIT</tag>

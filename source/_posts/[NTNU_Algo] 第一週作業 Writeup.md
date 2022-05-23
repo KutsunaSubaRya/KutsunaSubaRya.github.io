@@ -1,5 +1,5 @@
 ---
-title: Install Logiops and Customize in Ubuntu 
+title: NTNU 演算法課程第一週作業 Writeup
 date: 2022-03-11 13:56:40
 updated: 2022-03-11 13:56:40
 categories: Writeup

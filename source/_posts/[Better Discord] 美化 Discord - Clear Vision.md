@@ -10,7 +10,7 @@ tags:
 
 先附上成品:
 
-![](https://i.imgur.com/IPc7axA.jpg)
+![](https://i.imgur.com/0tWRzM5.jpg)
 
 ## Getting Started
 

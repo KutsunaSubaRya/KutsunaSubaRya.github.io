@@ -944,7 +944,7 @@ map<span class="token operator">&lt;</span><span class="token keyword">long</spa
     <title>Better Discord 美化 Discord - ClearVision</title>
     <url>/2022/05/23/%5BBetter%20Discord%5D%20%E7%BE%8E%E5%8C%96%20Discord%20-%20Clear%20Vision/</url>
     <content><![CDATA[<p>先附上成品:</p>
-<p><img src="https://i.imgur.com/IPc7axA.jpg" loading="lazy"></p>
+<p><img src="https://i.imgur.com/0tWRzM5.jpg" loading="lazy"></p>
 <h2 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h2><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows:"></a>Windows:</h3><p>前往 Better Discord 官網下載 exe 檔案 : <a href="https://betterdiscord.app/">官網連結</a></p>
 <h3 id="Arch-Linux"><a href="#Arch-Linux" class="headerlink" title="Arch Linux:"></a>Arch Linux:</h3><p><a href="https://aur.archlinux.org/packages/betterdiscordctl">AUR Arch Linux - betterdiscordctl</a></p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ yay -S betterdiscordctl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>

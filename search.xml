@@ -2435,6 +2435,182 @@ node <span class="token function">query</span><span class="token punctuation">(<
       </tags>
   </entry>
   <entry>
+    <title>自定義 Overleaf</title>
+    <url>/2021/06/23/%5BStylus%5D%20Overleaf%20Theme%20%E8%87%AA%E5%AE%9A%E7%BE%A9/</url>
+    <content><![CDATA[<p>參考自: <a href="https://userstyles.org/styles/183490/dark-overleaf">這裡</a></p>
+<p>先放上成品:</p>
+<p><img src="https://i.imgur.com/KggqBu6.png" loading="lazy"></p>
+<p><img src="https://i.imgur.com/tLtnmNU.png" loading="lazy"></p>
+<h2 id="修改-Editor"><a href="#修改-Editor" class="headerlink" title="修改 Editor"></a>修改 Editor</h2><h3 id="Dark-Mode"><a href="#Dark-Mode" class="headerlink" title="Dark Mode"></a>Dark Mode</h3><p>由於從 <a href="https://userstyles.org/">Stylish</a> 上載下來的 CSS 是有瑕疵的，仔細觀察會發現左邊 Editor 的 Theme 沒有被修改成 Dark Mode。</p>
+<p>利用 <code>filter invert</code> 負片(補色)效果將 Editor 變成 Dark Mode</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">#editor</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Editor-加上-Background-Image"><a href="#Editor-加上-Background-Image" class="headerlink" title="Editor 加上 Background Image"></a>Editor 加上 Background Image</h3><p><del>渴望油油嗎</del> OwO</p>
+<p>此時將 background 加上後會發生背景圖片也被 invert 了 !!!</p>
+<p>因此 invert 回來。</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_scroller</span> <span class="token punctuation">&#123;</span>
+	<span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>https://i.imgur.com/6OR1oUa.jpg<span class="token punctuation">)</span></span> no-repeat<span class="token punctuation">;</span>
+	<span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="將-Layer-層的-Text-Invert-回來"><a href="#將-Layer-層的-Text-Invert-回來" class="headerlink" title="將 Layer 層的 Text Invert 回來"></a>將 Layer 層的 Text Invert 回來</h3><p>你會發現增加 background 後加上 invert 會導致文字層也被補色，因此針對文字層做 invert。</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_layer</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="左側行號顏色改變"><a href="#左側行號顏色改變" class="headerlink" title="左側行號顏色改變"></a>左側行號顏色改變</h3><p>做到這了，你是否發現左邊行號顏色十分的淡?</p>
+<p>那就針對他改顏色。</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_gutter-cell</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #FFFFFF<span class="token punctuation">;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span> 0.9<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">.ace_gutter-cell:hover</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #f0ff00<span class="token punctuation">;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span> 0.5<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="附上完成的-Theme-css"><a href="#附上完成的-Theme-css" class="headerlink" title="附上完成的 Theme.css"></a>附上完成的 Theme.css</h2><p>針對一些顏色與透明度的細節調整就大功告成了 !!!</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token atrule"><span class="token rule">@-moz-document</span> <span class="token function">url-prefix</span><span class="token punctuation">(</span><span class="token string">"https://www.overleaf.com/"</span><span class="token punctuation">)</span></span>
+<span class="token punctuation">&#123;</span>
+    <span class="token selector">.pdf</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.pdfjs-viewer</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.89<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.pdf-viewer .pdfjs-viewer canvas</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 0 10px <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>.5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu a</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #138a07<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu a:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #138a07 <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls label</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #999 <span class="token important">!important</span>   
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #999 <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #138a07 <span class="token important">!important</span><span class="token punctuation">;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls:hover select:focus</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #EC75F8<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls:hover select</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls select:focus</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #EC75F8<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls select option</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.site-footer *</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #222 <span class="token important">!important</span><span class="token punctuation">;</span>
+        <span class="token property">border-top-color</span><span class="token punctuation">:</span> #1A1A1A <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #222<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-main</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.card</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #222<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">tr.project-list-table-row:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #333<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.content</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.loading-screen</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-name, .project-list-table-name-link</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-name-link:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-name-link:focus</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">brightness</span><span class="token punctuation">(</span>0.8<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-actions-cell div button</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-actions-cell div button:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">brightness</span><span class="token punctuation">(</span>0.8<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">element.style</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">font-size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
+        <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"Lucida Console"</span><span class="token punctuation">,</span> <span class="token string">"Source Code Pro"</span><span class="token punctuation">,</span> monospace<span class="token punctuation">;</span>
+        <span class="token property">line-height</span><span class="token punctuation">:</span> 1.6<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#editor</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace-editor-wrapper .ace-editor-body</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_scroller</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>https://i.imgur.com/6OR1oUa.jpg<span class="token punctuation">)</span></span> no-repeat<span class="token punctuation">;</span>
+        <span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_gutter-cell</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #FFFFFF<span class="token punctuation">;</span>
+        <span class="token property">opacity</span><span class="token punctuation">:</span> 0.9<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_gutter-cell:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #f0ff00<span class="token punctuation">;</span>
+        <span class="token property">opacity</span><span class="token punctuation">:</span> 0.5<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_layer</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_editor</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+        <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+        <span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+        <span class="token property">font</span><span class="token punctuation">:</span> 12px/normal <span class="token string">'Monaco'</span><span class="token punctuation">,</span> <span class="token string">'Menlo'</span><span class="token punctuation">,</span> <span class="token string">'Ubuntu Mono'</span><span class="token punctuation">,</span> <span class="token string">'Consolas'</span><span class="token punctuation">,</span> <span class="token string">'source-code-pro'</span><span class="token punctuation">,</span> monospace<span class="token punctuation">;</span>
+        <span class="token property">direction</span><span class="token punctuation">:</span> ltr<span class="token punctuation">;</span>
+        <span class="token property">text-align</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+        <span class="token property">-webkit-tap-highlight-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>Plugin Template</category>
+      </categories>
+      <tags>
+        <tag>2022</tag>
+        <tag>CSS</tag>
+        <tag>Stylus</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TIOJ 1410. Comiket</title>
     <url>/2018/12/22/%5BTIOJ%5D%201410.%20Comiket/</url>
     <content><![CDATA[<p>題目來源：<a href="https://tioj.ck.tp.edu.tw/problems/1410">https://tioj.ck.tp.edu.tw/problems/1410</a><br>我的想法很直觀，就是用array儲存入和出的人(記得出的時間點也算，所以要加1)，然後掃過去紀錄時間軸的max值。</p>

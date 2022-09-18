@@ -34,28 +34,6 @@
       </tags>
   </entry>
   <entry>
-    <title>TOPC 2020 比賽心得</title>
-    <url>/2020/10/29/2020%20TOPC%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<h1 id="2020-TOPC-心得"><a href="#2020-TOPC-心得" class="headerlink" title="2020 TOPC 心得"></a>2020 TOPC 心得</h1><p>比賽時間：2020/10/07 18:00~21:00</p>
-<h2 id="題目：url"><a href="#題目：url" class="headerlink" title="題目：url"></a>題目：<a href="https://drive.google.com/drive/folders/1ikFKK3SGxzTAaWQKvkGr0NVSaBqL4T7c"><strong>url</strong></a></h2><p>雖然算是遲到的心得，但我還是得紀錄一下 OwO<br>隊友: <a href="https://blog.jw910731.wtf/">吳文元</a> 余原齊</p>
-<h2 id="小抱怨"><a href="#小抱怨" class="headerlink" title="小抱怨"></a>小抱怨</h2><ul>
-<li>理圖圖書館的印表機真的爛到炸 OAO</li>
-<li>我超爛，SAD</li>
-<li>OJ可能是在金費之下的受害者，但真正受害者的是我們比賽的人 -&gt; 一題可以給我judging快20分鐘。Orz</li>
-<li>沒有penalty。</li>
-<li>上述兩點加起來根本就是今年比賽的主打，SAD<h2 id="過程"><a href="#過程" class="headerlink" title="過程"></a>過程</h2>pI是簽到題，bj4<br>pA在某種程度下也是簽到題，因為只要先回到(0,0)，在按照題目輸出即可。<br>之後我根原齊在某種奇怪的量子糾纏之下一人一半把pB給AC了(他寫上半部(fold)，我寫下半部(overlapping condition)) -&gt; 過程中我把condition寫成了噁心的巢狀結構，然後因為了1個變數忘了修改而debug了幾百年(拖時間大師is me)。<h3 id="以下是沒解開的"><a href="#以下是沒解開的" class="headerlink" title="以下是沒解開的"></a>以下是沒解開的</h3>pC 我們想不到<strong>多點同速率擴張圓</strong>的最寫法，文元原本想要寫最近點對，但沒以實做的想法。<br>pD 是聽了學長的解後才恍然大悟的數學幾何題。<br>pG 我以為是貪婪加二分圖，之後以為是匹配，但之後看了fb上大老們的心得文後才知道這題是<strong>二分圖最大點獨立集</strong>。<br>pEFHJ 我都沒看QQ<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2>名次：52/146<br>整場打下來配合度雨默契有比上次NCPC還要好，但我們的實力與刷題量皆不足，我們事後也有分配我們的合作模式與個人專項(擅長的算法)衝刺。<br>雖然以為沒有進ICPC而感到失望，但幾天後的遞補信又讓我重拾了鬥志與信心<br>ICPC Taipei on Site 加油吧～</li>
-</ul>
-<p><img src="https://i.imgur.com/WNIq9bK.jpg" loading="lazy"></p>
-]]></content>
-      <categories>
-        <category>心得</category>
-      </categories>
-      <tags>
-        <tag>TOPC</tag>
-        <tag>2020</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NCPC 初賽 2020心得</title>
     <url>/2020/09/27/2020%20NCPC%E5%88%9D%E8%B3%BD%E5%BF%83%E5%BE%97/</url>
     <content><![CDATA[<p>難得這次我有賽中把題目看完</p>
@@ -76,8 +54,30 @@
         <category>心得</category>
       </categories>
       <tags>
-        <tag>2020</tag>
         <tag>NCPC</tag>
+        <tag>2020</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TOPC 2020 比賽心得</title>
+    <url>/2020/10/29/2020%20TOPC%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<h1 id="2020-TOPC-心得"><a href="#2020-TOPC-心得" class="headerlink" title="2020 TOPC 心得"></a>2020 TOPC 心得</h1><p>比賽時間：2020/10/07 18:00~21:00</p>
+<h2 id="題目：url"><a href="#題目：url" class="headerlink" title="題目：url"></a>題目：<a href="https://drive.google.com/drive/folders/1ikFKK3SGxzTAaWQKvkGr0NVSaBqL4T7c"><strong>url</strong></a></h2><p>雖然算是遲到的心得，但我還是得紀錄一下 OwO<br>隊友: <a href="https://blog.jw910731.wtf/">吳文元</a> 余原齊</p>
+<h2 id="小抱怨"><a href="#小抱怨" class="headerlink" title="小抱怨"></a>小抱怨</h2><ul>
+<li>理圖圖書館的印表機真的爛到炸 OAO</li>
+<li>我超爛，SAD</li>
+<li>OJ可能是在金費之下的受害者，但真正受害者的是我們比賽的人 -&gt; 一題可以給我judging快20分鐘。Orz</li>
+<li>沒有penalty。</li>
+<li>上述兩點加起來根本就是今年比賽的主打，SAD<h2 id="過程"><a href="#過程" class="headerlink" title="過程"></a>過程</h2>pI是簽到題，bj4<br>pA在某種程度下也是簽到題，因為只要先回到(0,0)，在按照題目輸出即可。<br>之後我根原齊在某種奇怪的量子糾纏之下一人一半把pB給AC了(他寫上半部(fold)，我寫下半部(overlapping condition)) -&gt; 過程中我把condition寫成了噁心的巢狀結構，然後因為了1個變數忘了修改而debug了幾百年(拖時間大師is me)。<h3 id="以下是沒解開的"><a href="#以下是沒解開的" class="headerlink" title="以下是沒解開的"></a>以下是沒解開的</h3>pC 我們想不到<strong>多點同速率擴張圓</strong>的最寫法，文元原本想要寫最近點對，但沒以實做的想法。<br>pD 是聽了學長的解後才恍然大悟的數學幾何題。<br>pG 我以為是貪婪加二分圖，之後以為是匹配，但之後看了fb上大老們的心得文後才知道這題是<strong>二分圖最大點獨立集</strong>。<br>pEFHJ 我都沒看QQ<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2>名次：52/146<br>整場打下來配合度雨默契有比上次NCPC還要好，但我們的實力與刷題量皆不足，我們事後也有分配我們的合作模式與個人專項(擅長的算法)衝刺。<br>雖然以為沒有進ICPC而感到失望，但幾天後的遞補信又讓我重拾了鬥志與信心<br>ICPC Taipei on Site 加油吧～</li>
+</ul>
+<p><img src="https://i.imgur.com/WNIq9bK.jpg" loading="lazy"></p>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2020</tag>
+        <tag>TOPC</tag>
       </tags>
   </entry>
   <entry>
@@ -2905,7 +2905,7 @@ $ <span class="token function">sudo</span> ./change-gdm-background <span class="
   </entry>
   <entry>
     <title>軟體工程第一週心得</title>
-    <url>/2021/08/14/%5B%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%5D%20%E7%AC%AC%E4%B8%80%E9%80%B1%E5%BF%83%E5%BE%97/</url>
+    <url>/2022/09/18/%5B%E8%BB%9F%E9%AB%94%E5%B7%A5%E7%A8%8B%5D%20%E7%AC%AC%E4%B8%80%E9%80%B1%E5%BF%83%E5%BE%97/</url>
     <content><![CDATA[<h1 id="第一週軟工心得"><a href="#第一週軟工心得" class="headerlink" title="第一週軟工心得"></a>第一週軟工心得</h1><h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>這個維持 16 週的心得文主要是根據 Team 裡的總總情況做紀錄，不會有課堂上的重點筆記，除了第一篇會提到上課的綱要。<br>如果有需要開課堂的內容，<a href="https://sites.google.com/gapps.ntnu.edu.tw/neokent/teaching/2022fall-software-engineering?authuser=0">這個連結</a> 是紀老師公開的上課內容給大家做參考。</p>
 <h2 id="課堂簡介"><a href="#課堂簡介" class="headerlink" title="課堂簡介"></a>課堂簡介</h2><h3 id="課程核心-Project-based-Learning"><a href="#課程核心-Project-based-Learning" class="headerlink" title="課程核心: Project-based Learning"></a>課程核心: Project-based Learning</h3><ul>
 <li>no homeworks.</li>

@@ -941,6 +941,120 @@ map<span class="token operator">&lt;</span><span class="token keyword">long</spa
       </tags>
   </entry>
   <entry>
+    <title>2023 NTNU 程式設計(二) 助教批改解釋 - 作業一</title>
+    <url>/2023/04/06/%5B2023%20NTNU%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E4%BA%8C%5D%20%E5%8A%A9%E6%95%99%E6%89%B9%E6%94%B9%E8%A7%A3%E9%87%8B%20-%20%E4%BD%9C%E6%A5%AD%E4%B8%80/</url>
+    <content><![CDATA[<h1 id="程設助教-judge-題目"><a href="#程設助教-judge-題目" class="headerlink" title="程設助教 judge 題目"></a>程設助教 judge 題目</h1><p>助教：蘇子權 SubaRya<br>題目：hw0101, hw0102</p>
+<h2 id="hw0101"><a href="#hw0101" class="headerlink" title="hw0101"></a>hw0101</h2><ul>
+<li><p><a href="https://drive.google.com/drive/folders/1CLwrxsU1n2BWhlOXzAFNrKAol8EbFAYn?usp=share_link">測資和 hw0101.c 的 link</a></p>
+</li>
+<li><p>測資分數分配</p>
+<ul>
+<li>sunny case: 13 pt</li>
+<li>other case: 7 pt</li>
+</ul>
+</li>
+<li><p>透過 function 評分，見下表</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">評測函式</th>
+<th align="center">sunny case pt</th>
+<th align="center">other case pt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">strchr</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strrchr</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strspn</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strcspn</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strpbrk</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strstr</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strtok</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<ul>
+<li>sunny case</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">char str1[] &#x3D; &quot;SubaRya TA is handsome&quot;;
+char str2[] &#x3D; &quot;Smallten and Mafumafu are cute&quot;;
+char str3[] &#x3D; &quot;jw910731, LoveSnowEx, Smallten, SubaRya, NTNU students, also Computer Programming II TA, work hard&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p>other case</p>
+<ul>
+<li>上面的 link 中 <code>.txt</code> 副檔名的檔案</li>
+</ul>
+</li>
+<li><p>簡述</p>
+<ul>
+<li>sunny case 測資較小，從 <code>hw0101.c</code> 中可以看出來，這裡不多做說明。</li>
+<li>other case 測資較大，透過 mmap 吃進 file 中的 content，進行評測。</li>
+<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
+</ul>
+</li>
+</ul>
+<h2 id="hw0102"><a href="#hw0102" class="headerlink" title="hw0102"></a>hw0102</h2><ul>
+<li><p><a href="https://drive.google.com/drive/folders/1LcKDQpS1l9onXI8V7QE9H-OCE6NDZkzk?usp=share_link">測資和 hw0102.c 的 link</a></p>
+</li>
+<li><p>測資分數分配</p>
+<ul>
+<li>sunny case: 12 pt<ul>
+<li>含一筆越界 position</li>
+</ul>
+</li>
+<li>other case: 8 pt</li>
+</ul>
+</li>
+<li><p>共 10 筆測資，每一筆兩分。</p>
+</li>
+<li><p>簡述</p>
+<ul>
+<li><code>generateTestcaseAndAns</code> folder 裡有用 python 寫的 generate testcase and answer 的程式，可以自行拿來檢測。</li>
+<li>sunny case 測資較小，長度約略 100，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;1~6&gt;.txt</code> 比對。</li>
+<li>other case 測資較大，長度約略 2e7，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;7~10&gt;.txt</code> 比對。</li>
+<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>程式設計二助教</category>
+      </categories>
+      <tags>
+        <tag>程式設計</tag>
+        <tag>助教</tag>
+        <tag>C</tag>
+        <tag>2023</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Better Discord 美化 Discord - ClearVision</title>
     <url>/2022/05/23/%5BBetter%20Discord%5D%20%E7%BE%8E%E5%8C%96%20Discord%20-%20Clear%20Vision/</url>
     <content><![CDATA[<p>先附上成品:</p>

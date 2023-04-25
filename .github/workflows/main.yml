@@ -17,6 +17,8 @@ jobs:
           NODE_ENV: production
         with:
           cmd: install
+      - run: yarn install hexo-generator-sitemap
+      - run: yarn install hexo-generator-search
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: build

@@ -522,7 +522,7 @@ google_adsense:
 # ---------------
 google_analytics:
   enable: true
-  id: UA-180925442-1
+  id: G-MVRLRVZSZY
 
 # Google Tagmanager
 google_tagmanager:

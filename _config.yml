@@ -120,3 +120,11 @@ Docs: https://hexo.io/docs/one-command-deployment
   #type: git
   #repo: git@github.com:KutsunaSubaRya/KutsunaSubaRya.github.io.git
   #branch: main
+
+sitemap:
+  path: 
+    - sitemap.xml
+    - sitemap.txt
+  rel: false
+  tags: true
+  categories: true

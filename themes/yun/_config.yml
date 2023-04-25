@@ -493,11 +493,11 @@ search:
   # placeholder: 想要搜些什么？
 
 engine_search:
-  enable: false
+  enable: true
   href: "https://www.google.com/search?q=site:"
   # href: "https://www.baidu.com/s?wd=site:"
   # href: "https://www.bing.com/search?q=site:"
-  domain: yunyoujun.cn
+  domain: blog.subarya.me
 
 # https://github.com/wzpan/hexo-generator-search
 local_search:

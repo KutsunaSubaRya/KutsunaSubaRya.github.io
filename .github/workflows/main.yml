@@ -4,22 +4,22 @@ on:
     paths: ["source/**", "themes/**", ".github/workflows/main.yml", "_config.yml"]
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Build
-        uses: actions/checkout@v2
-      - uses: actions/cache@v2
+        uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - uses: borales/actions-yarn@v2.0.0
-        env:
-          NODE_ENV: production
+      - name: Set Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: borales/actions-yarn@v4
         with:
           cmd: install
-      - run: yarn install hexo-generator-sitemap
-      - run: yarn install hexo-generator-search
-      - uses: borales/actions-yarn@v2.0.0
+      - uses: borales/actions-yarn@v4
         with:
           cmd: build
       - name: Deploy

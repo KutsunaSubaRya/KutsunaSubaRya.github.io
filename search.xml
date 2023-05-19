@@ -203,6 +203,67 @@
       </tags>
   </entry>
   <entry>
+    <title>LNMP 安裝遇到的問題筆記</title>
+    <url>/2023/05/19/LNMP%20%E5%AE%89%E8%A3%9D%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C%E7%AD%86%E8%A8%98/</url>
+    <content><![CDATA[<h1 id="LNMP-安裝遇到的問題筆記"><a href="#LNMP-安裝遇到的問題筆記" class="headerlink" title="LNMP 安裝遇到的問題筆記"></a>LNMP 安裝遇到的問題筆記</h1><p>由於最近修的資料庫課程作業有要使用 <strong>php + mysql</strong> 完成指定 project。<br>另外基於我是在 Linux 上做此份作業，<a href="https://github.com/aokblast"><strong>Aok 電電</strong></a> 將 LNMP 推薦給我。</p>
+<ul>
+<li>一點小知識，LNMP 和 LEMP 都有人說，因為中間的 N 指的是 Nginx，且是 Eginx 的發音。</li>
+</ul>
+<h2 id="Arch-Linux-上安裝流程"><a href="#Arch-Linux-上安裝流程" class="headerlink" title="Arch Linux 上安裝流程"></a>Arch Linux 上安裝流程</h2><p>基本上網路上都能夠找到許多教學流程，這裡不贅述。僅放上我有參考的安裝流程網站以供參考。</p>
+<ol>
+<li><a href="https://blog.linioi.com/posts/5/">Arch Linux 服务器安装 LNMP</a></li>
+<li><a href="https://www.linuxbabe.com/linux-server/install-lemp-nginx-mariadb-php7-arch-linux-server">Install Nginx, MariaDB, PHP7 (LEMP) on Arch Linux Server in 2019</a></li>
+</ol>
+<h2 id="一些報錯情況"><a href="#一些報錯情況" class="headerlink" title="一些報錯情況"></a>一些報錯情況</h2><h3 id="1-types-hash-max-size-1024-or-types-hash-bucket-size-64-…"><a href="#1-types-hash-max-size-1024-or-types-hash-bucket-size-64-…" class="headerlink" title="1. types_hash_max_size: 1024 or types_hash_bucket_size: 64; …"></a>1. types_hash_max_size: 1024 or types_hash_bucket_size: 64; …</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ nginx <span class="token parameter variable">-t</span>
+<span class="token punctuation">..</span>. <span class="token punctuation">[</span>warn<span class="token punctuation">]</span> <span class="token number">97437</span><span class="token comment">#97437: could not build optimal types_hash, you should increase either types_hash_max_size: 1024 or types_hash_bucket_size: 64; ignoring types_hash_bucket_size</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>我參考了這篇：<a href="https://blog.csdn.net/weixin_36349646/article/details/102686936">https://blog.csdn.net/weixin_36349646/article/details/102686936</a><br>解法如下：</p>
+<ol>
+<li>用 text editor 打開 <code>/etc/nginx/nginx.conf</code></li>
+<li>找到 <code>http &#123;&#125;</code> 的區域</li>
+<li>增加 <code>types_hash_max_size</code> 和 <code>server_names_hash_bucket_size</code></li>
+</ol>
+<pre class="line-numbers language-conf" data-language="conf"><code class="language-conf"># &#x2F;etc&#x2F;nginx&#x2F;nginx.conf
+...
+
+http &#123;
+    types_hash_max_size 4096;
+    server_names_hash_bucket_size 128;
+    ...
+&#125;
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="4">
+<li>再次測試 <code>nginx -t</code></li>
+</ol>
+<h3 id="2-emerg-103293-103293-open-“-x2F-run-x2F-nginx-pid”-failed-13-Permission-denied"><a href="#2-emerg-103293-103293-open-“-x2F-run-x2F-nginx-pid”-failed-13-Permission-denied" class="headerlink" title="2. [emerg] 103293#103293: open() “&#x2F;run&#x2F;nginx.pid” failed (13: Permission denied)"></a>2. [emerg] 103293#103293: open() “&#x2F;run&#x2F;nginx.pid” failed (13: Permission denied)</h3><ul>
+<li><p>這裡先提，修正上面第一個問題後，我 <code>nginx -t</code> 時只有報這個錯誤，如下圖：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ nginx <span class="token parameter variable">-t</span>
+nginx: the configuration <span class="token function">file</span> /etc/nginx/nginx.conf syntax is ok
+<span class="token number">2023</span>/05/19 <span class="token number">17</span>:29:39 <span class="token punctuation">[</span>emerg<span class="token punctuation">]</span> <span class="token number">103293</span><span class="token comment">#103293: open() "/run/nginx.pid" failed (13: Permission denied)</span>
+nginx: configuration <span class="token function">file</span> /etc/nginx/nginx.conf <span class="token builtin class-name">test</span> failed<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>目前我尚未找到更好的解法，僅在測試時加上 sudo 作為 workaround。</p>
+</li>
+<li><p>這裡上一些有參考過的網站。</p>
+<ul>
+<li><a href="https://serverfault.com/questions/1042526/open-run-nginx-pid-failed-13-permission-denied">https://serverfault.com/questions/1042526/open-run-nginx-pid-failed-13-permission-denied</a></li>
+<li><a href="https://blog.csdn.net/weixin_42914989/article/details/113791257">https://blog.csdn.net/weixin_42914989/article/details/113791257</a></li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>LNMP</tag>
+        <tag>php</tag>
+        <tag>nginx</tag>
+        <tag>MariaDB</tag>
+        <tag>2023</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TIOJ 1152 銀河帝國旅行社</title>
     <url>/2019/02/22/TIOJ%201152%20%E9%8A%80%E6%B2%B3%E5%B8%9D%E5%9C%8B%EF%A6%83%EF%A8%88%E7%A4%BE/</url>
     <content><![CDATA[<p>題目連結:<a href="https://tioj.ck.tp.edu.tw/problems/1152">https://tioj.ck.tp.edu.tw/problems/1152</a></p>
@@ -1055,10 +1116,10 @@ char str3[] &#x3D; &quot;jw910731, LoveSnowEx, Smallten, SubaRya, NTNU students,
         <category>程式設計二助教</category>
       </categories>
       <tags>
+        <tag>2023</tag>
         <tag>程式設計</tag>
         <tag>助教</tag>
         <tag>C</tag>
-        <tag>2023</tag>
       </tags>
   </entry>
   <entry>
@@ -1141,10 +1202,10 @@ $ <span class="token function">git</span> log <span class="token parameter varia
         <category>程式設計二助教</category>
       </categories>
       <tags>
+        <tag>2023</tag>
         <tag>程式設計</tag>
         <tag>助教</tag>
         <tag>C</tag>
-        <tag>2023</tag>
       </tags>
   </entry>
   <entry>

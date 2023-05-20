@@ -209,6 +209,11 @@
 <ul>
 <li>一點小知識，LNMP 和 LEMP 都有人說，因為中間的 N 指的是 Nginx，且是 Eginx 的發音。</li>
 </ul>
+<h2 id="Outline"><a href="#Outline" class="headerlink" title="Outline"></a>Outline</h2><ol>
+<li>安裝流程</li>
+<li>一些報錯情況</li>
+<li>phpMyAdmin in LNMP Stack on Arch Linux</li>
+</ol>
 <h2 id="Arch-Linux-上安裝流程"><a href="#Arch-Linux-上安裝流程" class="headerlink" title="Arch Linux 上安裝流程"></a>Arch Linux 上安裝流程</h2><p>基本上網路上都能夠找到許多教學流程，這裡不贅述。僅放上我有參考的安裝流程網站以供參考。</p>
 <ol>
 <li><a href="https://blog.linioi.com/posts/5/">Arch Linux 服务器安装 LNMP</a></li>
@@ -251,6 +256,10 @@ nginx: configuration <span class="token function">file</span> /etc/nginx/nginx.c
 </ul>
 </li>
 </ul>
+<h2 id="phpMyAdmin-in-LNMP-Stack-on-Arch-Linux"><a href="#phpMyAdmin-in-LNMP-Stack-on-Arch-Linux" class="headerlink" title="phpMyAdmin in LNMP Stack on Arch Linux"></a>phpMyAdmin in LNMP Stack on Arch Linux</h2><ul>
+<li>如果已經 install nginx 並調校好 <code>nginx.conf</code> 基本上從下面這篇文章的 Step 4 開始即可</li>
+<li><a href="https://www.linuxtechi.com/install-lemp-stack-on-arch-linux/">How to Install LEMP Stack on Arch Linux</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>心得</category>
@@ -258,6 +267,7 @@ nginx: configuration <span class="token function">file</span> /etc/nginx/nginx.c
       <tags>
         <tag>LNMP</tag>
         <tag>php</tag>
+        <tag>phpMyAdmin</tag>
         <tag>nginx</tag>
         <tag>MariaDB</tag>
         <tag>2023</tag>

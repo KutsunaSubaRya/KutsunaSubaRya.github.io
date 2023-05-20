@@ -1,7 +1,7 @@
 ---
 title: LNMP 安裝遇到的問題筆記
 date: 2023-05-19 18:11:00
-updated: 2023-05-19 18:11:00
+updated: 2023-05-20 18:20:00
 highlight:
   enable: true
   line_number: true
@@ -18,6 +18,7 @@ categories: 心得
 tags: 
 - LNMP
 - php
+- phpMyAdmin
 - nginx
 - MariaDB
 - 2023
@@ -29,6 +30,12 @@ tags:
 另外基於我是在 Linux 上做此份作業，[**Aok 電電**](https://github.com/aokblast) 將 LNMP 推薦給我。
 
 * 一點小知識，LNMP 和 LEMP 都有人說，因為中間的 N 指的是 Nginx，且是 Eginx 的發音。
+
+## Outline
+1. 安裝流程
+2. 一些報錯情況
+3. phpMyAdmin in LNMP Stack on Arch Linux
+
 
 ## Arch Linux 上安裝流程
 基本上網路上都能夠找到許多教學流程，這裡不贅述。僅放上我有參考的安裝流程網站以供參考。
@@ -78,3 +85,8 @@ nginx: configuration file /etc/nginx/nginx.conf test failed
 * 這裡上一些有參考過的網站。
     * https://serverfault.com/questions/1042526/open-run-nginx-pid-failed-13-permission-denied
     * https://blog.csdn.net/weixin_42914989/article/details/113791257
+
+## phpMyAdmin in LNMP Stack on Arch Linux
+
+* 如果已經 install nginx 並調校好 `nginx.conf` 基本上從下面這篇文章的 Step 4 開始即可
+* [How to Install LEMP Stack on Arch Linux](https://www.linuxtechi.com/install-lemp-stack-on-arch-linux/)

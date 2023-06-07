@@ -46,10 +46,10 @@ tags:
         border: none
     }
     .bkWMgd .g a:hover h3 {
-    text-decoration:none
+        text-decoration:none
     }
     .B6fmyf {
-        visibility: visible;
+        visibility: invisible;
         top: 8px
     }
     .NJjxre {
@@ -74,7 +74,7 @@ tags:
     .mnr-c  :hover {
         background: rgba(255,255,255,1) ;
         box-shadow: none;
-            transition: all 1s;
+        transition: all 1s;
     }
     .kno-ftr :hover{
         background: transparent
@@ -97,7 +97,7 @@ tags:
         background-color: rgba(255,255,255,0.3);
         border: none;
         border-radius: 0 !important;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.05);
         width:104%;
         margin-left: -17px;
         margin-bottom:20px !important;
@@ -130,7 +130,7 @@ tags:
     }
 
     .minidiv .sfbg{
-    background: rgba(255,255,255,0.8) !important;
+        background: rgba(255,255,255,0.8);
         box-shadow: 0 5px 10px rgba(0,0,0,0.05);
     }
     #hdtbSum{
@@ -320,7 +320,7 @@ tags:
     }
     .srg .c-span18,
     .srg .c-span24 {
-    width:100%;
+        width:100%;
         min-width:unset
     }
     .srg .c-border {
@@ -450,16 +450,16 @@ tags:
         color:#fff
     }
     @-webkit-keyframes left_logoR {
-    0% {
-        -webkit-transform:translateY(64px);
-        opacity:0
-    }
-    50% {
-        opacity:0
-    }
-    100% {
-        opacity:1
-    }
+        0% {
+            -webkit-transform:translateY(64px);
+            opacity:0
+        }
+        50% {
+            opacity:0
+        }
+        100% {
+            opacity:1
+        }
     }
     .bkWMgd>div:not([class]) {
         width:730px
@@ -583,6 +583,9 @@ tags:
     .yg51vc {
         background: rgb(0 255 255 / 50%);
     }
+    .kvH3mc {
+        background: #00000000;
+    }
     .hdtb-mitem.hdtb-msel {
         color: #4b00ff;
     }
@@ -611,7 +614,7 @@ tags:
         color: #e6ff02 !important;
     }
     .f6F9Be {
-        background: #e10b0b;
+        background: #00ffff80;
     }
     #Wprf1b {
         color: #e6ff02 !important;
@@ -638,7 +641,7 @@ tags:
         background-color: #93c2f3; !important;
     }
     .c93Gbe {
-        background: #ff0000; !important;
+        background: #00ffff80; !important;
     }
     #SIvCob {
         color: #e6ff02 !important;
@@ -744,6 +747,37 @@ tags:
     }
     .ZE0LJd{
         color: #0092ff;
+    }
+    .Ww4FFb{
+        background-color: #00000000
+    }
+    .mgAbYb{
+        color: #e6ff02 !important;
+    }
+    .CSkcDe{
+        color: #e6ff02 !important;
+    }
+    .VuuXrf{
+        color: #e6ff02 !important;
+    }
+    .RNNXgb{
+        background: #00000000;
+    }
+    .RNNXgb:hover{
+        background: #00ffff80!important;
+    }
+    .emcav .RNNXgb {
+        background: #858282c2 !important;
+    }
+    .sbfc .RNNXgb, .emcav .RNNXgb {
+        background: #05094bc2 !important;
+    }
+    .aajZCb, .minidiv .aajZCb {
+        background: #00ffffde!important;
+    }
+    .minidiv .sfbg {
+        /* background: rgba(255,255,255,0.8) !important; */
+        background: #00ffff80;
     }
 }
 ```

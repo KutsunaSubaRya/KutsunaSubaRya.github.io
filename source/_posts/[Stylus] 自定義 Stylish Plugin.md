@@ -1,12 +1,14 @@
 ---
 title: 自定義 Stylish Plugin
 date: 2021-08-15 20:10:24
-updated: 2022-02-19 18:10:00
+updated: 2022-06-28 08:41:00
 categories: Plugin Template
 tags:
 - CSS
 - Stylus
 - 2021
+- 2022
+- 2023
 ---
 參考自： [這裡](https://userstyles.org/styles/169533/g36)
 並使用 Chrome 的 Plugin [Stylus](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne?hl=zh-TW)
@@ -638,7 +640,7 @@ tags:
         color: #e6ff02 !important;
     }
     .FalWJb {
-        background-color: #93c2f3; !important;
+        background: rgb(1 1 1 / 0%);
     }
     .c93Gbe {
         background: #00ffff80; !important;
@@ -778,6 +780,286 @@ tags:
     .minidiv .sfbg {
         /* background: rgba(255,255,255,0.8) !important; */
         background: #00ffff80;
+    }
+    .zItAnd {
+        background: #05094bc2 !important;
+    }
+    .zItAnd:hover {
+        background: #1a2083c2 !important;
+    }
+    .zItAnd:active {
+        background: #01021bc2 !important;
+    }
+    .NZmxZe {
+        background: #05094bc2 !important;
+    }
+    .NZmxZe:hover {
+        background: #1a2083c2 !important;
+    }
+    .NZmxZe:active {
+        background: #01021bc2 !important;
+    }
+    .pRZvsd .efwPxe {
+        background: #05094bc2 !important;
+    }
+    .pRZvsd .efwPxe:hover {
+        background: #1a2083c2 !important;
+    }
+    .pRZvsd .efwPxe:active {
+        background: #01021bc2 !important;
+    }
+    .pRZvsd .A7KlJf {
+        background: #05094bc2 !important;
+    }
+    .pRZvsd .A7KlJf:hover {
+        background: #1a2083c2 !important;
+    }
+    .pRZvsd .A7KlJf:active {
+        background: #01021bc2 !important;
+    }
+    .S8ee5.CwbYXd {
+        background: #05094bc2 !important;
+    }
+    .S8ee5.CwbYXd:hover {
+        background: #1a2083c2 !important;
+    }
+    .S8ee5.CwbYXd:active {
+        background: #01021bc2 !important;
+    }
+    .KYeOtb {
+        background: #05094bc2 !important;
+    }
+    .KYeOtb:hover {
+        background: #1a2083c2 !important;
+    }
+    .KYeOtb:active {
+        background: #01021bc2 !important;
+    }
+    .NEdDCc {
+        background: #05094bc2 !important;
+    }
+    .NEdDCc:hover {
+        background: #1a2083c2 !important;
+    }
+    .NEdDCc:active {
+        background: #01021bc2 !important;
+    }
+    .yFSTs {
+        background: #05094bc2 !important;
+    }
+    .yFSTs:hover {
+        background: #1a2083c2 !important;
+    }
+    .yFSTs:active {
+        background: #01021bc2 !important;
+    }
+    .pRZvsd .T38yZ{
+        color: #e6ff02 !important;
+    }
+    .qlsyCb {
+        color: #e6ff02 !important;
+    }
+    .BxWQUb{
+        color: #e6ff02 !important;
+    }
+    .dmeZbb{
+        color: #e6ff02 !important;
+    }
+    .PNyWAd{
+        color: #e6ff02 !important;
+    }
+    .S8ee5 .Z4Cazf{
+        color: #e6ff02 !important;
+    }
+    .kuydt .dbg0pd{
+        color: #e6ff02;
+    }
+    .jZWadf{
+        background: #05094bc2 !important;
+    }
+    .mJxzWe{
+        background: rgb(1 1 1 / 62%);
+    }
+    .IwRct{
+        background: rgb(1 1 1 / 62%);
+    }
+    .ZCyOLe{
+        background: #05094bc2 !important;
+    }
+    .nHPTn{
+        background: #05094bc2 !important;
+    }
+    .vC9buf{
+        background: #05094bc2 !important;
+    }
+    .cF4V5c{
+        background: #05094bc2 !important;
+    }
+    .dnXCYb:hover {
+        background: rgb(1 1 1 / 40%);
+    }
+    .dnXCYb:active {
+        background: rgb(1 1 1 / 20%);
+    }
+    .kuydt{
+        background: rgb(1 1 1 / 0%);
+    }
+    .uMdZh:active, .rllt__local-item-selected{
+        background: rgb(1 1 1 / 0%);
+    }
+    .kuydt .cXedhc .vwVdIc:active{
+        background: rgb(1 1 1 / 50%);
+    }
+    .pRZvsd .Yx2mie{
+        color: #e6ff02 !important;
+    }
+    .pRZvsd .indIKd{
+        color: #e6ff02 !important;
+    }
+    .pRZvsd .CzIFEe{
+        color: #e6ff02 !important;
+    }
+    .YzSd{
+    color: #e6ff02 !important; 
+    }
+    .kuydt .rllt__details{
+        color: #e6ff02 !important; 
+    }
+    .zPcHee{
+        color: #e6ff02 !important; 
+    }
+    .ID7tJe{
+        color: #e6ff02 !important; 
+    }
+    .u1M3kd.g6Ealc{
+        color: #e6ff02 !important; 
+    }
+    .u1M3kd.W2lMue{
+        color: #e6ff02 !important;
+    }
+    .LrzXr{
+        color: #e6ff02 !important;
+    }
+    .TLou0b{
+        color: #e6ff02;
+    }
+    .YDb5Oe{
+        color: #e6ff02;
+    }
+    .eEEa4b{
+        color: #e6ff02 !important;
+    }
+    .u9sbk.W2lMue{
+        color: #e6ff02;
+    }
+    .kplpt{
+        color: #e6ff02;
+        
+    }
+    .M8OgIe .Ss2Faf{
+        margin-bottom: 1em;
+    }
+    .U6uqsd{
+        color: #e6ff02 !important;
+    }
+    .Jtu6Td{
+        color: #e6ff02 !important;
+    }
+    .tdBFC{
+    color: #e6ff02 !important; 
+    }
+    .ydFrHf{
+        color: #e6ff02;
+    }
+    .Aq14fc{
+        color: #e6ff02;
+    }
+    .z5jxId {
+        color: #e6ff02;
+    }
+    .qotNx{
+        color: #e6ff02;
+    }
+    .tN1yic{
+        color: #e6ff02;
+    }
+    .dehysf{
+        color: #e6ff02;
+    }
+    .A503be{
+        color: #e6ff02;
+    }
+    .PV7e7{
+        color: #e6ff02;
+    }
+    .f5axBf{
+        color: #e6ff02;
+    }
+    .QWOdjf{
+        color: #e6ff02;
+    }
+    .QV3IV{
+        color: #e6ff02;
+    }
+    .gm7Ysb{
+        color: #e6ff02;
+    }
+    .k8MTF{
+        background: rgb(0 0 0 / 62%);
+    }
+    .kno-ftr a{
+        color: #000000 !important;
+    }
+    .O4T6Pe .itmdEc{
+        color: #e6ff02;
+    }
+    .qqHHsb{
+        color: #e6ff02;
+    }
+    .Nx3I .xOxJCf{
+        color: #e6ff02;
+    }
+    .vk_gy{
+        color: #e6ff02 !important;
+    }
+    .QU77pf{
+        color: #e6ff02;
+    }
+    .PSBc2d{
+    color: #e6ff02; 
+    }
+    .OaPGEd{
+        color: #e6ff02;
+    }
+    .ObF0Re{
+        color: #e6ff02;
+    }
+    .KLEmSd{
+        border-bottom: 1px solid #e6ff02;
+    }
+    .xTFaxe{
+        color: #e6ff02;
+    }
+    .J2MhIb.roMIYb:not(.XBlWIe) .JCzEY {
+        color: #e6ff02;
+    }
+    .VLBdWc .Ckggy{
+        color: #e6ff02;
+    }
+    .VLBdWc .xLDfpc{
+        color: #e6ff02;
+    }
+    .oST1qe .JCzEY{
+        color: #e6ff02;
+    }
+    .s75CSd{
+        color: #e6ff02;
+    }
+    .fKmH1e{
+        color: #e6ff02;
+    }
+    .nfSF8e{
+        color: #e6ff02;
     }
 }
 ```

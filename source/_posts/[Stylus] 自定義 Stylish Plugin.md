@@ -1,7 +1,7 @@
 ---
 title: 自定義 Stylish Plugin
 date: 2021-08-15 20:10:24
-updated: 2023-06-28 08:41:00
+updated: 2023-09-21 08:41:00
 categories: Plugin Template
 tags:
 - CSS
@@ -205,8 +205,11 @@ tags:
     }
     a,
     a em {
-        color: #e6ff02 !important;
+        color: #e6ff02;
         text-decoration:none
+    }
+    a:visited {
+        color: #c58af9;
     }
     #head,
     #s_tab {

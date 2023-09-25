@@ -189,7 +189,7 @@ body::before {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background-image: url("https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/honoka_bgw.webp# recomend image related to your mode");
+  background-image: url("../img/honoka_bgw.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1740,7 +1740,7 @@ body::before {
   left: 0;
   width: 20rem;
   background-color: #fff;
-  background-image: linear-gradient(#fff, rgba(255,255,255,0.85)), url("https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/watermark_webp.webp");
+  background-image: linear-gradient(#fff, rgba(255,255,255,0.85)), url("../img/watermark_webp.webp");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom 1.5rem center;
@@ -2032,7 +2032,7 @@ body::before {
     color: var(--hty-text-color);
   }
   :root:not([data-user-color-scheme]) body::before {
-    background-image: url("https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/page.webp");
+    background-image: url("../img/page.webp");
   }
   :root:not([data-user-color-scheme]) .char {
     background-color: rgba(0,0,0,0.5);
@@ -2043,7 +2043,7 @@ body::before {
   }
   :root:not([data-user-color-scheme]) .sidebar {
     background-color: rgba(27,31,46,0.95);
-    background-image: linear-gradient(rgba(27,31,46,0.9), rgba(27,31,46,0.9)), url("https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/watermark_webp.webp");
+    background-image: linear-gradient(rgba(27,31,46,0.9), rgba(27,31,46,0.9)), url("../img/watermark_webp.webp");
   }
   :root:not([data-user-color-scheme]) .post-title-link {
     color: #3ca1ff;
@@ -2109,7 +2109,7 @@ body::before {
   color: var(--hty-text-color);
 }
 [data-user-color-scheme='dark'] body::before {
-  background-image: url("https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/page.webp");
+  background-image: url("../img/page.webp");
 }
 [data-user-color-scheme='dark'] .char {
   background-color: rgba(0,0,0,0.5);
@@ -2120,7 +2120,7 @@ body::before {
 }
 [data-user-color-scheme='dark'] .sidebar {
   background-color: rgba(27,31,46,0.95);
-  background-image: linear-gradient(rgba(27,31,46,0.9), rgba(27,31,46,0.9)), url("https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/watermark_webp.webp");
+  background-image: linear-gradient(rgba(27,31,46,0.9), rgba(27,31,46,0.9)), url("../img/watermark_webp.webp");
 }
 [data-user-color-scheme='dark'] .post-title-link {
   color: #3ca1ff;

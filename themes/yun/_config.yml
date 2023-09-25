@@ -17,7 +17,7 @@ colors:
 
 # Favicon
 # ---------------
-favicon: https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/favicon.png
+favicon: img/favicon.png
 
 # ---------------------------------------------------------------
 # Sidebar Settings
@@ -26,10 +26,8 @@ favicon: https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/favicon.png
 # Posts / Categories / Tags in sidebar.
 sidebar:
   src: /js/sidebar.js
-  #bg_image: https://cdn.jsdelivr.net/gh/YunYouJun/cdn@master/img/bg/alpha-stars-timing-1.webp
-  bg_image:  https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/watermark_webp.webp
-  #dark_bg_image: https://cdn.jsdelivr.net/gh/YunYouJun/cdn@master/img/bg/dark-alpha-stars-timing-1.webp
-  dark_bg_image: https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/watermark_webp.webp
+  bg_image: ../img/watermark_webp.webp
+  dark_bg_image: ../img/watermark_webp.webp
   bg_position: bottom 1.5rem center
   tagcloud:
     enable: false
@@ -101,10 +99,7 @@ girls:
 # Sidebar Avatar
 avatar:
   enable: true
-  url: https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/honoka.webp
-  # https://github.com/KutsunaSubaRya/photo/raw/main/honoka.webp 
-  #/honoka.png #https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/honoka.webp
-  #/honoka.png
+  url: img/honoka.webp
   # If true, the avatar would be dispalyed in circle.
   rounded: true
   # The value of opacity should be choose from 0 to 1 to set the opacity of the avatar.
@@ -331,8 +326,9 @@ scrollreveal:
 
 bg_image:
   enable: true
-  url:  https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/honoka_bgw.webp# recomend image related to your mode
-  dark: https://cdn.jsdelivr.net/gh/KutsunaSubaRya/photo@main/page.webp
+  url:  ../img/honoka_bgw.webp
+  # recomend image related to your mode
+  dark: ../img/page.webp
   # blur: 30px
   opacity: 1
 

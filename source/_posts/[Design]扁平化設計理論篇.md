@@ -17,8 +17,6 @@ tags:
 
 # 扁平化設計理論篇
 
-## 研究動機
-
 ## 扁平化
 又稱**瑞士風格(Swiss Style)**
 有瑞士風格的字體：[Grotesque](https://en.wikipedia.org/wiki/Vox-ATypI_classification#Grotesque) 無襯線字體

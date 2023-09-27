@@ -1592,6 +1592,226 @@ LL <span class="token function">Query</span><span class="token punctuation">(</s
       </tags>
   </entry>
   <entry>
+    <title>扁平化設計理論篇</title>
+    <url>/2022/08/25/%5BDesign%5D%E6%89%81%E5%B9%B3%E5%8C%96%E8%A8%AD%E8%A8%88%E7%90%86%E8%AB%96%E7%AF%87/</url>
+    <content><![CDATA[<style>
+    .floatRight{
+        float: right;
+    }
+</style>
+
+<h1 id="扁平化設計理論篇"><a href="#扁平化設計理論篇" class="headerlink" title="扁平化設計理論篇"></a>扁平化設計理論篇</h1><h2 id="研究動機"><a href="#研究動機" class="headerlink" title="研究動機"></a>研究動機</h2><h2 id="扁平化"><a href="#扁平化" class="headerlink" title="扁平化"></a>扁平化</h2><p>又稱<strong>瑞士風格(Swiss Style)</strong><br>有瑞士風格的字體：<a href="https://en.wikipedia.org/wiki/Vox-ATypI_classification#Grotesque">Grotesque</a> 無襯線字體</p>
+<h3 id="Helvetica-Font"><a href="#Helvetica-Font" class="headerlink" title="Helvetica Font"></a>Helvetica Font</h3><p>這是 <a href="https://en.wikipedia.org/wiki/Vox-ATypI_classification#Grotesque">Grotesque</a> 裡最常被使用的</p>
+<div> 
+    <img class="floatRight" width=200px height=200px src="https://i.imgur.com/ix27A4W.png" loading="lazy">
+    <p class="alignLeft"> 
+        ● 平面設計推薦字體
+    </p> 
+    <p class="alignLeft"> 
+        ● 無襯線字體
+    </p>
+    <p class="alignLeft"> 
+        ● 旁系 -> Microsoft Arial Font
+    </p>
+    <p class="alignLeft"> 
+        ● one of Mac OS 11 fonts
+    </p>
+    <p class="alignLeft"> 
+        ● Helvetica Neue Ultra Light 有銳利清晰與時尚感
+    </p>
+</div>
+</br>
+
+<h3 id="中文字體"><a href="#中文字體" class="headerlink" title="中文字體"></a>中文字體</h3><p>中文線條錯綜複雜，扁平設計會顯得突兀<br>目前尚未研發出中文字的扁平設計字體，但中文字本身就是如「一幅畫」的存在，因此著重「空間布局」、「黑白平衡」即可。</p>
+<h3 id="扁平化特徵"><a href="#扁平化特徵" class="headerlink" title="扁平化特徵"></a>扁平化特徵</h3><ul>
+<li><p>移除 3D 要素</p>
+<ol>
+<li>陰影</li>
+<li>漸層</li>
+<li>裝飾</li>
+<li>紋理</li>
+<li>反射光澤</li>
+</ol>
+<p>  等…</p>
+</li>
+<li><p>專注於</p>
+<ol>
+<li>圖像元素</li>
+<li>排版</li>
+<li>純色</li>
+</ol>
+</li>
+<li><p>畫面更為流線型</p>
+</li>
+</ul>
+<h3 id="扁平與擬物"><a href="#扁平與擬物" class="headerlink" title="扁平與擬物"></a>扁平與擬物</h3><ul>
+<li>扁平設計 1.0 :<ul>
+<li>著名指標(Microsoft Zune)</li>
+<li>色塊單純</li>
+<li>容易延伸拓展區域</li>
+<li>簡單的排版(simple typography)</li>
+<li>極簡主義</li>
+<li>平面物件</li>
+<li>載入速度快</li>
+</ul>
+</li>
+<li>擬物設計 (Skeuomorphism):<ul>
+<li>著名指標(MacOS Big Sur)</li>
+<li>漸層、陰影等延伸畫面時容易扭曲</li>
+<li>real-world 物件</li>
+<li>載入速度相對慢</li>
+</ul>
+</li>
+<li>扁平設計 2.0 :<ul>
+<li>類名: Material Design</li>
+<li>在扁平上加入「少許」3D 元素</li>
+<li><img src="https://i.imgur.com/z66QOTq.gif" loading="lazy"></li>
+<li>加上柔順的陰影<ul>
+<li><img src="https://i.imgur.com/7WKdAJG.jpg" loading="lazy"></li>
+</ul>
+</li>
+<li>加上模糊(圖中前面的聖誕樹)<ul>
+<li><img src="https://i.imgur.com/2sFW3Aa.jpg" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="扁平化需注意"><a href="#扁平化需注意" class="headerlink" title="扁平化需注意"></a>扁平化需注意</h2><p>因為扁平化對於「數位互動經驗」較少的使用者而言相對不直觀，因此要有以下方法去作為「潛意識引導」。<br>讓使用者容易發現…</p>
+<ul>
+<li>按鈕<ul>
+<li>利用圖標表示「這是可以點」的</li>
+</ul>
+</li>
+<li>連結</li>
+<li>可輸入框</li>
+</ul>
+<h3 id="CTA"><a href="#CTA" class="headerlink" title="CTA"></a>CTA</h3><ul>
+<li>Call To Action (行動呼籲設計)</li>
+<li>呈現方式: 圖、按鈕、文字… </li>
+<li>簡述: 提示 user 點擊進行下一步流程</li>
+<li>有<strong>正向價值</strong>的按鈕都是 CTA</li>
+<li>頁面中存在多個按鈕時，CTA 優先級最高</li>
+</ul>
+<h4 id="根據-B-J-Fogg-的「福格行為模型」"><a href="#根據-B-J-Fogg-的「福格行為模型」" class="headerlink" title="根據 B.J. Fogg 的「福格行為模型」"></a>根據 B.J. Fogg 的「<strong>福格行為模型</strong>」</h4><p>$B&#x3D;MAT$</p>
+<ul>
+<li>B 行為 (Behavior)</li>
+<li>M 動機 (Motivation)</li>
+<li>A 能力 (Ability)</li>
+<li>T 觸發 (Trigger)</li>
+<li>其中 MA 成反比<ul>
+<li>想買，一定會去找按鈕訂購</li>
+<li>動機普通，但容易看到訂購鍵</li>
+</ul>
+</li>
+</ul>
+<p>因此，按鈕的位置十分重要，也對應 2 種典型的方法論，「古騰堡原則」、「菲茨定律」</p>
+<ol>
+<li>古騰堡原則<ul>
+<li><img src="https://i.imgur.com/irn2QLl.jpg" loading="lazy"></li>
+<li>左上角: user 首先注意到的地方</li>
+<li>右下角: 視覺流的終點</li>
+<li>右上角: 「較」少被注意</li>
+<li>左下角: 「最」少被注意</li>
+<li>從左上到右到左下的 Z 字型動線掃視</li>
+</ul>
+</li>
+<li>菲茨定律<ul>
+<li>任一點移動到目標所需時間與能力，與點到目標的距離和大小有關</li>
+<li>$T&#x3D;a+b \cdot log{_2}(\dfrac{D}{W}+1)$</li>
+<li>T: 移動時長</li>
+<li>a、b: 經驗常數</li>
+<li>D: 起始與終點距離</li>
+<li>W: 目標寬度大小</li>
+</ul>
+</li>
+</ol>
+<h4 id="值得注意的是"><a href="#值得注意的是" class="headerlink" title="值得注意的是"></a>值得注意的是</h4><ul>
+<li><p>古騰堡原則</p>
+<ul>
+<li>右上通常為「普通功能操作」或「敏感性操作」<ul>
+<li>敏感性操作<ul>
+<li><img src="https://i.imgur.com/GMP1EXb.jpg" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>底部按鈕分析<ul>
+<li>水平並排，CTA 高放右邊(e.g. <code>取消</code> <code>確認</code>)<ul>
+<li>好的反面應用: 避免潛意識或專注其他適的情況下點錯「重要或敏感的行為」，將該消極的行為放置左側。利用「視覺回流」去加以確認該行動</li>
+</ul>
+</li>
+<li>垂直多按鈕，<code>確認</code>放上面，<code>取消</code>放下面<ul>
+<li>因眼睛路徑而論，上到下瀏覽效率最高，所以利用「視覺回流」與「背景色顯著」可達到防錯。</li>
+<li><img src="https://i.imgur.com/s0XOrwz.jpg" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>菲茨定律</p>
+<ul>
+<li>D 小、W 大、按鈕放邊或角(因畫面游標會卡住因此用戶所需能力小)</li>
+</ul>
+</li>
+</ul>
+<h4 id="好的-CTA-按鈕概念"><a href="#好的-CTA-按鈕概念" class="headerlink" title="好的 CTA 按鈕概念"></a>好的 CTA 按鈕概念</h4><ol>
+<li>按鈕看起來是潛意識可被點擊的<ul>
+<li>邊角圓滑</li>
+<li>陰影 (Flat Design 1.0 不大適用)</li>
+<li>顏色突出</li>
+<li>大小合適<ul>
+<li>Apple: CTA button at least 44X44 pixel</li>
+<li>MicroShop: CTA button at least 34X26 pixel</li>
+<li>詳細可以<a href="https://explore.reallygoodemails.com/everything-you-wanted-to-know-about-email-cta-buttons-98807ab98806">參考這裡</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>用對比色</li>
+<li>留白<ul>
+<li>可以為 CTA 高的創造點擊率(CTR)</li>
+<li>留白區域越少，表示按鈕間連結相近</li>
+<li>用簡短的話「鼓勵他」或「引導他」點進，e.g. …&#96;開始使用’</li>
+</ul>
+</li>
+<li>第一人稱<ul>
+<li><code>點擊獲取你的...</code> :x:</li>
+<li><code>點擊獲取我的...</code> :heavy_check_mark: (提高 90% 點擊率)</li>
+</ul>
+</li>
+<li>動詞設計</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://blog.missmetis.me/avantgarde-helvetica-font-download/">字型大關係！設計師必收藏的兩套英文字型</a></li>
+<li><a href="https://zh.wikipedia.org/zh-tw/Helvetica">Helvetica Wiki</a></li>
+<li><a href="https://speckyboy.com/flat-web-design/">50 best</a></li>
+<li><a href="https://www.webdesign-inspiration.com/web-designs/style/flat">Webdesign Inspiration</a></li>
+<li><a href="https://xd.adobe.com/ideas/principles/web-design/flat-vs-material-skeuomorphic-examples/">Flat vs. Material vs. Skeuomorphic Design Examples</a></li>
+<li><a href="https://www.bluecompass.com/blog/flat-20-why-your-website-needs-this-design-update">Flat 2.0: Why Your Website Needs This Design Update</a></li>
+<li><a href="https://www.managertoday.com.tw/articles/view/59934">網路行銷按鈕怎麼設計，顧客最想點？高手提高轉換率的 5 個心法</a></li>
+<li><a href="https://transbiz.com.tw/ui-ux-design-difference/">UI UX設計是什麼？用9個提高網站轉換率的方法告訴你</a></li>
+<li><a href="https://hahow.in/contents/articles/6064373b26c9ad0ab0be1ecc">怎麼讓使用者按下去？8 個技巧設計高轉換率 CTA 按鈕</a></li>
+<li><a href="https://twgreatdaily.com/nMrbZncBDlXMa8eqcykt.html">關於CTA按鈕的全方位解讀——位置篇</a><ul>
+<li><a href="https://www.uisdc.com/gutenberg-principle-2">古腾堡原则</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25530956">菲茨定律</a></li>
+</ul>
+</li>
+<li><a href="https://blog.justfont.com/2013/05/flat-design-and-typography/">扁平化設計與字型學（iOS 7特別更新版）</a></li>
+<li><a href="https://designmodo.com/flat/">扁平化設計配色</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>2023</tag>
+        <tag>有趣的東西</tag>
+        <tag>Design</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Facebook Hacker Cup 2021 Qualification Round</title>
     <url>/2021/08/30/%5BFacebook%20Hacker%20Cup%202021%5D%20Qualification%20Round/</url>
     <content><![CDATA[<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>目前只是資格賽，僅需解開一題即可晉階至 Round 1<br>比賽時間總共 72 小時，共 5 題<br>我是在比賽結束前 5 小時才想到要開始來解題，就當作是休閒打，最後寫了兩題水題並提交，分別是 A1 和 B<br>比賽連結：<a href="https://www.facebook.com/codingcompetitions/hacker-cup/2021/qualification-round">這裡</a></p>
@@ -4468,8 +4688,8 @@ $ <span class="token function">sudo</span> ./change-gdm-background <span class="
       </categories>
       <tags>
         <tag>2020</tag>
-        <tag>作業</tag>
         <tag>有趣的東西</tag>
+        <tag>作業</tag>
       </tags>
   </entry>
 </search>

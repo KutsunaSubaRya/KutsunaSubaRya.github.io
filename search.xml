@@ -151,58 +151,6 @@
       </tags>
   </entry>
   <entry>
-    <title>HDU 2955 - Robberies</title>
-    <url>/2021/08/14/HDU%202955%20-%20Robberies%20/</url>
-    <content><![CDATA[<p>題目連結： <a href="https://vjudge.net/problem/HDU-2955">這裡</a></p>
-<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ul>
-<li>如果是用正常 0&#x2F;1 背包的思維構造，會發現這題的風險 (重量) 是小數，無法以重量做狀態轉移。</li>
-<li>換個思路，把風險變成 <code> 1 - 風險（重量）</code> ，也就是 <strong>成功率</strong> 。</li>
-<li>轉移式： <code>dp[i]=max(dp[j], dp[j-cost[i]]*weight[i])</code><br>  因為已將題意轉為 <strong>成功率</strong> ，所以連續地成功是用乘法。</li>
-<li>最後取大於原『成功率』的最大 cost 即可。</li>
-</ul>
-<h2 id="AC-原始碼"><a href="#AC-原始碼" class="headerlink" title="AC 原始碼"></a>AC 原始碼</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
-<span class="token comment">/*-----define-----*/</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">jizz</span> <span class="token expression">ios_base<span class="token double-colon punctuation">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP1</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
-<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
-<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-	jizz<span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">ONLINE_JUDGE</span></span>
-	<span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"output.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">,</span> <span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"input.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
-	<span class="token keyword">int</span> T<span class="token punctuation">,</span>n<span class="token punctuation">;</span>
-	<span class="token keyword">double</span> P<span class="token punctuation">;</span>
-	cin <span class="token operator">>></span> T<span class="token punctuation">;</span>
-	<span class="token keyword">while</span><span class="token punctuation">(</span>T<span class="token operator">--</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-		<span class="token keyword">int</span> cost<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token punctuation">,</span>tot_w<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>tmp<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-		<span class="token keyword">double</span> weight<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-		cin <span class="token operator">>></span> P <span class="token operator">>></span> n<span class="token punctuation">;</span>
-		dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//不搶就必定成功</span>
-		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-			cin <span class="token operator">>></span> cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">>></span> weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-			weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token operator">-</span>weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">//轉成成功的機率</span>
-			tot_w<span class="token operator">+=</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-		<span class="token punctuation">&#125;</span>
-		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>n<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span>tot_w<span class="token punctuation">;</span>j<span class="token operator">>=</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>j<span class="token operator">--</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span>j<span class="token operator">-</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">*</span>weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>tot_w<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
-			<span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">1</span><span class="token operator">-</span>P<span class="token punctuation">)</span> tmp<span class="token operator">=</span>i<span class="token punctuation">;</span> <span class="token comment">//成功率大於原定的，表示成功</span>
-		cout <span class="token operator">&lt;&lt;</span> tmp <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>演算法</category>
-      </categories>
-      <tags>
-        <tag>HDU</tag>
-        <tag>Dynamic Programming (DP)</tag>
-        <tag>0/1 背包問題</tag>
-        <tag>2021</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>LNMP 安裝遇到的問題筆記</title>
     <url>/2023/05/19/LNMP%20%E5%AE%89%E8%A3%9D%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C%E7%AD%86%E8%A8%98/</url>
     <content><![CDATA[<h1 id="LNMP-安裝遇到的問題筆記"><a href="#LNMP-安裝遇到的問題筆記" class="headerlink" title="LNMP 安裝遇到的問題筆記"></a>LNMP 安裝遇到的問題筆記</h1><p>由於最近修的資料庫課程作業有要使用 <strong>php + mysql</strong> 完成指定 project。<br>另外基於我是在 Linux 上做此份作業，<a href="https://github.com/aokblast"><strong>Aok 電電</strong></a> 將 LNMP 推薦給我。</p>
@@ -271,6 +219,58 @@ nginx: configuration <span class="token function">file</span> /etc/nginx/nginx.c
         <tag>nginx</tag>
         <tag>MariaDB</tag>
         <tag>2023</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HDU 2955 - Robberies</title>
+    <url>/2021/08/14/HDU%202955%20-%20Robberies%20/</url>
+    <content><![CDATA[<p>題目連結： <a href="https://vjudge.net/problem/HDU-2955">這裡</a></p>
+<h2 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h2><ul>
+<li>如果是用正常 0&#x2F;1 背包的思維構造，會發現這題的風險 (重量) 是小數，無法以重量做狀態轉移。</li>
+<li>換個思路，把風險變成 <code> 1 - 風險（重量）</code> ，也就是 <strong>成功率</strong> 。</li>
+<li>轉移式： <code>dp[i]=max(dp[j], dp[j-cost[i]]*weight[i])</code><br>  因為已將題意轉為 <strong>成功率</strong> ，所以連續地成功是用乘法。</li>
+<li>最後取大於原『成功率』的最大 cost 即可。</li>
+</ul>
+<h2 id="AC-原始碼"><a href="#AC-原始碼" class="headerlink" title="AC 原始碼"></a>AC 原始碼</h2><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token comment">/*-----define-----*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">jizz</span> <span class="token expression">ios_base<span class="token double-colon punctuation">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP1</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	jizz<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">ifndef</span> <span class="token expression">ONLINE_JUDGE</span></span>
+	<span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"output.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">,</span> <span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"input.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+	<span class="token keyword">int</span> T<span class="token punctuation">,</span>n<span class="token punctuation">;</span>
+	<span class="token keyword">double</span> P<span class="token punctuation">;</span>
+	cin <span class="token operator">>></span> T<span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>T<span class="token operator">--</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+		<span class="token keyword">int</span> cost<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token punctuation">,</span>tot_w<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>tmp<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+		<span class="token keyword">double</span> weight<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span><span class="token number">10005</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+		cin <span class="token operator">>></span> P <span class="token operator">>></span> n<span class="token punctuation">;</span>
+		dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//不搶就必定成功</span>
+		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+			cin <span class="token operator">>></span> cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">>></span> weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+			weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token operator">-</span>weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">//轉成成功的機率</span>
+			tot_w<span class="token operator">+=</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>n<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span>tot_w<span class="token punctuation">;</span>j<span class="token operator">>=</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>j<span class="token operator">--</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>dp<span class="token punctuation">[</span>j<span class="token operator">-</span>cost<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">*</span>weight<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">REP</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>tot_w<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">1</span><span class="token operator">-</span>P<span class="token punctuation">)</span> tmp<span class="token operator">=</span>i<span class="token punctuation">;</span> <span class="token comment">//成功率大於原定的，表示成功</span>
+		cout <span class="token operator">&lt;&lt;</span> tmp <span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>演算法</category>
+      </categories>
+      <tags>
+        <tag>HDU</tag>
+        <tag>Dynamic Programming (DP)</tag>
+        <tag>0/1 背包問題</tag>
+        <tag>2021</tag>
       </tags>
   </entry>
   <entry>
@@ -860,6 +860,124 @@ priority_queue<span class="token operator">&lt;</span>PII<span class="token punc
       </tags>
   </entry>
   <entry>
+    <title>2023 NTNU 程式設計(二) 助教批改解釋 - 作業一</title>
+    <url>/2023/04/06/%5B2023%20NTNU%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E4%BA%8C%5D%20%E5%8A%A9%E6%95%99%E6%89%B9%E6%94%B9%E8%A7%A3%E9%87%8B%20-%20%E4%BD%9C%E6%A5%AD%E4%B8%80/</url>
+    <content><![CDATA[<h1 id="程設助教-judge-題目"><a href="#程設助教-judge-題目" class="headerlink" title="程設助教 judge 題目"></a>程設助教 judge 題目</h1><p>助教：蘇子權 SubaRya<br>題目：<br>    * <a href="https://drive.google.com/file/d/1GtQG4ZFi-GkuAun4insExypWhXxStdR9/view">作業連結</a><br>    * 分配: hw0101, hw0102</p>
+<h2 id="hw0101"><a href="#hw0101" class="headerlink" title="hw0101"></a>hw0101</h2><ul>
+<li><p><a href="https://drive.google.com/drive/folders/1CLwrxsU1n2BWhlOXzAFNrKAol8EbFAYn?usp=share_link">測資和 hw0101.c 的 link</a></p>
+</li>
+<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0101">GitHub hw0101</a></p>
+</li>
+<li><p>測資分數分配</p>
+<ul>
+<li>sunny case: 13 pt</li>
+<li>other case: 7 pt</li>
+</ul>
+</li>
+<li><p>透過 function 評分，見下表</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">評測函式</th>
+<th align="center">sunny case pt</th>
+<th align="center">other case pt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">strchr</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strrchr</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strspn</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strcspn</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strpbrk</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strstr</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strtok</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<ul>
+<li>sunny case</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">char str1[] &#x3D; &quot;SubaRya TA is handsome&quot;;
+char str2[] &#x3D; &quot;Smallten and Mafumafu are cute&quot;;
+char str3[] &#x3D; &quot;jw910731, LoveSnowEx, Smallten, SubaRya, NTNU students, also Computer Programming II TA, work hard&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p>other case</p>
+<ul>
+<li>上面的 link 中 <code>.txt</code> 副檔名的檔案</li>
+</ul>
+</li>
+<li><p>簡述</p>
+<ul>
+<li>sunny case 測資較小，從 <code>hw0101.c</code> 中可以看出來，這裡不多做說明。</li>
+<li>other case 測資較大，透過 mmap 吃進 file 中的 content，進行評測。</li>
+<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
+</ul>
+</li>
+</ul>
+<h2 id="hw0102"><a href="#hw0102" class="headerlink" title="hw0102"></a>hw0102</h2><ul>
+<li><p><a href="https://drive.google.com/drive/folders/1LcKDQpS1l9onXI8V7QE9H-OCE6NDZkzk?usp=share_link">測資和 hw0102.c 的 link</a></p>
+</li>
+<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0102">GitHub hw0102</a></p>
+</li>
+<li><p>測資分數分配</p>
+<ul>
+<li>sunny case: 12 pt<ul>
+<li>含一筆越界 position</li>
+</ul>
+</li>
+<li>other case: 8 pt</li>
+</ul>
+</li>
+<li><p>共 10 筆測資，每一筆兩分。</p>
+</li>
+<li><p>簡述</p>
+<ul>
+<li><code>generateTestcaseAndAns</code> folder 裡有用 python 寫的 generate testcase and answer 的程式，可以自行拿來檢測。</li>
+<li>sunny case 測資較小，長度約略 100，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;1~6&gt;.txt</code> 比對。</li>
+<li>other case 測資較大，長度約略 2e7，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;7~10&gt;.txt</code> 比對。</li>
+<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>程式設計二助教</category>
+      </categories>
+      <tags>
+        <tag>2023</tag>
+        <tag>程式設計</tag>
+        <tag>助教</tag>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2020 CPTC 心得</title>
     <url>/2020/12/17/%5B2020%20CPTC%20%E5%BF%83%E5%BE%97%5D/</url>
     <content><![CDATA[<h1 id="CPTC-心得"><a href="#CPTC-心得" class="headerlink" title="CPTC 心得"></a>CPTC 心得</h1><p>題目在<a href="https://drive.google.com/drive/folders/1ajpjsjsR_dzitV-5PMmbXPFg3XNhVGm_?usp=sharing">這裡</a>,就跳過題序了QAQ</p>
@@ -1012,124 +1130,6 @@ map<span class="token operator">&lt;</span><span class="token keyword">long</spa
       <tags>
         <tag>2020</tag>
         <tag>CPTC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2023 NTNU 程式設計(二) 助教批改解釋 - 作業一</title>
-    <url>/2023/04/06/%5B2023%20NTNU%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E4%BA%8C%5D%20%E5%8A%A9%E6%95%99%E6%89%B9%E6%94%B9%E8%A7%A3%E9%87%8B%20-%20%E4%BD%9C%E6%A5%AD%E4%B8%80/</url>
-    <content><![CDATA[<h1 id="程設助教-judge-題目"><a href="#程設助教-judge-題目" class="headerlink" title="程設助教 judge 題目"></a>程設助教 judge 題目</h1><p>助教：蘇子權 SubaRya<br>題目：<br>    * <a href="https://drive.google.com/file/d/1GtQG4ZFi-GkuAun4insExypWhXxStdR9/view">作業連結</a><br>    * 分配: hw0101, hw0102</p>
-<h2 id="hw0101"><a href="#hw0101" class="headerlink" title="hw0101"></a>hw0101</h2><ul>
-<li><p><a href="https://drive.google.com/drive/folders/1CLwrxsU1n2BWhlOXzAFNrKAol8EbFAYn?usp=share_link">測資和 hw0101.c 的 link</a></p>
-</li>
-<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0101">GitHub hw0101</a></p>
-</li>
-<li><p>測資分數分配</p>
-<ul>
-<li>sunny case: 13 pt</li>
-<li>other case: 7 pt</li>
-</ul>
-</li>
-<li><p>透過 function 評分，見下表</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">評測函式</th>
-<th align="center">sunny case pt</th>
-<th align="center">other case pt</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">strchr</td>
-<td align="center">1</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strrchr</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strspn</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strcspn</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strpbrk</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strstr</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strtok</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-</tbody></table>
-<ul>
-<li>sunny case</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">char str1[] &#x3D; &quot;SubaRya TA is handsome&quot;;
-char str2[] &#x3D; &quot;Smallten and Mafumafu are cute&quot;;
-char str3[] &#x3D; &quot;jw910731, LoveSnowEx, Smallten, SubaRya, NTNU students, also Computer Programming II TA, work hard&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li><p>other case</p>
-<ul>
-<li>上面的 link 中 <code>.txt</code> 副檔名的檔案</li>
-</ul>
-</li>
-<li><p>簡述</p>
-<ul>
-<li>sunny case 測資較小，從 <code>hw0101.c</code> 中可以看出來，這裡不多做說明。</li>
-<li>other case 測資較大，透過 mmap 吃進 file 中的 content，進行評測。</li>
-<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
-</ul>
-</li>
-</ul>
-<h2 id="hw0102"><a href="#hw0102" class="headerlink" title="hw0102"></a>hw0102</h2><ul>
-<li><p><a href="https://drive.google.com/drive/folders/1LcKDQpS1l9onXI8V7QE9H-OCE6NDZkzk?usp=share_link">測資和 hw0102.c 的 link</a></p>
-</li>
-<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0102">GitHub hw0102</a></p>
-</li>
-<li><p>測資分數分配</p>
-<ul>
-<li>sunny case: 12 pt<ul>
-<li>含一筆越界 position</li>
-</ul>
-</li>
-<li>other case: 8 pt</li>
-</ul>
-</li>
-<li><p>共 10 筆測資，每一筆兩分。</p>
-</li>
-<li><p>簡述</p>
-<ul>
-<li><code>generateTestcaseAndAns</code> folder 裡有用 python 寫的 generate testcase and answer 的程式，可以自行拿來檢測。</li>
-<li>sunny case 測資較小，長度約略 100，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;1~6&gt;.txt</code> 比對。</li>
-<li>other case 測資較大，長度約略 2e7，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;7~10&gt;.txt</code> 比對。</li>
-<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>程式設計二助教</category>
-      </categories>
-      <tags>
-        <tag>2023</tag>
-        <tag>程式設計</tag>
-        <tag>助教</tag>
-        <tag>C</tag>
       </tags>
   </entry>
   <entry>

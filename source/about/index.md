@@ -13,6 +13,7 @@ email：subarya@subarya.me
 >曾經熱愛打競程，高一下時在濕冷的金瓜石(山上)用成績換取爛網路跟筆電展開了競程之旅(理論上在時雨中學是首例這麼做的)，上了大學後接觸一堆電神才知道我的渺小，因此才決定要努力把自己變成一位毒瘤 Coder OwO。大學求學中感受了很多而在大三下時逐漸轉為開發，主要是前端為主後端為輔，這裡是不定時更新的[小品集部落格](https://subaryaweb.github.io/)，有需要或有重要進展時才會更新。
 
 ## 競賽歷程
+* 2024 第一屆教育數據啟航創意黑客松 晉級決賽/佳作獎
 * 2023 IEEE Conference on Games 6th annual GDMC - AI settlement generation competition in minecraft First Place (第一名): [Award Link](https://gendesignmc.wikidot.com/wiki:2023-settlement-generation-competition#toc19) and [Paper Link](https://gendesignmc.wdfiles.com/local--files/wiki:2023-settlement-generation-competition/JEB_GEN_writeup%5B1%5D.pdf)
 * 2023 ICPC Asia Taiwan Online Programming Contest (TOPC 全國：75 Bronze Medal)
 * 2023 臺師大資工資訊專題競賽 第三名 (傑出專題獎)

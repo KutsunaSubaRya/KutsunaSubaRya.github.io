@@ -860,124 +860,6 @@ priority_queue<span class="token operator">&lt;</span>PII<span class="token punc
       </tags>
   </entry>
   <entry>
-    <title>2023 NTNU 程式設計(二) 助教批改解釋 - 作業一</title>
-    <url>/2023/04/06/%5B2023%20NTNU%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E4%BA%8C%5D%20%E5%8A%A9%E6%95%99%E6%89%B9%E6%94%B9%E8%A7%A3%E9%87%8B%20-%20%E4%BD%9C%E6%A5%AD%E4%B8%80/</url>
-    <content><![CDATA[<h1 id="程設助教-judge-題目"><a href="#程設助教-judge-題目" class="headerlink" title="程設助教 judge 題目"></a>程設助教 judge 題目</h1><p>助教：蘇子權 SubaRya<br>題目：<br>    * <a href="https://drive.google.com/file/d/1GtQG4ZFi-GkuAun4insExypWhXxStdR9/view">作業連結</a><br>    * 分配: hw0101, hw0102</p>
-<h2 id="hw0101"><a href="#hw0101" class="headerlink" title="hw0101"></a>hw0101</h2><ul>
-<li><p><a href="https://drive.google.com/drive/folders/1CLwrxsU1n2BWhlOXzAFNrKAol8EbFAYn?usp=share_link">測資和 hw0101.c 的 link</a></p>
-</li>
-<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0101">GitHub hw0101</a></p>
-</li>
-<li><p>測資分數分配</p>
-<ul>
-<li>sunny case: 13 pt</li>
-<li>other case: 7 pt</li>
-</ul>
-</li>
-<li><p>透過 function 評分，見下表</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center">評測函式</th>
-<th align="center">sunny case pt</th>
-<th align="center">other case pt</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">strchr</td>
-<td align="center">1</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strrchr</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strspn</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strcspn</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strpbrk</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strstr</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="center">strtok</td>
-<td align="center">2</td>
-<td align="center">1</td>
-</tr>
-</tbody></table>
-<ul>
-<li>sunny case</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">char str1[] &#x3D; &quot;SubaRya TA is handsome&quot;;
-char str2[] &#x3D; &quot;Smallten and Mafumafu are cute&quot;;
-char str3[] &#x3D; &quot;jw910731, LoveSnowEx, Smallten, SubaRya, NTNU students, also Computer Programming II TA, work hard&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li><p>other case</p>
-<ul>
-<li>上面的 link 中 <code>.txt</code> 副檔名的檔案</li>
-</ul>
-</li>
-<li><p>簡述</p>
-<ul>
-<li>sunny case 測資較小，從 <code>hw0101.c</code> 中可以看出來，這裡不多做說明。</li>
-<li>other case 測資較大，透過 mmap 吃進 file 中的 content，進行評測。</li>
-<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
-</ul>
-</li>
-</ul>
-<h2 id="hw0102"><a href="#hw0102" class="headerlink" title="hw0102"></a>hw0102</h2><ul>
-<li><p><a href="https://drive.google.com/drive/folders/1LcKDQpS1l9onXI8V7QE9H-OCE6NDZkzk?usp=share_link">測資和 hw0102.c 的 link</a></p>
-</li>
-<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0102">GitHub hw0102</a></p>
-</li>
-<li><p>測資分數分配</p>
-<ul>
-<li>sunny case: 12 pt<ul>
-<li>含一筆越界 position</li>
-</ul>
-</li>
-<li>other case: 8 pt</li>
-</ul>
-</li>
-<li><p>共 10 筆測資，每一筆兩分。</p>
-</li>
-<li><p>簡述</p>
-<ul>
-<li><code>generateTestcaseAndAns</code> folder 裡有用 python 寫的 generate testcase and answer 的程式，可以自行拿來檢測。</li>
-<li>sunny case 測資較小，長度約略 100，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;1~6&gt;.txt</code> 比對。</li>
-<li>other case 測資較大，長度約略 2e7，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;7~10&gt;.txt</code> 比對。</li>
-<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>程式設計二助教</category>
-      </categories>
-      <tags>
-        <tag>2023</tag>
-        <tag>程式設計</tag>
-        <tag>助教</tag>
-        <tag>C</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2020 CPTC 心得</title>
     <url>/2020/12/17/%5B2020%20CPTC%20%E5%BF%83%E5%BE%97%5D/</url>
     <content><![CDATA[<h1 id="CPTC-心得"><a href="#CPTC-心得" class="headerlink" title="CPTC 心得"></a>CPTC 心得</h1><p>題目在<a href="https://drive.google.com/drive/folders/1ajpjsjsR_dzitV-5PMmbXPFg3XNhVGm_?usp=sharing">這裡</a>,就跳過題序了QAQ</p>
@@ -1133,6 +1015,124 @@ map<span class="token operator">&lt;</span><span class="token keyword">long</spa
       </tags>
   </entry>
   <entry>
+    <title>2023 NTNU 程式設計(二) 助教批改解釋 - 作業一</title>
+    <url>/2023/04/06/%5B2023%20NTNU%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E4%BA%8C%5D%20%E5%8A%A9%E6%95%99%E6%89%B9%E6%94%B9%E8%A7%A3%E9%87%8B%20-%20%E4%BD%9C%E6%A5%AD%E4%B8%80/</url>
+    <content><![CDATA[<h1 id="程設助教-judge-題目"><a href="#程設助教-judge-題目" class="headerlink" title="程設助教 judge 題目"></a>程設助教 judge 題目</h1><p>助教：蘇子權 SubaRya<br>題目：<br>    * <a href="https://drive.google.com/file/d/1GtQG4ZFi-GkuAun4insExypWhXxStdR9/view">作業連結</a><br>    * 分配: hw0101, hw0102</p>
+<h2 id="hw0101"><a href="#hw0101" class="headerlink" title="hw0101"></a>hw0101</h2><ul>
+<li><p><a href="https://drive.google.com/drive/folders/1CLwrxsU1n2BWhlOXzAFNrKAol8EbFAYn?usp=share_link">測資和 hw0101.c 的 link</a></p>
+</li>
+<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0101">GitHub hw0101</a></p>
+</li>
+<li><p>測資分數分配</p>
+<ul>
+<li>sunny case: 13 pt</li>
+<li>other case: 7 pt</li>
+</ul>
+</li>
+<li><p>透過 function 評分，見下表</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">評測函式</th>
+<th align="center">sunny case pt</th>
+<th align="center">other case pt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">strchr</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strrchr</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strspn</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strcspn</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strpbrk</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strstr</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">strtok</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<ul>
+<li>sunny case</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">char str1[] &#x3D; &quot;SubaRya TA is handsome&quot;;
+char str2[] &#x3D; &quot;Smallten and Mafumafu are cute&quot;;
+char str3[] &#x3D; &quot;jw910731, LoveSnowEx, Smallten, SubaRya, NTNU students, also Computer Programming II TA, work hard&quot;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><p>other case</p>
+<ul>
+<li>上面的 link 中 <code>.txt</code> 副檔名的檔案</li>
+</ul>
+</li>
+<li><p>簡述</p>
+<ul>
+<li>sunny case 測資較小，從 <code>hw0101.c</code> 中可以看出來，這裡不多做說明。</li>
+<li>other case 測資較大，透過 mmap 吃進 file 中的 content，進行評測。</li>
+<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
+</ul>
+</li>
+</ul>
+<h2 id="hw0102"><a href="#hw0102" class="headerlink" title="hw0102"></a>hw0102</h2><ul>
+<li><p><a href="https://drive.google.com/drive/folders/1LcKDQpS1l9onXI8V7QE9H-OCE6NDZkzk?usp=share_link">測資和 hw0102.c 的 link</a></p>
+</li>
+<li><p><a href="https://github.com/KutsunaSubaRya/NTNU_TA_Computer_Programming_II/tree/main/hw0102">GitHub hw0102</a></p>
+</li>
+<li><p>測資分數分配</p>
+<ul>
+<li>sunny case: 12 pt<ul>
+<li>含一筆越界 position</li>
+</ul>
+</li>
+<li>other case: 8 pt</li>
+</ul>
+</li>
+<li><p>共 10 筆測資，每一筆兩分。</p>
+</li>
+<li><p>簡述</p>
+<ul>
+<li><code>generateTestcaseAndAns</code> folder 裡有用 python 寫的 generate testcase and answer 的程式，可以自行拿來檢測。</li>
+<li>sunny case 測資較小，長度約略 100，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;1~6&gt;.txt</code> 比對。</li>
+<li>other case 測資較大，長度約略 2e7，透過 mmap 吃進 file 中的 content，評測後將結果與 <code>ans&lt;7~10&gt;.txt</code> 比對。</li>
+<li>有使用 <code>sigsetjmp</code>、<code>signal</code> 偵測 segmentation fault 或 infinite loop 的情形產生，以不會測到一半被 terminate 而沒測到後續的功能。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>程式設計二助教</category>
+      </categories>
+      <tags>
+        <tag>2023</tag>
+        <tag>程式設計</tag>
+        <tag>助教</tag>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>2023 NTNU 程式設計(二) 助教批改解釋 - 作業二</title>
     <url>/2023/04/25/%5B2023%20NTNU%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E4%BA%8C%5D%20%E5%8A%A9%E6%95%99%E6%89%B9%E6%94%B9%E8%A7%A3%E9%87%8B%20-%20%E4%BD%9C%E6%A5%AD%E4%BA%8C/</url>
     <content><![CDATA[<h1 id="程設助教-judge-題目"><a href="#程設助教-judge-題目" class="headerlink" title="程設助教 judge 題目"></a>程設助教 judge 題目</h1><ul>
@@ -1216,6 +1216,112 @@ $ <span class="token function">git</span> log <span class="token parameter varia
         <tag>程式設計</tag>
         <tag>助教</tag>
         <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2024 NGJ 心得 音色 - 一款 visual novel + 視覺受限的闖關遊戲</title>
+    <url>/2024/06/06/%5B2024%20NGJ%20%E5%BF%83%E5%BE%97%5D%20%E9%9F%B3%E8%89%B2%20-%20%E4%B8%80%E6%AC%BE%20visual%20novel%20+%20%E8%A6%96%E8%A6%BA%E5%8F%97%E9%99%90%E7%9A%84%E9%97%96%E9%97%9C%E9%81%8A%E6%88%B2/</url>
+    <content><![CDATA[<h1 id="音色-一款-visual-novel-視覺受限的闖關遊戲"><a href="#音色-一款-visual-novel-視覺受限的闖關遊戲" class="headerlink" title="音色 - 一款 visual novel + 視覺受限的闖關遊戲"></a>音色 - 一款 visual novel + 視覺受限的闖關遊戲</h1><ul>
+<li>以下會提到：<ul>
+<li>時間線的概述</li>
+<li>心得</li>
+<li>Godot 一些有趣的點</li>
+<li>結論</li>
+</ul>
+</li>
+</ul>
+<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>2024 05&#x2F;17-19 (時間戳皆是 17:00) 是臺師大資工系學生舉辦的<a href="https://itch.io/jam/normal-game-jam-2024">第一屆 Normal Game Jam 比賽</a>。</p>
+<p><del>我不會說有一部分的大一的參賽者是為了程式設計二的期末 Bonus 而來參賽的。</del></p>
+<p>而且這時間鄰近期末，這比賽真的 high 到我一堆原本假日要寫的作業和要準備的面試都要順延。</p>
+<p>到了大四連遊戲引擎都沒玩過的 我, 政皓, 文政 組成一組參賽。</p>
+<p>以下為了輸入方便（笨笨輸入法）我定義一下稱呼：</p>
+<ul>
+<li>文政：Beck</li>
+<li>政皓：Hsujinho</li>
+</ul>
+<h2 id="參賽前一天"><a href="#參賽前一天" class="headerlink" title="參賽前一天"></a>參賽前一天</h2><p>Beck: 來找一下可能會使用到的引擎或 tool，看看有哪些可以套的就先去睡。</p>
+<p>我們找了一會兒，討論了一下可能會有的主題與對策 (我記得有討論跟沒討論是一樣的)，然後就去休息了。</p>
+<h2 id="參賽當天"><a href="#參賽當天" class="headerlink" title="參賽當天"></a>參賽當天</h2><h3 id="進賽場"><a href="#進賽場" class="headerlink" title="進賽場"></a>進賽場</h3><p>當天一個人報到即可，就…</p>
+<p><img src="/../../themes/yun/source/img/NGJ-1.jpg" loading="lazy"></p>
+<p>對，藍色 ICPC 衣服那個，我一個報到。</p>
+<p>主題是當天決定，匿名投票指定三個主題（官方有詳細解釋三個主題的內容與定義），最後由主辦單位從籤筒拿出一張作為此次比賽的主題。</p>
+<p>主題有三個：</p>
+<ol>
+<li>It’s not a bug, it’s a feature</li>
+<li>打破第四面牆</li>
+<li>視覺受限</li>
+</ol>
+<p>最後抽到 <strong>3. 視覺受限</strong>。</p>
+<p>官方有提供熬夜教室，第二天開始才提供點心、飲料，當然，他們說也可以回家做。</p>
+<p>然後，開始 48 小時 Game Jam !!!</p>
+<h3 id="回到家-Remain-47-hours"><a href="#回到家-Remain-47-hours" class="headerlink" title="回到家 - Remain 47 hours"></a>回到家 - Remain 47 hours</h3><p>我: 買個飯後來討論一下</p>
+<p>— 一段時間後 —</p>
+<p>Beck: 就 Godot 吧<br>Hsujinho: (進來語音討論)</p>
+<p>(開始一系列的討論做什麼為主題，直到 <a href="https://smallten.me/">Smallten</a> 電神出現)</p>
+<p>— 講述玩要做的給 Smallten —</p>
+<p>「視覺受限、闖關、類 RPG 操作套版，你們可以試試 <a href="https://www.rpgmakerweb.com/">RPG Maker</a> 然後魔改它。」</p>
+<h3 id="這裡先說明我們要做的需求與目標"><a href="#這裡先說明我們要做的需求與目標" class="headerlink" title="這裡先說明我們要做的需求與目標"></a>這裡先說明我們要做的需求與目標</h3><p>前情提要: 我記得 Beck 說他從寶可夢的 RPG 「獲得靈感」。</p>
+<blockquote>
+<p>一個益智遊戲，可以在 2D 地圖上與機關互動，找到下一關的門，進入下一層關卡，一個塔共六層，中間有可能會有物件導致玩家死亡並重生在當前關卡，或是掉到洞窟裡直達前 N 關的某一關(也就是掉回之前走過的某一關)，最後用黑色的 background 蓋上去，探知的呈現就像 Dark Echo 和 GTAV 手機找紅點訊號。</p>
+</blockquote>
+<p>— 使用一陣子 RPG Maker 後 —</p>
+<p>我：乾！我找不到要怎麼把這個血量條拿掉…乾！為什麼這裡有這個量條，找不到那裡可以拿掉…乾！怎麼一堆東西要拿掉，我們的需求沒這麼多…e04!…</p>
+<p>崩潰，三個多小時過去，0 進度。</p>
+<p>Beck: 沒事，這期間我看了 Godot 的 Doc 和操作了一下了。已經把地圖的 component 和 pixel 都拉好了。</p>
+<h3 id="Remain-44-hours-以扣除討論時間"><a href="#Remain-44-hours-以扣除討論時間" class="headerlink" title="Remain 44 hours (以扣除討論時間)"></a>Remain 44 hours (以扣除討論時間)</h3><p>Hsujinho：需要擬一下文本，我覺得我可以先說一下劇情的概要。</p>
+<p>（說明了一下劇情的概要後…）</p>
+<p>SubaRya: 我覺得我可以找一下 Visual Novel 的 Godot Plugin。</p>
+<p>（摸索了一段時間後…）</p>
+<h3 id="Remain-40-5-hours"><a href="#Remain-40-5-hours" class="headerlink" title="Remain 40.5 hours"></a>Remain 40.5 hours</h3><p>SubaRya: @Hsujinho, Plugin 找到了，用 <a href="https://github.com/dialogic-godot/dialogic">Dialogic</a>，基本操作方法和 Demo 都已經摸過了，而且接到 Godot 的 Api 我這裡也了解大概了，耦合性不高，你可以透過這個 timelime 的 dtl file 製作劇情，至於後續接 Api 我來處理即可。</p>
+<p>（開始教怎麼用 Dialogic）</p>
+<h3 id="Remain-39-5-hours"><a href="#Remain-39-5-hours" class="headerlink" title="Remain 39.5 hours"></a>Remain 39.5 hours</h3><p>（我記得沒錯第一天我們是說定好細項後我們就要休息，但我沒記錯過程中我們還是有在做事，但就不多。）</p>
+<p>(回想起來了，文政會連夜趕工，我去睡，我跟文政會輪流值班趕工。我賴床到早上 9 點才跟 Beck 交接。)</p>
+<p>我只知道過程中一直被舊版的 Godot 搞，原因是我們使用的是 Godot <code>4.2.2</code>，但我們這組組員（包含我）的習慣是觀摩實作再操作，因此過程中我們踩了不少 breaking change 的雷，畢竟網路上大多的教學不是停留在 version 3 不然就是 <code>&lt;= 4.1</code>，像是 on pressed event, on ready to call or calculate child node(s) infor 之類的語法或操作綁定方式都變了許多，只為了趕出成品的 hackathon 的我們而言這個時段是最痛苦的。</p>
+<h3 id="Remain-32-hours"><a href="#Remain-32-hours" class="headerlink" title="Remain 32 hours"></a>Remain 32 hours</h3><p>Beck: 我快弄完場景了。</p>
+<p>（於是他秀給我看目前他做的角色在 map 中上下左右、有 collision 的 state）</p>
+<p>（看起來整個遊戲的邏輯與遊玩切的很棒，交接完成，我開始做劇情串接、使用者 UI&#x2F;UX、串接遊戲本體、製作轉場畫面語互動、操作介紹）</p>
+<p>最後在去吃點心前做了一個雛形，但隱含一些 bug 和問題，這個部分我想屆時吃點心時跟組員討論解決。</p>
+<h3 id="Remain-23-hours"><a href="#Remain-23-hours" class="headerlink" title="Remain 23 hours"></a>Remain 23 hours</h3><p>（我們到系辦地下室會合準備吃官方給的點心）</p>
+<p>Beck, Hsujinho, 我陸續到地下室準備吃點心，接著跟學弟妹們聊天，過程中吃泡麵時段時還去每一組聽了他們的簡短介紹，在大致上了解大家要做和正在做的項目後，我們回去繼續吃點心 （咦</p>
+<p>就這樣來到了半夜時段，過程中當然進度也沒推進（嚴格上來講只有除掉一些 bug 和設計上的問題）。</p>
+<h3 id="Remain-17-15-hours"><a href="#Remain-17-15-hours" class="headerlink" title="Remain 17~15 hours"></a>Remain 17~15 hours</h3><p>洗完澡澡，一切就緒，繼續開工。</p>
+<p>來到了半夜（我們的主場）</p>
+<p>Beck: 完蛋，有問題沒辦法解決，討論一下。</p>
+<p>（當時我在準備聲波圖需要的素材，在跟 photoshop 打架）</p>
+<h3 id="Remain-lt-15-hours"><a href="#Remain-lt-15-hours" class="headerlink" title="Remain &lt; 15 hours"></a>Remain &lt; 15 hours</h3><p>（感覺到 Beck 要斷片了，但他說他已經做好第一關了）</p>
+<p>我還在跟 PS 打架，原本做好了同心圓的聲波，但還在想辦法切成四個方向的散形圖。</p>
+<p>但是在 Beck 徹底斷片前我們先討論我接下來要做的事項。</p>
+<pre class="line-numbers language-none"><code class="language-none">1. 4 張 rotation triangle
+2. 重新開始當關按鈕
+3. 顯示按鍵綁定
+4. 邏輯梳理
+5. 封面圖
+6. 過關圖<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然後我就把 PS 先丟一邊，等除了上述第一點以外的項目完成後再來處理。</p>
+<h3 id="Remain-12-hours"><a href="#Remain-12-hours" class="headerlink" title="Remain 12 hours"></a>Remain 12 hours</h3><p>實作到一半，我想到怎麼用魔術筆優雅的切圖了，趕緊實作。<br>此時看到 Beck 做到第四關了。</p>
+<h3 id="Remain-9-hours"><a href="#Remain-9-hours" class="headerlink" title="Remain 9 hours"></a>Remain 9 hours</h3><p>跟 event 和 劇本 打了一下架，將一些按鍵綁定調整了一下，順便將 Hsujinho 做好的文本從頭到尾梳理過並增加了一些轉折與生硬的部分。</p>
+<h3 id="Remain-5-hours"><a href="#Remain-5-hours" class="headerlink" title="Remain 5 hours"></a>Remain 5 hours</h3><p>看見 Beck 脫離斷片了，原因是他將地圖中可與角色互動的元件製作完成。</p>
+<h3 id="Remain-4-hours"><a href="#Remain-4-hours" class="headerlink" title="Remain 4 hours"></a>Remain 4 hours</h3><p>準備 merge 後測試並 release 第一版，但 collision 爛了，即時搶修。</p>
+<h3 id="Remain-lt-4-hours"><a href="#Remain-lt-4-hours" class="headerlink" title="Remain &lt; 4 hours"></a>Remain &lt; 4 hours</h3><p>花了一些時間搶修，但亂喇之下發現有些 stash 的東西不見了，HEAD 也在亂指，有些東西又花了點時間補回來。</p>
+<h3 id="Remain-2-hours"><a href="#Remain-2-hours" class="headerlink" title="Remain 2 hours"></a>Remain 2 hours</h3><p>全部 merge 並測試完成，準備打包後丟到官方指定的 <a href="https://itch.io/jam/normal-game-jam-2024"><code>itch.io</code></a> 繳交。</p>
+<p>但過程踩了一些雷，我們使用 Web 打包出來後發現 local 端居然有 CORS 之類的問題，但轉了一圈發現我們我們夠過 deploy 到 <a href="https://itch.io/jam/normal-game-jam-2024"><code>itch.io</code></a> 上他會解決這個問題。</p>
+<h3 id="Remain-1-hours"><a href="#Remain-1-hours" class="headerlink" title="Remain 1 hours"></a>Remain 1 hours</h3><p>測試後發現字體打包上去會出現亂碼，經過多次嘗試後，無論是外面打包或包含在內的字體打包上去後都會出問題，因此我們選擇打包成 <code>exe</code> 上傳。</p>
+<h3 id="截止"><a href="#截止" class="headerlink" title="截止"></a>截止</h3><p>我、Hsujinho、Beck 前往系辦地下室等待 demo 與頒獎</p>
+<p>過程中有多組前來試玩，我將其當作科展的 mode 做介紹、遊玩操作。</p>
+<h3 id="最後頒獎"><a href="#最後頒獎" class="headerlink" title="最後頒獎"></a>最後頒獎</h3><p>我們組的遊戲名叫「音色」，可以透過<a href="https://kutsunasubarya.itch.io/tone-color">這個連結觀看</a>並下載下來遊玩。</p>
+<p>我們拿了<a href="https://itch.io/jam/normal-game-jam-2024/results">第二名</a>，第一名的美術設計與完整度確實很高，我們的話… hehehe</p>
+<h3 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h3><p>Beck 說我們這次能得獎屬實意外，因為他對於這次的成果與過程封裝很不滿意</p>
+<p>至於我…, 我覺得 48 小時內我們其實新學了 GDScript、Godot 4.2.2、PS、甚至是摸索了一些套件來輔助完成這個專案，並且在三個人遊戲開發相關經歷為 0 的情況下可以在大部分時間都在學如何使用這些工具的情況下可以做出像樣的 MVP 屬實不簡單，而且是在 48 小時內完成，因此我透過以上說法與 48 小時內無法過多關注 耦合與內聚 的問題稍微說 Beck 的想法。精神打氣後這 48 小時的遊戲開發體驗就到此告一段落。下台一鞠躬。</p>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2024</tag>
+        <tag>Godot 4.2</tag>
+        <tag>Hackathon</tag>
+        <tag>Normal Game Jam</tag>
       </tags>
   </entry>
   <entry>
@@ -1988,6 +2094,46 @@ map<span class="token operator">&lt;</span><span class="token keyword">char</spa
       </tags>
   </entry>
   <entry>
+    <title>競程用模板</title>
+    <url>/2021/04/11/%5BLifeCP_template%5D%20%E7%AB%B6%E7%A8%8B%E7%94%A8%E6%A8%A1%E6%9D%BF(%E6%8C%81%E7%BA%8C%E6%9B%B4%E6%96%B0%E4%B8%AD)/</url>
+    <content><![CDATA[<h1 id="競程用模板-持續更新中"><a href="#競程用模板-持續更新中" class="headerlink" title="競程用模板 (持續更新中)"></a>競程用模板 (持續更新中)</h1><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span> <span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">region define<span class="token operator">/</span><span class="token keyword">typedef</span>   </span><span class="token comment">// for vs code only</span></span>
+<span class="token comment">/*-----define-----*/</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">jizz</span> <span class="token expression">ios_base<span class="token double-colon punctuation">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">ALL</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP1</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">SORT_UNIQUE</span><span class="token expression"><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">sort</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation">(</span><span class="token function">distance</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">unique</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">GET_POS</span><span class="token expression"><span class="token punctuation">(</span>c<span class="token punctuation">,</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">lower_bound</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>x<span class="token punctuation">)</span><span class="token operator">-</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">MS0</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token function">memset</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">maxE</span><span class="token expression"><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">max_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">minE</span><span class="token expression"><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">min_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">INF</span> <span class="token expression"><span class="token number">0x3f3f3f3f</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">NINF</span> <span class="token expression"><span class="token number">0xc0c0c0c0</span></span></span>
+<span class="token comment">/*-----typedef-----*/</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> LL<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span> PII<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> VI<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span>PII<span class="token operator">></span> VPII<span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">endregion   </span><span class="token comment">//for vs code only   </span></span>
+
+<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	<span class="token comment">//jizz;</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>Template</category>
+      </categories>
+      <tags>
+        <tag>2021</tag>
+        <tag>競程</tag>
+        <tag>算法</tag>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>For自己競程的解題紀錄</title>
     <url>/2020/12/01/%5BLifeCP_%E7%94%9F%E6%B4%BB%E7%AB%B6%E7%A8%8B%5D%20For%E8%87%AA%E5%B7%B1%E7%AB%B6%E7%A8%8B%E7%9A%84%E8%A7%A3%E9%A1%8C%E7%B4%80%E9%8C%84/</url>
     <content><![CDATA[<h1 id="紀錄大學競程隊伍我所負責解題的領域（字串-序列-一些雜題）"><a href="#紀錄大學競程隊伍我所負責解題的領域（字串-序列-一些雜題）" class="headerlink" title="紀錄大學競程隊伍我所負責解題的領域（字串,序列,一些雜題）"></a>紀錄大學競程隊伍我所負責解題的領域（字串,序列,一些雜題）</h1><p>隊伍網站: <a href="https://ntnu-import-magic.github.io/">Link</a></p>
@@ -2089,49 +2235,9 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
       <tags>
         <tag>2020</tag>
         <tag>競程</tag>
+        <tag>算法</tag>
         <tag>Failure Function</tag>
         <tag>KMP</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>競程用模板</title>
-    <url>/2021/04/11/%5BLifeCP_template%5D%20%E7%AB%B6%E7%A8%8B%E7%94%A8%E6%A8%A1%E6%9D%BF(%E6%8C%81%E7%BA%8C%E6%9B%B4%E6%96%B0%E4%B8%AD)/</url>
-    <content><![CDATA[<h1 id="競程用模板-持續更新中"><a href="#競程用模板-持續更新中" class="headerlink" title="競程用模板 (持續更新中)"></a>競程用模板 (持續更新中)</h1><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span> <span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">region define<span class="token operator">/</span><span class="token keyword">typedef</span>   </span><span class="token comment">// for vs code only</span></span>
-<span class="token comment">/*-----define-----*/</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">jizz</span> <span class="token expression">ios_base<span class="token double-colon punctuation">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">,</span>cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">ALL</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REP1</span><span class="token expression"><span class="token punctuation">(</span>I<span class="token punctuation">,</span>N<span class="token punctuation">,</span>M<span class="token punctuation">)</span> <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> I<span class="token operator">=</span><span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">&lt;</span><span class="token punctuation">(</span>M<span class="token punctuation">)</span><span class="token punctuation">;</span>I<span class="token operator">++</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">SORT_UNIQUE</span><span class="token expression"><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">sort</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">resize</span><span class="token punctuation">(</span><span class="token function">distance</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">unique</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">GET_POS</span><span class="token expression"><span class="token punctuation">(</span>c<span class="token punctuation">,</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token function">lower_bound</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> c<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>x<span class="token punctuation">)</span><span class="token operator">-</span>c<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">MS0</span><span class="token expression"><span class="token punctuation">(</span>X<span class="token punctuation">)</span> <span class="token function">memset</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">maxE</span><span class="token expression"><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">max_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">minE</span><span class="token expression"><span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span><span class="token function">min_element</span><span class="token punctuation">(</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">INF</span> <span class="token expression"><span class="token number">0x3f3f3f3f</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">NINF</span> <span class="token expression"><span class="token number">0xc0c0c0c0</span></span></span>
-<span class="token comment">/*-----typedef-----*/</span>
-<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> LL<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span> PII<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> VI<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> vector<span class="token operator">&lt;</span>PII<span class="token operator">></span> VPII<span class="token punctuation">;</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">endregion   </span><span class="token comment">//for vs code only   </span></span>
-
-<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-	<span class="token comment">//jizz;</span>
-	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>Template</category>
-      </categories>
-      <tags>
-        <tag>2021</tag>
-        <tag>競程</tag>
-        <tag>算法</tag>
-        <tag>C++</tag>
       </tags>
   </entry>
   <entry>

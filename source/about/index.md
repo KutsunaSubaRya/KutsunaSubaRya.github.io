@@ -30,6 +30,9 @@ email：subarya@subarya.me
 * 2017 年國際運算思維挑戰賽 (九、十年級組) PR99 (300/300)
 * 2015 網際網路程式設計全國大賽 (NPSC) (決賽優勝)
 
+## 實習
+* 2024 07-now [Leju Company](https://www.leju.com.tw/) R&D Engineering Department Intern
+
 ## 就學歷程
 * 國立臺灣師範大學 資訊工程學系 (APCS 組 1/3 錄取)
 * 新北市私立時雨高中

@@ -2241,6 +2241,82 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
       </tags>
   </entry>
   <entry>
+    <title>NTHU 10322 PC 費式數列與矩陣快速冪</title>
+    <url>/2019/02/21/%5BNTHU%5D10322%20PC%20%E8%B2%BB%E5%BC%8F%E6%95%B8%E5%88%97%E8%88%87%E7%9F%A9%E9%99%A3%E5%BF%AB%E9%80%9F%E5%86%AA/</url>
+    <content><![CDATA[<p>題目連結:<a href="https://acm.cs.nthu.edu.tw/problem/10322/">https://acm.cs.nthu.edu.tw/problem/10322/</a></p>
+<p>一題矩陣快速冪裸題(題目就表明(?)</p>
+<p>當然是好好地把矩陣的乘法定義定好，注意一些0&#x2F;1擺放的細節，把其套上快速冪的模板，就大功告成了。&gt;&lt;</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span><span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">int</span> <span class="token expression"><span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token keyword">int</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">jizz</span> <span class="token expression">ios_base<span class="token double-colon punctuation">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cout<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">pb</span> <span class="token expression">push_back</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">po</span> <span class="token expression">pop_back<span class="token punctuation">;</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">F</span> <span class="token expression">first</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">S</span> <span class="token expression">second</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CN</span> <span class="token expression">cout<span class="token operator">&lt;&lt;</span></span><span class="token string">"\n"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">m</span> <span class="token expression"><span class="token number">100000007</span></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> array<span class="token operator">&lt;</span>array<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span> Matrix<span class="token punctuation">;</span>
+Matrix <span class="token keyword">operator</span><span class="token operator">*</span><span class="token punctuation">(</span>Matrix A <span class="token punctuation">,</span> Matrix B<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Matrix C<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>k<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span>
+                C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">(</span>C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">+</span><span class="token punctuation">(</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">*</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> C<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+Matrix <span class="token function">power</span><span class="token punctuation">(</span>Matrix A<span class="token punctuation">,</span><span class="token keyword">int</span> n<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    Matrix ans<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&amp;</span><span class="token number">1</span><span class="token punctuation">)</span>
+            ans<span class="token operator">=</span>ans<span class="token operator">*</span>A<span class="token punctuation">;</span>
+        n<span class="token operator">>>=</span><span class="token number">1</span><span class="token punctuation">;</span>
+        A<span class="token operator">=</span>A<span class="token operator">*</span>A<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    jizz<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> num<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>cin <span class="token operator">>></span> num <span class="token operator">||</span> num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span> 
+        <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token number">0</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">&#123;</span>
+            Matrix A<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+            Matrix C<span class="token operator">=</span><span class="token function">power</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span>num<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cout <span class="token operator">&lt;&lt;</span> C<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>演算法</category>
+      </categories>
+      <tags>
+        <tag>2019</tag>
+        <tag>NTHU</tag>
+        <tag>矩陣快速冪</tag>
+        <tag>數論</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ACM String 中 STL 的基本應用</title>
     <url>/2021/08/17/%5BLifeCP_%E7%94%9F%E6%B4%BB%E7%AB%B6%E7%A8%8B%5D%20%E3%80%91String%20STL%20%E7%AF%87/</url>
     <content><![CDATA[<p>參考文章：<a href="https://blog.csdn.net/weixin_43093481/article/details/82318377">這篇</a></p>
@@ -2339,82 +2415,6 @@ s2<span class="token punctuation">.</span><span class="token function">erase</sp
         <tag>競程</tag>
         <tag>Standard Template Library</tag>
         <tag>模板</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NTHU 10322 PC 費式數列與矩陣快速冪</title>
-    <url>/2019/02/21/%5BNTHU%5D10322%20PC%20%E8%B2%BB%E5%BC%8F%E6%95%B8%E5%88%97%E8%88%87%E7%9F%A9%E9%99%A3%E5%BF%AB%E9%80%9F%E5%86%AA/</url>
-    <content><![CDATA[<p>題目連結:<a href="https://acm.cs.nthu.edu.tw/problem/10322/">https://acm.cs.nthu.edu.tw/problem/10322/</a></p>
-<p>一題矩陣快速冪裸題(題目就表明(?)</p>
-<p>當然是好好地把矩陣的乘法定義定好，注意一些0&#x2F;1擺放的細節，把其套上快速冪的模板，就大功告成了。&gt;&lt;</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">GCC <span class="token function">optimize</span><span class="token punctuation">(</span></span><span class="token string">"O2"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;bits/stdc++.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">int</span> <span class="token expression"><span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token keyword">int</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">jizz</span> <span class="token expression">ios_base<span class="token double-colon punctuation">::</span><span class="token function">sync_with_stdio</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cin<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">,</span> cout<span class="token punctuation">.</span><span class="token function">tie</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">pb</span> <span class="token expression">push_back</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">po</span> <span class="token expression">pop_back<span class="token punctuation">;</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">F</span> <span class="token expression">first</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">S</span> <span class="token expression">second</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">CN</span> <span class="token expression">cout<span class="token operator">&lt;&lt;</span></span><span class="token string">"\n"</span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">m</span> <span class="token expression"><span class="token number">100000007</span></span></span>
-<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> array<span class="token operator">&lt;</span>array<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span> Matrix<span class="token punctuation">;</span>
-Matrix <span class="token keyword">operator</span><span class="token operator">*</span><span class="token punctuation">(</span>Matrix A <span class="token punctuation">,</span> Matrix B<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    Matrix C<span class="token punctuation">;</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>k<span class="token operator">&lt;</span><span class="token number">2</span><span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span>
-                C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">(</span>C<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">+</span><span class="token punctuation">(</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token operator">*</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">)</span><span class="token operator">%</span>m<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> C<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-Matrix <span class="token function">power</span><span class="token punctuation">(</span>Matrix A<span class="token punctuation">,</span><span class="token keyword">int</span> n<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    Matrix ans<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&amp;</span><span class="token number">1</span><span class="token punctuation">)</span>
-            ans<span class="token operator">=</span>ans<span class="token operator">*</span>A<span class="token punctuation">;</span>
-        n<span class="token operator">>>=</span><span class="token number">1</span><span class="token punctuation">;</span>
-        A<span class="token operator">=</span>A<span class="token operator">*</span>A<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token keyword">signed</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    jizz<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> num<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span>cin <span class="token operator">>></span> num <span class="token operator">||</span> num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#123;</span> 
-        <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
-        <span class="token punctuation">&#123;</span>
-            cout <span class="token operator">&lt;&lt;</span> <span class="token number">0</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
-            <span class="token keyword">continue</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>num<span class="token operator">==</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
-            <span class="token keyword">break</span><span class="token punctuation">;</span>
-        <span class="token keyword">else</span>
-        <span class="token punctuation">&#123;</span>
-            Matrix A<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-            Matrix C<span class="token operator">=</span><span class="token function">power</span><span class="token punctuation">(</span>A<span class="token punctuation">,</span>num<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            cout <span class="token operator">&lt;&lt;</span> C<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>演算法</category>
-      </categories>
-      <tags>
-        <tag>2019</tag>
-        <tag>NTHU</tag>
-        <tag>矩陣快速冪</tag>
-        <tag>數論</tag>
       </tags>
   </entry>
   <entry>
@@ -3021,6 +3021,182 @@ node <span class="token function">query</span><span class="token punctuation">(<
         <tag>2018</tag>
         <tag>線段樹</tag>
         <tag>SPOJ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>自定義 Overleaf</title>
+    <url>/2022/06/23/%5BStylus%5D%20Overleaf%20Theme%20%E8%87%AA%E5%AE%9A%E7%BE%A9/</url>
+    <content><![CDATA[<p>參考自: <a href="https://userstyles.org/styles/183490/dark-overleaf">這裡</a></p>
+<p>先放上成品:</p>
+<p><img src="https://i.imgur.com/KggqBu6.png" loading="lazy"></p>
+<p><img src="https://i.imgur.com/tLtnmNU.png" loading="lazy"></p>
+<h2 id="修改-Editor"><a href="#修改-Editor" class="headerlink" title="修改 Editor"></a>修改 Editor</h2><h3 id="Dark-Mode"><a href="#Dark-Mode" class="headerlink" title="Dark Mode"></a>Dark Mode</h3><p>由於從 <a href="https://userstyles.org/">Stylish</a> 上載下來的 CSS 是有瑕疵的，仔細觀察會發現左邊 Editor 的 Theme 沒有被修改成 Dark Mode。</p>
+<p>利用 <code>filter invert</code> 負片(補色)效果將 Editor 變成 Dark Mode</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">#editor</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Editor-加上-Background-Image"><a href="#Editor-加上-Background-Image" class="headerlink" title="Editor 加上 Background Image"></a>Editor 加上 Background Image</h3><p><del>渴望油油嗎</del> OwO</p>
+<p>此時將 background 加上後會發生背景圖片也被 invert 了 !!!</p>
+<p>因此 invert 回來。</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_scroller</span> <span class="token punctuation">&#123;</span>
+	<span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>https://i.imgur.com/6OR1oUa.jpg<span class="token punctuation">)</span></span> no-repeat<span class="token punctuation">;</span>
+	<span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="將-Layer-層的-Text-Invert-回來"><a href="#將-Layer-層的-Text-Invert-回來" class="headerlink" title="將 Layer 層的 Text Invert 回來"></a>將 Layer 層的 Text Invert 回來</h3><p>你會發現增加 background 後加上 invert 會導致文字層也被補色，因此針對文字層做 invert。</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_layer</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="左側行號顏色改變"><a href="#左側行號顏色改變" class="headerlink" title="左側行號顏色改變"></a>左側行號顏色改變</h3><p>做到這了，你是否發現左邊行號顏色十分的淡?</p>
+<p>那就針對他改顏色。</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_gutter-cell</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #FFFFFF<span class="token punctuation">;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span> 0.9<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">.ace_gutter-cell:hover</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #f0ff00<span class="token punctuation">;</span>
+    <span class="token property">opacity</span><span class="token punctuation">:</span> 0.5<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="附上完成的-Theme-css"><a href="#附上完成的-Theme-css" class="headerlink" title="附上完成的 Theme.css"></a>附上完成的 Theme.css</h2><p>針對一些顏色與透明度的細節調整就大功告成了 !!!</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token atrule"><span class="token rule">@-moz-document</span> <span class="token function">url-prefix</span><span class="token punctuation">(</span><span class="token string">"https://www.overleaf.com/"</span><span class="token punctuation">)</span></span>
+<span class="token punctuation">&#123;</span>
+    <span class="token selector">.pdf</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.pdfjs-viewer</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.89<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.pdf-viewer .pdfjs-viewer canvas</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 0 10px <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>.5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu a</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #138a07<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu a:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #138a07 <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls label</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #999 <span class="token important">!important</span>   
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #999 <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #138a07 <span class="token important">!important</span><span class="token punctuation">;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls:hover select:focus</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #EC75F8<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls:hover select</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls select:focus</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #EC75F8<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#left-menu .form-controls select option</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.site-footer *</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #222 <span class="token important">!important</span><span class="token punctuation">;</span>
+        <span class="token property">border-top-color</span><span class="token punctuation">:</span> #1A1A1A <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #222<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-main</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.card</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #222<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">tr.project-list-table-row:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #333<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.content</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.loading-screen</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-name, .project-list-table-name-link</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-name-link:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-name-link:focus</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">brightness</span><span class="token punctuation">(</span>0.8<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-actions-cell div button</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC <span class="token important">!important</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.project-list-table-actions-cell div button:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">brightness</span><span class="token punctuation">(</span>0.8<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">element.style</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">font-size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
+        <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"Lucida Console"</span><span class="token punctuation">,</span> <span class="token string">"Source Code Pro"</span><span class="token punctuation">,</span> monospace<span class="token punctuation">;</span>
+        <span class="token property">line-height</span><span class="token punctuation">:</span> 1.6<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">#editor</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace-editor-wrapper .ace-editor-body</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_scroller</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>https://i.imgur.com/6OR1oUa.jpg<span class="token punctuation">)</span></span> no-repeat<span class="token punctuation">;</span>
+        <span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_gutter-cell</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #FFFFFF<span class="token punctuation">;</span>
+        <span class="token property">opacity</span><span class="token punctuation">:</span> 0.9<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_gutter-cell:hover</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">color</span><span class="token punctuation">:</span> #f0ff00<span class="token punctuation">;</span>
+        <span class="token property">opacity</span><span class="token punctuation">:</span> 0.5<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_layer</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token selector">.ace_editor</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+        <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+        <span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+        <span class="token property">font</span><span class="token punctuation">:</span> 12px/normal <span class="token string">'Monaco'</span><span class="token punctuation">,</span> <span class="token string">'Menlo'</span><span class="token punctuation">,</span> <span class="token string">'Ubuntu Mono'</span><span class="token punctuation">,</span> <span class="token string">'Consolas'</span><span class="token punctuation">,</span> <span class="token string">'source-code-pro'</span><span class="token punctuation">,</span> monospace<span class="token punctuation">;</span>
+        <span class="token property">direction</span><span class="token punctuation">:</span> ltr<span class="token punctuation">;</span>
+        <span class="token property">text-align</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+        <span class="token property">-webkit-tap-highlight-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>Plugin Template</category>
+      </categories>
+      <tags>
+        <tag>2022</tag>
+        <tag>CSS</tag>
+        <tag>Stylus</tag>
       </tags>
   </entry>
   <entry>
@@ -4085,182 +4261,6 @@ node <span class="token function">query</span><span class="token punctuation">(<
       </tags>
   </entry>
   <entry>
-    <title>自定義 Overleaf</title>
-    <url>/2022/06/23/%5BStylus%5D%20Overleaf%20Theme%20%E8%87%AA%E5%AE%9A%E7%BE%A9/</url>
-    <content><![CDATA[<p>參考自: <a href="https://userstyles.org/styles/183490/dark-overleaf">這裡</a></p>
-<p>先放上成品:</p>
-<p><img src="https://i.imgur.com/KggqBu6.png" loading="lazy"></p>
-<p><img src="https://i.imgur.com/tLtnmNU.png" loading="lazy"></p>
-<h2 id="修改-Editor"><a href="#修改-Editor" class="headerlink" title="修改 Editor"></a>修改 Editor</h2><h3 id="Dark-Mode"><a href="#Dark-Mode" class="headerlink" title="Dark Mode"></a>Dark Mode</h3><p>由於從 <a href="https://userstyles.org/">Stylish</a> 上載下來的 CSS 是有瑕疵的，仔細觀察會發現左邊 Editor 的 Theme 沒有被修改成 Dark Mode。</p>
-<p>利用 <code>filter invert</code> 負片(補色)效果將 Editor 變成 Dark Mode</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">#editor</span> <span class="token punctuation">&#123;</span>
-    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="Editor-加上-Background-Image"><a href="#Editor-加上-Background-Image" class="headerlink" title="Editor 加上 Background Image"></a>Editor 加上 Background Image</h3><p><del>渴望油油嗎</del> OwO</p>
-<p>此時將 background 加上後會發生背景圖片也被 invert 了 !!!</p>
-<p>因此 invert 回來。</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_scroller</span> <span class="token punctuation">&#123;</span>
-	<span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>https://i.imgur.com/6OR1oUa.jpg<span class="token punctuation">)</span></span> no-repeat<span class="token punctuation">;</span>
-	<span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
-    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="將-Layer-層的-Text-Invert-回來"><a href="#將-Layer-層的-Text-Invert-回來" class="headerlink" title="將 Layer 層的 Text Invert 回來"></a>將 Layer 層的 Text Invert 回來</h3><p>你會發現增加 background 後加上 invert 會導致文字層也被補色，因此針對文字層做 invert。</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_layer</span> <span class="token punctuation">&#123;</span>
-    <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="左側行號顏色改變"><a href="#左側行號顏色改變" class="headerlink" title="左側行號顏色改變"></a>左側行號顏色改變</h3><p>做到這了，你是否發現左邊行號顏色十分的淡?</p>
-<p>那就針對他改顏色。</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.ace_gutter-cell</span> <span class="token punctuation">&#123;</span>
-    <span class="token property">color</span><span class="token punctuation">:</span> #FFFFFF<span class="token punctuation">;</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> 0.9<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token selector">.ace_gutter-cell:hover</span> <span class="token punctuation">&#123;</span>
-    <span class="token property">color</span><span class="token punctuation">:</span> #f0ff00<span class="token punctuation">;</span>
-    <span class="token property">opacity</span><span class="token punctuation">:</span> 0.5<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="附上完成的-Theme-css"><a href="#附上完成的-Theme-css" class="headerlink" title="附上完成的 Theme.css"></a>附上完成的 Theme.css</h2><p>針對一些顏色與透明度的細節調整就大功告成了 !!!</p>
-<pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token atrule"><span class="token rule">@-moz-document</span> <span class="token function">url-prefix</span><span class="token punctuation">(</span><span class="token string">"https://www.overleaf.com/"</span><span class="token punctuation">)</span></span>
-<span class="token punctuation">&#123;</span>
-    <span class="token selector">.pdf</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.pdfjs-viewer</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.89<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.pdf-viewer .pdfjs-viewer canvas</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 0 10px <span class="token function">rgba</span><span class="token punctuation">(</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>255<span class="token punctuation">,</span>.5<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu a</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #138a07<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu a:hover</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #138a07 <span class="token important">!important</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu .form-controls label</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #999 <span class="token important">!important</span>   
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu .form-controls</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #999 <span class="token important">!important</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu .form-controls:hover</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #138a07 <span class="token important">!important</span><span class="token punctuation">;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu .form-controls:hover select:focus</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">outline-color</span><span class="token punctuation">:</span> #EC75F8<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu .form-controls:hover select</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.95<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu .form-controls select:focus</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>0.05<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">outline-color</span><span class="token punctuation">:</span> #EC75F8<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#left-menu .form-controls select option</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.site-footer *</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #222 <span class="token important">!important</span><span class="token punctuation">;</span>
-        <span class="token property">border-top-color</span><span class="token punctuation">:</span> #1A1A1A <span class="token important">!important</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-table</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #222<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-main</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.card</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #222<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-table</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">tr.project-list-table-row:hover</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #333<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.content</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.loading-screen</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background-color</span><span class="token punctuation">:</span> #151515<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-table-name, .project-list-table-name-link</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-table-name-link:hover</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-table-name-link:focus</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">brightness</span><span class="token punctuation">(</span>0.8<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">outline-color</span><span class="token punctuation">:</span> #E3F7FC<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-table-actions-cell div button</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #E3F7FC <span class="token important">!important</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.project-list-table-actions-cell div button:hover</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">brightness</span><span class="token punctuation">(</span>0.8<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">element.style</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">font-size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
-        <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"Lucida Console"</span><span class="token punctuation">,</span> <span class="token string">"Source Code Pro"</span><span class="token punctuation">,</span> monospace<span class="token punctuation">;</span>
-        <span class="token property">line-height</span><span class="token punctuation">:</span> 1.6<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">#editor</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.ace-editor-wrapper .ace-editor-body</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.ace_scroller</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span><span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0<span class="token punctuation">,</span>0.7<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>https://i.imgur.com/6OR1oUa.jpg<span class="token punctuation">)</span></span> no-repeat<span class="token punctuation">;</span>
-        <span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.ace_gutter-cell</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #FFFFFF<span class="token punctuation">;</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span> 0.9<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.ace_gutter-cell:hover</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">color</span><span class="token punctuation">:</span> #f0ff00<span class="token punctuation">;</span>
-        <span class="token property">opacity</span><span class="token punctuation">:</span> 0.5<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.ace_layer</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">filter</span><span class="token punctuation">:</span> <span class="token function">invert</span><span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token selector">.ace_editor</span> <span class="token punctuation">&#123;</span>
-        <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
-        <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
-        <span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
-        <span class="token property">font</span><span class="token punctuation">:</span> 12px/normal <span class="token string">'Monaco'</span><span class="token punctuation">,</span> <span class="token string">'Menlo'</span><span class="token punctuation">,</span> <span class="token string">'Ubuntu Mono'</span><span class="token punctuation">,</span> <span class="token string">'Consolas'</span><span class="token punctuation">,</span> <span class="token string">'source-code-pro'</span><span class="token punctuation">,</span> monospace<span class="token punctuation">;</span>
-        <span class="token property">direction</span><span class="token punctuation">:</span> ltr<span class="token punctuation">;</span>
-        <span class="token property">text-align</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
-        <span class="token property">-webkit-tap-highlight-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>Plugin Template</category>
-      </categories>
-      <tags>
-        <tag>2022</tag>
-        <tag>CSS</tag>
-        <tag>Stylus</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TIOJ 1410. Comiket</title>
     <url>/2018/12/22/%5BTIOJ%5D%201410.%20Comiket/</url>
     <content><![CDATA[<p>題目來源：<a href="https://tioj.ck.tp.edu.tw/problems/1410">https://tioj.ck.tp.edu.tw/problems/1410</a><br>我的想法很直觀，就是用array儲存入和出的人(記得出的時間點也算，所以要加1)，然後掃過去紀錄時間軸的max值。</p>
@@ -4490,6 +4490,69 @@ $ <span class="token function">sudo</span> <span class="token function">vim</spa
       </tags>
   </entry>
   <entry>
+    <title>調 Ubuntu 20.04 時採的坑</title>
+    <url>/2021/10/18/%5BUbuntu%2020.04%5D%20%E8%AA%BF%20Ubuntu%2020.04%20%E6%99%82%E6%8E%A1%E7%9A%84%E5%9D%91/</url>
+    <content><![CDATA[<h2 id="Dash-to-Dock-Can’t-make-and-make-install"><a href="#Dash-to-Dock-Can’t-make-and-make-install" class="headerlink" title="Dash to Dock Can’t make and make install"></a>Dash to Dock Can’t <code>make</code> and <code>make install</code></h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> sassc
+$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> gettext<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Dash-to-Dock-Somthing’s-gone-wrong"><a href="#Dash-to-Dock-Somthing’s-gone-wrong" class="headerlink" title="Dash to Dock : Somthing’s gone wrong"></a>Dash to Dock : Somthing’s gone wrong</h2><p>According to this link <a href="https://github.com/micheleg/dash-to-dock/issues/1445">Github issue : Unable to use the extension #1445</a><br>We know that Dash to Dock doesn’t support Gnome 40 yet.<br>And Tuxman2 said that,</p>
+<blockquote>
+<p>Note: I took the Dash to dock extension from here: <a href="https://github.com/ewlsh/dash-to-dock/tree/ewlsh/gnome-40">https://github.com/ewlsh/dash-to-dock/tree/ewlsh/gnome-40</a><br>That version works with Gnome 40. Of course, it is not perfect yet (some bugs) but it does the job.</p>
+</blockquote>
+<blockquote>
+<p>@Sidpatchy: <strong>Dash to Dock extension works with Gnome 40 but you must take the version from Ewlsh and not from Micheleg.</strong></p>
+</blockquote>
+<h2 id="Cannot-turn-on-Tweak-User-Themes-and-Shell-button-locked"><a href="#Cannot-turn-on-Tweak-User-Themes-and-Shell-button-locked" class="headerlink" title="Cannot turn on Tweak User Themes and Shell button locked"></a>Cannot turn on Tweak User Themes and Shell button locked</h2><p>The first problem is the <code>Tweak &gt; Appearance &gt; Shell (Locked by the triangle mark) </code><br><strong>Solution</strong> : Go to <code>Tweak &gt; Extension &gt; (Turn on) User Themes</code><br>The second problem is “After I turn on the User Themes, it will turn of by itself.”.<br>Hence, refer to this <a href="https://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/">https://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/</a><br>Open terminal (Ctrl + Alt + T)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> chrome-gnome-shell<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>go to <a href="https://extensions.gnome.org/extension/19/user-themes/">https://extensions.gnome.org/extension/19/user-themes/</a> and turn on the button.</p>
+<h2 id="What-is-sudo-nautilus"><a href="#What-is-sudo-nautilus" class="headerlink" title="What is sudo nautilus"></a>What is <code>sudo nautilus</code></h2><p>Nautilus is a file manager in Ubuntu.<br>When you type the command <code>sudo nautilus</code> , you are entering the file manager as a root.</p>
+<h2 id="VSCode-transparent"><a href="#VSCode-transparent" class="headerlink" title="VSCode transparent"></a>VSCode transparent</h2><h3 id="Devilspie"><a href="#Devilspie" class="headerlink" title="Devilspie"></a>Devilspie</h3><p>參考資料：<a href="https://www.youtube.com/watch?v=PzObHq72Vug&t=301s&ab_channel=ThatDevOpsGuy">這裡</a><br>以下程式碼複製貼上至 Terminal</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> devilspie
+$ <span class="token function">mkdir</span> <span class="token parameter variable">-p</span> ~/.devilspie
+$ <span class="token builtin class-name">echo</span> <span class="token string">'
+(if (contains (window_class) "Code")
+	(begin
+		(spawn_async (str "xprop -id " (window_xid) " -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 "))
+		(spawn_async (str "xprop -id " (window_xid) " -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0xD8000000"))
+	)
+)
+'</span> <span class="token operator">></span> ~/.devilspie/vscode_transparent.ds<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用前前往 Terminal</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ devilspie<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>就可以啟動了</p>
+<h3 id="Auto-Start-Devilspie"><a href="#Auto-Start-Devilspie" class="headerlink" title="Auto Start Devilspie"></a>Auto Start Devilspie</h3><p><code>vim ~/.config/autostart/devilspie.desktop</code></p>
+<pre class="line-numbers language-none"><code class="language-none">[Desktop Entry]
+Name&#x3D;&quot;devilspie&quot;
+GenericName&#x3D;&quot;devilspie&quot;
+Comment&#x3D;&quot;is this necesery?&quot;
+Exec&#x3D;&#x2F;usr&#x2F;bin&#x2F;devilspie
+Terminal&#x3D;false
+Type&#x3D;Application
+X-Gnome-Autostart&#x3D;true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>:wq</code> 就完成了</p>
+<h2 id="Ubuntu-20-04-Lock-screen-background-cannot-change"><a href="#Ubuntu-20-04-Lock-screen-background-cannot-change" class="headerlink" title="Ubuntu 20.04 Lock screen background cannot change"></a>Ubuntu 20.04 Lock screen background cannot change</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> libglib2.0-dev-bin
+$ <span class="token function">git</span> clone https://github.com/thiggy01/change-gdm-background.git
+$ <span class="token function">chmod</span> +x change-gdm-background
+$ <span class="token builtin class-name">cd</span> change-gdm-background
+$ <span class="token function">sudo</span> ./change-gdm-background <span class="token punctuation">[</span>your image path<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>Line 5 <strong>[ your image path ]</strong> : 可以用 <code>sudo nautilus</code> 進去 <code>/usr/share/backgrounds</code> 把你想要更換的桌布放進去。</li>
+</ul>
+<p>詳細的可以參考以下這兩篇</p>
+<ul>
+<li><a href="https://www.linuxmadesimple.info/2020/08/how-to-change-login-picture-in-ubuntu.html">How to change the login picture in Ubuntu 20.04</a></li>
+<li><a href="https://www.youtube.com/watch?v=KY6uB3lUT8s&ab_channel=linuxmadesimple">How to change the login picture in Ubuntu 20.04 (Youtube)</a></li>
+</ul>
+<h2 id="雜項"><a href="#雜項" class="headerlink" title="雜項"></a>雜項</h2><h3 id="Vimrc-配置"><a href="#Vimrc-配置" class="headerlink" title="Vimrc 配置"></a>Vimrc 配置</h3><p>我是參考 <a href="https://blog.smallten.tk/">余原齊</a> 電神的文章 <a href="https://hackmd.io/@Adam7066/SJ5ERzgHv">Use Vim as IDE</a></p>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2021</tag>
+        <tag>Ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>踩 CORS 坑心得 - 從公司的新專案中遇到 CORS 到一步一步解決的心得分享</title>
     <url>/2024/09/10/%5B%E8%B8%A9%20CORS%20%E5%9D%91%E5%BF%83%E5%BE%97%5D%20%E5%BE%9E%E5%85%AC%E5%8F%B8%E7%9A%84%E6%96%B0%E5%B0%88%E6%A1%88%E4%B8%AD%E9%81%87%E5%88%B0%20CORS%20%E5%88%B0%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E8%A7%A3%E6%B1%BA%E7%9A%84%E5%BF%83%E5%BE%97%E5%88%86%E4%BA%AB/</url>
     <content><![CDATA[<h1 id="專案中-CORS-踩坑紀錄"><a href="#專案中-CORS-踩坑紀錄" class="headerlink" title="專案中 CORS 踩坑紀錄"></a>專案中 CORS 踩坑紀錄</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>這是我在公司中新開專案時踩到 CORS 的坑，希望對未來健忘的我或是看到這篇文章的你有所幫助。</p>
@@ -4603,69 +4666,6 @@ $ <span class="token function">sudo</span> <span class="token function">vim</spa
         <tag>2024</tag>
         <tag>CORS</tag>
         <tag>實習</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>調 Ubuntu 20.04 時採的坑</title>
-    <url>/2021/10/18/%5BUbuntu%2020.04%5D%20%E8%AA%BF%20Ubuntu%2020.04%20%E6%99%82%E6%8E%A1%E7%9A%84%E5%9D%91/</url>
-    <content><![CDATA[<h2 id="Dash-to-Dock-Can’t-make-and-make-install"><a href="#Dash-to-Dock-Can’t-make-and-make-install" class="headerlink" title="Dash to Dock Can’t make and make install"></a>Dash to Dock Can’t <code>make</code> and <code>make install</code></h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> sassc
-$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> gettext<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h2 id="Dash-to-Dock-Somthing’s-gone-wrong"><a href="#Dash-to-Dock-Somthing’s-gone-wrong" class="headerlink" title="Dash to Dock : Somthing’s gone wrong"></a>Dash to Dock : Somthing’s gone wrong</h2><p>According to this link <a href="https://github.com/micheleg/dash-to-dock/issues/1445">Github issue : Unable to use the extension #1445</a><br>We know that Dash to Dock doesn’t support Gnome 40 yet.<br>And Tuxman2 said that,</p>
-<blockquote>
-<p>Note: I took the Dash to dock extension from here: <a href="https://github.com/ewlsh/dash-to-dock/tree/ewlsh/gnome-40">https://github.com/ewlsh/dash-to-dock/tree/ewlsh/gnome-40</a><br>That version works with Gnome 40. Of course, it is not perfect yet (some bugs) but it does the job.</p>
-</blockquote>
-<blockquote>
-<p>@Sidpatchy: <strong>Dash to Dock extension works with Gnome 40 but you must take the version from Ewlsh and not from Micheleg.</strong></p>
-</blockquote>
-<h2 id="Cannot-turn-on-Tweak-User-Themes-and-Shell-button-locked"><a href="#Cannot-turn-on-Tweak-User-Themes-and-Shell-button-locked" class="headerlink" title="Cannot turn on Tweak User Themes and Shell button locked"></a>Cannot turn on Tweak User Themes and Shell button locked</h2><p>The first problem is the <code>Tweak &gt; Appearance &gt; Shell (Locked by the triangle mark) </code><br><strong>Solution</strong> : Go to <code>Tweak &gt; Extension &gt; (Turn on) User Themes</code><br>The second problem is “After I turn on the User Themes, it will turn of by itself.”.<br>Hence, refer to this <a href="https://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/">https://ubuntuhandbook.org/index.php/2017/05/enable-shell-theme-in-gnome-tweak-tool-in-ubuntu/</a><br>Open terminal (Ctrl + Alt + T)</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> chrome-gnome-shell<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>go to <a href="https://extensions.gnome.org/extension/19/user-themes/">https://extensions.gnome.org/extension/19/user-themes/</a> and turn on the button.</p>
-<h2 id="What-is-sudo-nautilus"><a href="#What-is-sudo-nautilus" class="headerlink" title="What is sudo nautilus"></a>What is <code>sudo nautilus</code></h2><p>Nautilus is a file manager in Ubuntu.<br>When you type the command <code>sudo nautilus</code> , you are entering the file manager as a root.</p>
-<h2 id="VSCode-transparent"><a href="#VSCode-transparent" class="headerlink" title="VSCode transparent"></a>VSCode transparent</h2><h3 id="Devilspie"><a href="#Devilspie" class="headerlink" title="Devilspie"></a>Devilspie</h3><p>參考資料：<a href="https://www.youtube.com/watch?v=PzObHq72Vug&t=301s&ab_channel=ThatDevOpsGuy">這裡</a><br>以下程式碼複製貼上至 Terminal</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> devilspie
-$ <span class="token function">mkdir</span> <span class="token parameter variable">-p</span> ~/.devilspie
-$ <span class="token builtin class-name">echo</span> <span class="token string">'
-(if (contains (window_class) "Code")
-	(begin
-		(spawn_async (str "xprop -id " (window_xid) " -f _KDE_NET_WM_BLUR_BEHIND_REGION 32c -set _KDE_NET_WM_BLUR_BEHIND_REGION 0 "))
-		(spawn_async (str "xprop -id " (window_xid) " -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY 0xD8000000"))
-	)
-)
-'</span> <span class="token operator">></span> ~/.devilspie/vscode_transparent.ds<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>使用前前往 Terminal</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ devilspie<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>就可以啟動了</p>
-<h3 id="Auto-Start-Devilspie"><a href="#Auto-Start-Devilspie" class="headerlink" title="Auto Start Devilspie"></a>Auto Start Devilspie</h3><p><code>vim ~/.config/autostart/devilspie.desktop</code></p>
-<pre class="line-numbers language-none"><code class="language-none">[Desktop Entry]
-Name&#x3D;&quot;devilspie&quot;
-GenericName&#x3D;&quot;devilspie&quot;
-Comment&#x3D;&quot;is this necesery?&quot;
-Exec&#x3D;&#x2F;usr&#x2F;bin&#x2F;devilspie
-Terminal&#x3D;false
-Type&#x3D;Application
-X-Gnome-Autostart&#x3D;true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><code>:wq</code> 就完成了</p>
-<h2 id="Ubuntu-20-04-Lock-screen-background-cannot-change"><a href="#Ubuntu-20-04-Lock-screen-background-cannot-change" class="headerlink" title="Ubuntu 20.04 Lock screen background cannot change"></a>Ubuntu 20.04 Lock screen background cannot change</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> libglib2.0-dev-bin
-$ <span class="token function">git</span> clone https://github.com/thiggy01/change-gdm-background.git
-$ <span class="token function">chmod</span> +x change-gdm-background
-$ <span class="token builtin class-name">cd</span> change-gdm-background
-$ <span class="token function">sudo</span> ./change-gdm-background <span class="token punctuation">[</span>your image path<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ul>
-<li>Line 5 <strong>[ your image path ]</strong> : 可以用 <code>sudo nautilus</code> 進去 <code>/usr/share/backgrounds</code> 把你想要更換的桌布放進去。</li>
-</ul>
-<p>詳細的可以參考以下這兩篇</p>
-<ul>
-<li><a href="https://www.linuxmadesimple.info/2020/08/how-to-change-login-picture-in-ubuntu.html">How to change the login picture in Ubuntu 20.04</a></li>
-<li><a href="https://www.youtube.com/watch?v=KY6uB3lUT8s&ab_channel=linuxmadesimple">How to change the login picture in Ubuntu 20.04 (Youtube)</a></li>
-</ul>
-<h2 id="雜項"><a href="#雜項" class="headerlink" title="雜項"></a>雜項</h2><h3 id="Vimrc-配置"><a href="#Vimrc-配置" class="headerlink" title="Vimrc 配置"></a>Vimrc 配置</h3><p>我是參考 <a href="https://blog.smallten.tk/">余原齊</a> 電神的文章 <a href="https://hackmd.io/@Adam7066/SJ5ERzgHv">Use Vim as IDE</a></p>
-]]></content>
-      <categories>
-        <category>心得</category>
-      </categories>
-      <tags>
-        <tag>2021</tag>
-        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>

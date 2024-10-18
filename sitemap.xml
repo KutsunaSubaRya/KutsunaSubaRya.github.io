@@ -11,15 +11,6 @@
   </url>
   
   <url>
-    <loc>https://blog.subarya.me/404.html</loc>
-    
-    <lastmod>2024-10-18</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.subarya.me/about/index.html</loc>
     
     <lastmod>2024-10-18</lastmod>
@@ -66,6 +57,15 @@
   
   <url>
     <loc>https://blog.subarya.me/tags/index.html</loc>
+    
+    <lastmod>2024-10-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.subarya.me/404.html</loc>
     
     <lastmod>2024-10-18</lastmod>
     
@@ -938,20 +938,6 @@
   </url>
   
   <url>
-    <loc>https://blog.subarya.me/tags/CORS/</loc>
-    <lastmod>2024-10-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.subarya.me/tags/%E5%AF%A6%E7%BF%92/</loc>
-    <lastmod>2024-10-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.subarya.me/tags/pdf/</loc>
     <lastmod>2024-10-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -974,6 +960,20 @@
   
   <url>
     <loc>https://blog.subarya.me/tags/jspdf/</loc>
+    <lastmod>2024-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.subarya.me/tags/%E5%AF%A6%E7%BF%92/</loc>
+    <lastmod>2024-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.subarya.me/tags/CORS/</loc>
     <lastmod>2024-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

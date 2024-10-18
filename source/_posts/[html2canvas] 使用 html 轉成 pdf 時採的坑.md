@@ -1,7 +1,7 @@
 ---
 title: html2canvas - 使用 html 轉成 pdf 時採的坑
 date: 2024-10-18 10:40:00
-updated: 2024-10-18 10:40:00
+updated: 2024-10-18 11:30:00
 categories: 心得
 tags: 
 - 2024
@@ -11,8 +11,6 @@ tags:
 - jspdf
 - 實習
 ---
-
-# html2canvas - 使用 html 轉成 pdf 時採的坑
 
 ## html 轉 pdf 詳解
 以下兩篇十分推薦，基本上跟著思路與 codebase 就可以理解 DFS 拜訪 DOM 的原理和如何做一些細節的調整與處理。

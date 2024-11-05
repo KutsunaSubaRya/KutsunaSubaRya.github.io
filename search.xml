@@ -1242,7 +1242,7 @@ $ <span class="token function">git</span> log <span class="token parameter varia
 <h2 id="參賽前一天"><a href="#參賽前一天" class="headerlink" title="參賽前一天"></a>參賽前一天</h2><p>Beck: 來找一下可能會使用到的引擎或 tool，看看有哪些可以套的就先去睡。</p>
 <p>我們找了一會兒，討論了一下可能會有的主題與對策 (我記得有討論跟沒討論是一樣的)，然後就去休息了。</p>
 <h2 id="參賽當天"><a href="#參賽當天" class="headerlink" title="參賽當天"></a>參賽當天</h2><h3 id="進賽場"><a href="#進賽場" class="headerlink" title="進賽場"></a>進賽場</h3><p>當天一個人報到即可，就…</p>
-<p><img src="/../../themes/yun/source/img/NGJ-1.jpg" loading="lazy"></p>
+<p><img src="https://i.imgur.com/1pRpBrU.jpg" loading="lazy"></p>
 <p>對，藍色 ICPC 衣服那個，我一個報到。</p>
 <p>主題是當天決定，匿名投票指定三個主題（官方有詳細解釋三個主題的內容與定義），最後由主辦單位從籤筒拿出一張作為此次比賽的主題。</p>
 <p>主題有三個：</p>
@@ -1918,45 +1918,6 @@ LL <span class="token function">Query</span><span class="token punctuation">(</s
       </tags>
   </entry>
   <entry>
-    <title>ICPC模擬賽 2015 ICPC Singapore Clone</title>
-    <url>/2020/11/06/%5BICPC%E6%A8%A1%E6%93%AC%E8%B3%BD%5D%202015%20ICPC%20Singapore%20Clone/</url>
-    <content><![CDATA[<h1 id="校內-ICPC-模擬賽-心得"><a href="#校內-ICPC-模擬賽-心得" class="headerlink" title="校內 ICPC 模擬賽 心得"></a>校內 ICPC 模擬賽 心得</h1><h2 id="模擬賽題目：2015-ICPC-Singapore"><a href="#模擬賽題目：2015-ICPC-Singapore" class="headerlink" title="模擬賽題目：2015 ICPC Singapore"></a>模擬賽題目：2015 ICPC Singapore</h2><p>連結：<a href="https://open.kattis.com/contests/niih2v">https://open.kattis.com/contests/niih2v</a></p>
-<p><strong>之前的我們：我們打競程打健康的。</strong><br><strong>現在的我們：為了出國一起捨棄GPA OwO</strong></p>
-<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>天使宗哲設錯日期，設到明天晚上，調整後延後10分鐘考www<br>比賽時間：2020&#x2F;11&#x2F;05 18:10~23:10</p>
-<p>開頭小差曲：我們到了一間不是電腦教室的地方上機，原齊想用vim，文元想用sublime，但我的筆電只有vim，所以比賽開始後文元現場直接裝，sad。</p>
-<p>一開場我先看pC，第一次知道ICPC的題敘超可怕的長，裡面的劇情用詞超強的 &lt;- (這不是重點XD)</p>
-<p>pC: n表示接下來有n個食譜，每個食譜有m個數字表示combine在一起，<strong>必定</strong>由上往下的食譜進行合併，合併過後的數字不能單獨跟他沒有合併過的合併，然後合併的條件是</p>
-<ol>
-<li>合併過不得單獨跟沒合併過的合併</li>
-<li>合併過的可以<strong>一起</strong>跟沒有合併過的合併</li>
-<li>呈2，或是可以一起跟合併過的一起合併</li>
-</ol>
-<p>看完後跟文元(SAD)、原齊說我的想法，我們同時表示：「裸的DSU啊！」，然後交給DSU刻超快的SAD刻。</p>
-<p>中間小插曲：文元突然轉不過來第3點怎麼刻，我就說：沒做過的砍掉，每一個dsu的size總和一定會等於剩下的。C就這樣被首殺掉了。</p>
-<p>然後我看pE，看到一半後被抓去想pI，就三種字母，給分別三種的數量，將其排列但相同字母的不能相鄰，我想了一下，資芽算法班貌似在DP那章有紅藍綠著色問題，但我又忘了怎麼轉移，現場推我腦袋燒雞，交給原齊後他也宣告放棄，於是就跟他們說pE想法。</p>
-<p>我只說了一半(誰叫我只看一半ㄎㄎ)，順便他們跟我解釋pF，後來發現pE完全就是模擬題(模擬比賽算penalty)(而且一堆人AC了)，他們趕緊刻完AC後交給我寫pF。</p>
-<p>pF: 每隻細菌都有自己適合的[U,L]，表示溫度範圍，然候有n隻細菌，每個保溫箱有固定的溫度，求最少需要多少保溫箱。</p>
-<p>其實pF沒有很難，但一開始原齊想法錯了導致送上去兩次WA，後來他製造了奇怪的測資把自己的想法ban掉OwO，我就重刻。由於我沒有好好維護while導致某些比較大的測資會infinite loop，我又WA了兩次，而且我的code超級不clean，於是原齊打算重刻，果然刻完送上去AC了。</p>
-<p>這讓我想起打R6時天兆常跟我說：「不會玩女鬼就不要玩; 不會玩大盾就不要玩！」我現在想：「不會刻while就……好好維護啊！然後code乾淨一點！」(我真是欠譴責OwO)</p>
-<p>後來我們pG想不出最優解，原本想說是greedy，但文元說dp才對，可是沒想法。<br>pG題序如下：<br>有一個stack，裡面有一排數字，逐一取出分堆。<br>分堆定義：</p>
-<ol>
-<li>取出後可以加起前一個並組成一堆</li>
-<li>依序以左至右的每堆數量必須為非嚴格遞增</li>
-<li>呈1.取出後可以選擇併入前一堆，或是自立一堆<br>題目所求：最多分幾堆</li>
-</ol>
-<p>最後我們21:45就先離場了，總共打了3hr35m。</p>
-<p>總之，ICPC加油啦！我會好好練 clean code的 QAQ</p>
-<p><img src="https://i.imgur.com/lMG2pH2.jpg" loading="lazy"></p>
-]]></content>
-      <categories>
-        <category>心得</category>
-      </categories>
-      <tags>
-        <tag>2020</tag>
-        <tag>模擬賽</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Facebook Hacker Cup 2021 Qualification Round</title>
     <url>/2021/08/30/%5BFacebook%20Hacker%20Cup%202021%5D%20Qualification%20Round/</url>
     <content><![CDATA[<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>目前只是資格賽，僅需解開一題即可晉階至 Round 1<br>比賽時間總共 72 小時，共 5 題<br>我是在比賽結束前 5 小時才想到要開始來解題，就當作是休閒打，最後寫了兩題水題並提交，分別是 A1 和 B<br>比賽連結：<a href="https://www.facebook.com/codingcompetitions/hacker-cup/2021/qualification-round">這裡</a></p>
@@ -2091,6 +2052,45 @@ map<span class="token operator">&lt;</span><span class="token keyword">char</spa
         <tag>演算法</tag>
         <tag>競程</tag>
         <tag>Implementation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ICPC模擬賽 2015 ICPC Singapore Clone</title>
+    <url>/2020/11/06/%5BICPC%E6%A8%A1%E6%93%AC%E8%B3%BD%5D%202015%20ICPC%20Singapore%20Clone/</url>
+    <content><![CDATA[<h1 id="校內-ICPC-模擬賽-心得"><a href="#校內-ICPC-模擬賽-心得" class="headerlink" title="校內 ICPC 模擬賽 心得"></a>校內 ICPC 模擬賽 心得</h1><h2 id="模擬賽題目：2015-ICPC-Singapore"><a href="#模擬賽題目：2015-ICPC-Singapore" class="headerlink" title="模擬賽題目：2015 ICPC Singapore"></a>模擬賽題目：2015 ICPC Singapore</h2><p>連結：<a href="https://open.kattis.com/contests/niih2v">https://open.kattis.com/contests/niih2v</a></p>
+<p><strong>之前的我們：我們打競程打健康的。</strong><br><strong>現在的我們：為了出國一起捨棄GPA OwO</strong></p>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>天使宗哲設錯日期，設到明天晚上，調整後延後10分鐘考www<br>比賽時間：2020&#x2F;11&#x2F;05 18:10~23:10</p>
+<p>開頭小差曲：我們到了一間不是電腦教室的地方上機，原齊想用vim，文元想用sublime，但我的筆電只有vim，所以比賽開始後文元現場直接裝，sad。</p>
+<p>一開場我先看pC，第一次知道ICPC的題敘超可怕的長，裡面的劇情用詞超強的 &lt;- (這不是重點XD)</p>
+<p>pC: n表示接下來有n個食譜，每個食譜有m個數字表示combine在一起，<strong>必定</strong>由上往下的食譜進行合併，合併過後的數字不能單獨跟他沒有合併過的合併，然後合併的條件是</p>
+<ol>
+<li>合併過不得單獨跟沒合併過的合併</li>
+<li>合併過的可以<strong>一起</strong>跟沒有合併過的合併</li>
+<li>呈2，或是可以一起跟合併過的一起合併</li>
+</ol>
+<p>看完後跟文元(SAD)、原齊說我的想法，我們同時表示：「裸的DSU啊！」，然後交給DSU刻超快的SAD刻。</p>
+<p>中間小插曲：文元突然轉不過來第3點怎麼刻，我就說：沒做過的砍掉，每一個dsu的size總和一定會等於剩下的。C就這樣被首殺掉了。</p>
+<p>然後我看pE，看到一半後被抓去想pI，就三種字母，給分別三種的數量，將其排列但相同字母的不能相鄰，我想了一下，資芽算法班貌似在DP那章有紅藍綠著色問題，但我又忘了怎麼轉移，現場推我腦袋燒雞，交給原齊後他也宣告放棄，於是就跟他們說pE想法。</p>
+<p>我只說了一半(誰叫我只看一半ㄎㄎ)，順便他們跟我解釋pF，後來發現pE完全就是模擬題(模擬比賽算penalty)(而且一堆人AC了)，他們趕緊刻完AC後交給我寫pF。</p>
+<p>pF: 每隻細菌都有自己適合的[U,L]，表示溫度範圍，然候有n隻細菌，每個保溫箱有固定的溫度，求最少需要多少保溫箱。</p>
+<p>其實pF沒有很難，但一開始原齊想法錯了導致送上去兩次WA，後來他製造了奇怪的測資把自己的想法ban掉OwO，我就重刻。由於我沒有好好維護while導致某些比較大的測資會infinite loop，我又WA了兩次，而且我的code超級不clean，於是原齊打算重刻，果然刻完送上去AC了。</p>
+<p>這讓我想起打R6時天兆常跟我說：「不會玩女鬼就不要玩; 不會玩大盾就不要玩！」我現在想：「不會刻while就……好好維護啊！然後code乾淨一點！」(我真是欠譴責OwO)</p>
+<p>後來我們pG想不出最優解，原本想說是greedy，但文元說dp才對，可是沒想法。<br>pG題序如下：<br>有一個stack，裡面有一排數字，逐一取出分堆。<br>分堆定義：</p>
+<ol>
+<li>取出後可以加起前一個並組成一堆</li>
+<li>依序以左至右的每堆數量必須為非嚴格遞增</li>
+<li>呈1.取出後可以選擇併入前一堆，或是自立一堆<br>題目所求：最多分幾堆</li>
+</ol>
+<p>最後我們21:45就先離場了，總共打了3hr35m。</p>
+<p>總之，ICPC加油啦！我會好好練 clean code的 QAQ</p>
+<p><img src="https://i.imgur.com/lMG2pH2.jpg" loading="lazy"></p>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2020</tag>
+        <tag>模擬賽</tag>
       </tags>
   </entry>
   <entry>
@@ -2342,6 +2342,142 @@ s2<span class="token punctuation">.</span><span class="token function">erase</sp
       </tags>
   </entry>
   <entry>
+    <title>Minecraft - Server And Client Setup (Main RLCraft)</title>
+    <url>/2024/11/05/%5BMinecraft%5D%20server%20%E5%92%8C%20client%20%E5%BB%BA%E7%AB%8B%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<p>這篇是專門對於 RLCraft Server 而寫的 Writeup，但如果不是 RLCraft，而是其他 FTB 之類或是自己包的模組伺服器，可以自行將 RLCraft 解說的共同部分如 <code>Forge</code>, <code>Java</code>, <code>Chunk Pregenerator(非必要)</code>，甚至是 <code>Server 端要放入的 Mods</code>，做完再進入 Server 和 Client 篇。</p>
+<h2 id="Tech-Stack"><a href="#Tech-Stack" class="headerlink" title="Tech Stack"></a>Tech Stack</h2><ol>
+<li>Remote Server skill</li>
+<li>Linux command</li>
+<li>Script (fundamental)</li>
+<li>Minecraft Server pack install</li>
+<li>DNS and CF tunnel</li>
+</ol>
+<h2 id="官方備註事項"><a href="#官方備註事項" class="headerlink" title="官方備註事項"></a>官方備註事項</h2><ol>
+<li>檢視距離應設為10以確保完整相容性，但如果有許多玩家導致性能問題，可將其降至8或甚至6，但不應低於此數值。<blockquote>
+<p>view-distance should be 10 for full compatibility, but if you get performance issues with many players, lower this to 8 or even 6, but shouldn’t go below that</p>
+</blockquote>
+</li>
+<li>請注意，JEI 將會不正確地顯示附魔應用，但附魔仍然會正常運作，並且僅應用於它們實際允許的物品，儘管JEI顯示的內容。除了重新開始一個新的世界外，沒有其他解決方案。<blockquote>
+<p>Note that JEI will incorrectly show enchantment applications, but enchantments will still work fine and only apply to things they’re actually allowed to, despite whatever JEI shows.  There is no fix for this except starting a new world.</p>
+</blockquote>
+</li>
+<li>自動重新啟動功能是有幫助的，但 RLCraft v2.9+ 在緩存和垃圾回收 (<code>garbage collection</code>) 方面比 2.8.2 要好得多，不再需要頻繁重新啟動或強制重新啟動。<blockquote>
+<p>Automatic restarts can be helpful, though RLCraft v2.9+ is MUCH better about cache and garbage collection than 2.8.2 was, and frequent restarts are no longer needed or required</p>
+</blockquote>
+</li>
+<li>對於有大量玩家並且運行時間長（幾個月甚至更長）的大型伺服器，建議偶爾刪除世界資料夾中的 <code>Village.dat</code> 檔案，因為該檔案可能會變得過大並開始記憶體洩漏，導致大型卡頓和逾時。對於大多數人來說，這可能不是問題。<blockquote>
+<p>It is recommended to occasionally delete the Village.dat file in your world folder for very large servers with tons of players that have been running a long time (several months if not longer) as this file can get too big and begin to memory leak, causing big lag spikes and timeouts.  This likely won’t be an issue for the majority of people.</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Get-Server-Pack-of-RLCraft-2-9-3"><a href="#Get-Server-Pack-of-RLCraft-2-9-3" class="headerlink" title="Get Server Pack of RLCraft 2.9.3"></a>Get Server Pack of RLCraft 2.9.3</h2><p><a href="https://www.curseforge.com/minecraft/modpacks/rlcraft/screenshots">https://www.curseforge.com/minecraft/modpacks/rlcraft/screenshots</a></p>
+<h2 id="Install-Forge"><a href="#Install-Forge" class="headerlink" title="Install Forge"></a>Install Forge</h2><p>先建立一個 folder <code>RLCraft</code></p>
+<ul>
+<li><code>mkdir RLCraft</code></li>
+<li><code>cd RLCraft/</code></li>
+</ul>
+<ol>
+<li><a href="https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html">Download Forge Latest 1.12.2 - 14.23.5.2860</a></li>
+<li><code>java -jar ./forge-1.12.2-14.23.5.2860-installer.jar --installServer</code></li>
+<li><code>java -Xms4G -Xmx8G -jar ./forge-1.12.2-14.23.5.2860.jar</code></li>
+<li>將 <code>eula.txt</code> 中的 false 改為 true</li>
+<li>重新執行第三步</li>
+<li>結束 (如果有要做 pregen 或是將指令包成 <code>xxx.sh</code> 請繼續往下看)</li>
+<li>Minecraft 第一次生成後(preparing area 完成後)，<code>&gt; stop</code></li>
+<li><code>rm -r world/</code></li>
+<li>見下方 Chunk Pregenerator</li>
+</ol>
+<h3 id="Chunk-Pregenerator-amp-包成執行檔"><a href="#Chunk-Pregenerator-amp-包成執行檔" class="headerlink" title="Chunk Pregenerator &amp; 包成執行檔"></a>Chunk Pregenerator &amp; 包成執行檔</h3><ol>
+<li><code>sudo wget https://media.forgecdn.net/files/2811/832/Chunk+Pregenerator+V1.12-2.2.jar</code></li>
+<li><code>echo cd ~/RLCraft &gt; rlcraft.sh</code></li>
+<li><code>echo java -Xms4G -Xmx8G -jar forge-1.12.2-14.23.5.2860-installer.jar &gt;&gt; rlcraft.sh</code></li>
+<li><code>chmod +x rlcraft.sh</code></li>
+<li><code>./rlcraft.sh</code></li>
+<li><code>&gt; /pregen utils setPriority pregenerator</code></li>
+<li><code>&gt; /pregen timepertick 250</code></li>
+<li><code>&gt; /pregen gen startmassradius square 0 0 b10000 100</code></li>
+</ol>
+<h2 id="Error-Handling"><a href="#Error-Handling" class="headerlink" title="Error Handling"></a>Error Handling</h2><ol>
+<li>A problem occurred running the Server launcher.java.lang.reflect.InvocationTargetException<ul>
+<li>因為 1.12.2 只支援 java 8</li>
+<li>因此 <ol>
+<li><code>sudo apt-get purge openjdk*</code></li>
+<li><code>sudo apt install openjdk-8-jre</code></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><img src="https://i.imgur.com/RbHlbRU.png" loading="lazy"><ul>
+<li>權限不夠。<code>sudo</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="Server-端指令"><a href="#Server-端指令" class="headerlink" title="Server 端指令"></a>Server 端指令</h2><h3 id="Remote-Server-Info"><a href="#Remote-Server-Info" class="headerlink" title="Remote Server Info"></a>Remote Server Info</h3><ol>
+<li>Ubuntu 20.04.6 LTS x86_64</li>
+<li>Memory: 8 GB</li>
+</ol>
+<h3 id="Use-Screen"><a href="#Use-Screen" class="headerlink" title="Use Screen"></a>Use Screen</h3><p>我使用 screen，而非 tmux，原因傾向 screen 已經符合我的需求，因此我這裡只記錄 screen 的功能。</p>
+<h3 id="Screen-open"><a href="#Screen-open" class="headerlink" title="Screen open"></a>Screen open</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">screen</span> <span class="token parameter variable">-S</span> <span class="token operator">&lt;</span>name<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Screen-detached"><a href="#Screen-detached" class="headerlink" title="Screen detached"></a>Screen detached</h3><pre class="line-numbers language-none"><code class="language-none">Ctrl A + D<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="Start-Cloudflared"><a href="#Start-Cloudflared" class="headerlink" title="Start Cloudflared"></a>Start Cloudflared</h3><ol>
+<li>我是先有自己的 domain</li>
+<li>Create Tunnels -&gt; <a href="https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public">https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public</a><ul>
+<li><code>$ cloudflared tunnel create $&#123;TUNNEL名稱&#125;</code></li>
+</ul>
+</li>
+<li>再來進入 Cloudflare &gt; Zero Trust &gt; Network &gt; Tunnels 確認是否建立</li>
+<li><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ cloudflared tunnel route dns <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token variable">$&#123;域名名稱-子域名&#125;</span>
+$ cloudflared tunnel <span class="token parameter variable">--name</span> <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token parameter variable">--url</span> tcp://127.0.0.1:25565<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+</ol>
+<h3 id="初次建立後未來使用"><a href="#初次建立後未來使用" class="headerlink" title="初次建立後未來使用"></a>初次建立後未來使用</h3><ol>
+<li>進 remote server</li>
+<li>查看 screen name 是否存在，不存在就 Screen open <code>$ screen -S &lt;name&gt;</code></li>
+<li><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ cloudflared tunnel route dns <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token variable">$&#123;域名名稱-子域名&#125;</span>
+$ cloudflared tunnel <span class="token parameter variable">--name</span> <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token parameter variable">--url</span> tcp://127.0.0.1:25565<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li>Screen detached</li>
+</ol>
+<h2 id="客戶端-Client-指令與連接-Server-方法"><a href="#客戶端-Client-指令與連接-Server-方法" class="headerlink" title="客戶端 (Client) 指令與連接 Server 方法"></a>客戶端 (Client) 指令與連接 Server 方法</h2><ul>
+<li>如果開完 Server，當然要有 Client 才算完整</li>
+</ul>
+<h3 id="裝-Cloudflare"><a href="#裝-Cloudflare" class="headerlink" title="裝 Cloudflare"></a>裝 Cloudflare</h3><ul>
+<li>Windows<ul>
+<li><code>winget install --id Cloudflare.cloudflared</code></li>
+</ul>
+</li>
+<li>Linux<ul>
+<li>See offical download method: <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/">https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="啟動腳本"><a href="#啟動腳本" class="headerlink" title="啟動腳本"></a>啟動腳本</h3><p>我朋友和我是使用 Windows 遊玩，因此我把啟動 cloudflared 的方法包成 <code>.bat</code>，他們和我要玩時「開啟 <code>.bat</code>」，然後記得 <strong>「啟動後不要關閉」、「啟動後不要關閉」、「啟動後不要關閉」</strong>。</p>
+<h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><ol>
+<li>把以下指令匯出成 <code>.bat</code> file。<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cloudflared access tcp <span class="token parameter variable">--hostname</span> <span class="token variable">$&#123;域名名稱-子域名&#125;</span> <span class="token parameter variable">--listener</span> <span class="token number">127.0</span>.0.1:25565<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li>請開啟遊戲進入伺服器前打開 <code>.bat</code> file</li>
+<li><strong>「啟動後不要關閉」、「啟動後不要關閉」、「啟動後不要關閉」</strong></li>
+<li>如果推出伺服器不由完了，記得把腳本關閉。</li>
+</ol>
+<h4 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h4><p>同上方法包成可執行檔給自己和朋友進遊戲伺服器前開啟。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://docs.google.com/document/d/1owTYON7G4C0yPEQEe-Ra6NnndAP0xLErpVxajhbDHNc/edit">https://docs.google.com/document/d/1owTYON7G4C0yPEQEe-Ra6NnndAP0xLErpVxajhbDHNc/edit</a></li>
+<li><a href="https://forum.gamer.com.tw/C.php?bsn=18673&snA=190247">https://forum.gamer.com.tw/C.php?bsn=18673&amp;snA=190247</a></li>
+<li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/">https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/</a></li>
+<li><a href="https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public">https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>2024</tag>
+        <tag>remote_server</tag>
+        <tag>script</tag>
+        <tag>html_to_pdf</tag>
+        <tag>ubuntu</tag>
+        <tag>minecraft</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>NTHU 10322 PC 費式數列與矩陣快速冪</title>
     <url>/2019/02/21/%5BNTHU%5D10322%20PC%20%E8%B2%BB%E5%BC%8F%E6%95%B8%E5%88%97%E8%88%87%E7%9F%A9%E9%99%A3%E5%BF%AB%E9%80%9F%E5%86%AA/</url>
     <content><![CDATA[<p>題目連結:<a href="https://acm.cs.nthu.edu.tw/problem/10322/">https://acm.cs.nthu.edu.tw/problem/10322/</a></p>
@@ -2415,142 +2551,6 @@ Matrix <span class="token function">power</span><span class="token punctuation">
         <tag>NTHU</tag>
         <tag>矩陣快速冪</tag>
         <tag>數論</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Minecraft - Server And Client Setup (Main RLCraft)</title>
-    <url>/2024/11/05/%5BMinecraft%5D%20server%20%E5%92%8C%20client%20%E5%BB%BA%E7%AB%8B%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<p>這篇是專門對於 RLCraft Server 而寫的 Writeup，但如果不是 RLCraft，而是其他 FTB 之類或是自己包的模組伺服器，可以自行將 RLCraft 解說的共同部分如 <code>Forge</code>, <code>Java</code>, <code>Chunk Pregenerator(非必要)</code>，甚至是 <code>Server 端要放入的 Mods</code>，做完再進入 Server 和 Client 篇。</p>
-<h2 id="Tech-Stack"><a href="#Tech-Stack" class="headerlink" title="Tech Stack"></a>Tech Stack</h2><ol>
-<li>Remote Server skill</li>
-<li>Linux command</li>
-<li>Script (fundamental)</li>
-<li>Minecraft Server pack install</li>
-<li>DNS and CF tunnel</li>
-</ol>
-<h2 id="官方備註事項"><a href="#官方備註事項" class="headerlink" title="官方備註事項"></a>官方備註事項</h2><ol>
-<li>檢視距離應設為10以確保完整相容性，但如果有許多玩家導致性能問題，可將其降至8或甚至6，但不應低於此數值。<blockquote>
-<p>view-distance should be 10 for full compatibility, but if you get performance issues with many players, lower this to 8 or even 6, but shouldn’t go below that</p>
-</blockquote>
-</li>
-<li>請注意，JEI 將會不正確地顯示附魔應用，但附魔仍然會正常運作，並且僅應用於它們實際允許的物品，儘管JEI顯示的內容。除了重新開始一個新的世界外，沒有其他解決方案。<blockquote>
-<p>Note that JEI will incorrectly show enchantment applications, but enchantments will still work fine and only apply to things they’re actually allowed to, despite whatever JEI shows.  There is no fix for this except starting a new world.</p>
-</blockquote>
-</li>
-<li>自動重新啟動功能是有幫助的，但 RLCraft v2.9+ 在緩存和垃圾回收 (<code>garbage collection</code>) 方面比 2.8.2 要好得多，不再需要頻繁重新啟動或強制重新啟動。<blockquote>
-<p>Automatic restarts can be helpful, though RLCraft v2.9+ is MUCH better about cache and garbage collection than 2.8.2 was, and frequent restarts are no longer needed or required</p>
-</blockquote>
-</li>
-<li>對於有大量玩家並且運行時間長（幾個月甚至更長）的大型伺服器，建議偶爾刪除世界資料夾中的 <code>Village.dat</code> 檔案，因為該檔案可能會變得過大並開始記憶體洩漏，導致大型卡頓和逾時。對於大多數人來說，這可能不是問題。<blockquote>
-<p>It is recommended to occasionally delete the Village.dat file in your world folder for very large servers with tons of players that have been running a long time (several months if not longer) as this file can get too big and begin to memory leak, causing big lag spikes and timeouts.  This likely won’t be an issue for the majority of people.</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="Get-Server-Pack-of-RLCraft-2-9-3"><a href="#Get-Server-Pack-of-RLCraft-2-9-3" class="headerlink" title="Get Server Pack of RLCraft 2.9.3"></a>Get Server Pack of RLCraft 2.9.3</h2><p><a href="https://www.curseforge.com/minecraft/modpacks/rlcraft/screenshots">https://www.curseforge.com/minecraft/modpacks/rlcraft/screenshots</a></p>
-<h2 id="Install-Forge"><a href="#Install-Forge" class="headerlink" title="Install Forge"></a>Install Forge</h2><p>先建立一個 folder <code>RLCraft</code></p>
-<ul>
-<li><code>mkdir RLCraft</code></li>
-<li><code>cd RLCraft/</code></li>
-</ul>
-<ol>
-<li><a href="https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html">Download Forge Latest 1.12.2 - 14.23.5.2860</a></li>
-<li><code>java -jar ./forge-1.12.2-14.23.5.2860-installer.jar --installServer</code></li>
-<li><code>java -Xms4G -Xmx8G -jar ./forge-1.12.2-14.23.5.2860.jar</code></li>
-<li>將 <code>eula.txt</code> 中的 false 改為 true</li>
-<li>重新執行第三步</li>
-<li>結束 (如果有要做 pregen 或是將指令包成 <code>xxx.sh</code> 請繼續往下看)</li>
-<li>Minecraft 第一次生成後(preparing area 完成後)，<code>&gt; stop</code></li>
-<li><code>rm -r world/</code></li>
-<li>見下方 Chunk Pregenerator</li>
-</ol>
-<h3 id="Chunk-Pregenerator-amp-包成執行檔"><a href="#Chunk-Pregenerator-amp-包成執行檔" class="headerlink" title="Chunk Pregenerator &amp; 包成執行檔"></a>Chunk Pregenerator &amp; 包成執行檔</h3><ol>
-<li><code>sudo wget https://media.forgecdn.net/files/2811/832/Chunk+Pregenerator+V1.12-2.2.jar</code></li>
-<li><code>echo cd ~/RLCraft &gt; rlcraft.sh</code></li>
-<li><code>echo java -Xms4G -Xmx8G -jar forge-1.12.2-14.23.5.2860-installer.jar &gt;&gt; rlcraft.sh</code></li>
-<li><code>chmod +x rlcraft.sh</code></li>
-<li><code>./rlcraft.sh</code></li>
-<li><code>&gt; /pregen utils setPriority pregenerator</code></li>
-<li><code>&gt; /pregen timepertick 250</code></li>
-<li><code>&gt; /pregen gen startmassradius square 0 0 b10000 100</code></li>
-</ol>
-<h2 id="Error-Handling"><a href="#Error-Handling" class="headerlink" title="Error Handling"></a>Error Handling</h2><ol>
-<li>A problem occurred running the Server launcher.java.lang.reflect.InvocationTargetException<ul>
-<li>因為 1.12.2 只支援 java 8</li>
-<li>因此 <ol>
-<li><code>sudo apt-get purge openjdk*</code></li>
-<li><code>sudo apt install openjdk-8-jre</code></li>
-</ol>
-</li>
-</ul>
-</li>
-<li><img src="/../../themes/yun/source/img/minecraft_image.png" loading="lazy"><ul>
-<li>權限不夠。<code>sudo</code></li>
-</ul>
-</li>
-</ol>
-<h2 id="Server-端指令"><a href="#Server-端指令" class="headerlink" title="Server 端指令"></a>Server 端指令</h2><h3 id="Remote-Server-Info"><a href="#Remote-Server-Info" class="headerlink" title="Remote Server Info"></a>Remote Server Info</h3><ol>
-<li>Ubuntu 20.04.6 LTS x86_64</li>
-<li>Memory: 8 GB</li>
-</ol>
-<h3 id="Use-Screen"><a href="#Use-Screen" class="headerlink" title="Use Screen"></a>Use Screen</h3><p>我使用 screen，而非 tmux，原因傾向 screen 已經符合我的需求，因此我這裡只記錄 screen 的功能。</p>
-<h3 id="Screen-open"><a href="#Screen-open" class="headerlink" title="Screen open"></a>Screen open</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">screen</span> <span class="token parameter variable">-S</span> <span class="token operator">&lt;</span>name<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="Screen-detached"><a href="#Screen-detached" class="headerlink" title="Screen detached"></a>Screen detached</h3><pre class="line-numbers language-none"><code class="language-none">Ctrl A + D<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="Start-Cloudflared"><a href="#Start-Cloudflared" class="headerlink" title="Start Cloudflared"></a>Start Cloudflared</h3><ol>
-<li>我是先有自己的 domain</li>
-<li>Create Tunnels -&gt; <a href="https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public">https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public</a><ul>
-<li><code>$ cloudflared tunnel create $&#123;TUNNEL名稱&#125;</code></li>
-</ul>
-</li>
-<li>再來進入 Cloudflare &gt; Zero Trust &gt; Network &gt; Tunnels 確認是否建立</li>
-<li><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ cloudflared tunnel route dns <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token variable">$&#123;域名名稱-子域名&#125;</span>
-$ cloudflared tunnel <span class="token parameter variable">--name</span> <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token parameter variable">--url</span> tcp://127.0.0.1:25565<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
-</ol>
-<h3 id="初次建立後未來使用"><a href="#初次建立後未來使用" class="headerlink" title="初次建立後未來使用"></a>初次建立後未來使用</h3><ol>
-<li>進 remote server</li>
-<li>查看 screen name 是否存在，不存在就 Screen open <code>$ screen -S &lt;name&gt;</code></li>
-<li><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ cloudflared tunnel route dns <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token variable">$&#123;域名名稱-子域名&#125;</span>
-$ cloudflared tunnel <span class="token parameter variable">--name</span> <span class="token variable">$&#123;TUNNEL名稱&#125;</span> <span class="token parameter variable">--url</span> tcp://127.0.0.1:25565<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
-<li>Screen detached</li>
-</ol>
-<h2 id="客戶端-Client-指令與連接-Server-方法"><a href="#客戶端-Client-指令與連接-Server-方法" class="headerlink" title="客戶端 (Client) 指令與連接 Server 方法"></a>客戶端 (Client) 指令與連接 Server 方法</h2><ul>
-<li>如果開完 Server，當然要有 Client 才算完整</li>
-</ul>
-<h3 id="裝-Cloudflare"><a href="#裝-Cloudflare" class="headerlink" title="裝 Cloudflare"></a>裝 Cloudflare</h3><ul>
-<li>Windows<ul>
-<li><code>winget install --id Cloudflare.cloudflared</code></li>
-</ul>
-</li>
-<li>Linux<ul>
-<li>See offical download method: <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/">https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="啟動腳本"><a href="#啟動腳本" class="headerlink" title="啟動腳本"></a>啟動腳本</h3><p>我朋友和我是使用 Windows 遊玩，因此我把啟動 cloudflared 的方法包成 <code>.bat</code>，他們和我要玩時「開啟 <code>.bat</code>」，然後記得 <strong>「啟動後不要關閉」、「啟動後不要關閉」、「啟動後不要關閉」</strong>。</p>
-<h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><ol>
-<li>把以下指令匯出成 <code>.bat</code> file。<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cloudflared access tcp <span class="token parameter variable">--hostname</span> <span class="token variable">$&#123;域名名稱-子域名&#125;</span> <span class="token parameter variable">--listener</span> <span class="token number">127.0</span>.0.1:25565<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-<li>請開啟遊戲進入伺服器前打開 <code>.bat</code> file</li>
-<li><strong>「啟動後不要關閉」、「啟動後不要關閉」、「啟動後不要關閉」</strong></li>
-<li>如果推出伺服器不由完了，記得把腳本關閉。</li>
-</ol>
-<h4 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h4><p>同上方法包成可執行檔給自己和朋友進遊戲伺服器前開啟。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
-<li><a href="https://docs.google.com/document/d/1owTYON7G4C0yPEQEe-Ra6NnndAP0xLErpVxajhbDHNc/edit">https://docs.google.com/document/d/1owTYON7G4C0yPEQEe-Ra6NnndAP0xLErpVxajhbDHNc/edit</a></li>
-<li><a href="https://forum.gamer.com.tw/C.php?bsn=18673&snA=190247">https://forum.gamer.com.tw/C.php?bsn=18673&amp;snA=190247</a></li>
-<li><a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/">https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/</a></li>
-<li><a href="https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public">https://blog.samsam123.name.my/articles/cf-tunnel-minecraft-expose-public</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>心得</category>
-      </categories>
-      <tags>
-        <tag>2024</tag>
-        <tag>remote_server</tag>
-        <tag>script</tag>
-        <tag>html_to_pdf</tag>
-        <tag>ubuntu</tag>
-        <tag>minecraft</tag>
       </tags>
   </entry>
   <entry>

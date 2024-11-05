@@ -68,10 +68,8 @@ https://www.curseforge.com/minecraft/modpacks/rlcraft/screenshots
     * 因此 
         1. `sudo apt-get purge openjdk*`
         2. `sudo apt install openjdk-8-jre`
-2. ![](../../themes/yun/source/img/minecraft_image.png)
+2. ![](https://i.imgur.com/RbHlbRU.png)
     * 權限不夠。`sudo`
-
-
 
 
 ## Server 端指令

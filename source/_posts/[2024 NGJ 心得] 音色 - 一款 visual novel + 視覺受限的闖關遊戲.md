@@ -44,7 +44,7 @@ Beck: 來找一下可能會使用到的引擎或 tool，看看有哪些可以套
 
 當天一個人報到即可，就...
 
-![](../../themes/yun/source/img/NGJ-1.jpg)
+![](https://i.imgur.com/1pRpBrU.jpg)
 
 對，藍色 ICPC 衣服那個，我一個報到。
 

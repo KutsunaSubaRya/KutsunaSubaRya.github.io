@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="SubaRya"><meta name="copyright" content="SubaRya"><meta name="generator" content="Hexo 5.4.2"><meta name="theme" content="hexo-theme-yun"><title>前端 CI-CD 踩坑與 Cloudflare Zero Trust Access 使用心得 | スバリャノブログ</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/star-markdown-css@0.1.24/dist/yun/yun-markdown.min.css"><script src="//at.alicdn.com/t/font_1140697_j5gk85dg4pf.js" async></script><script src="https://cdn.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", () => {
+  [".post-card",".post-content img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+});
+</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.css"><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\(", right: "\\)", display: false},
+      {left: "\\[", right: "\\]", display: true}
+    ]
+  });
+});</script><link id="light-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" media="(prefers-color-scheme: light)"><link id="dark-prism-css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" media="(prefers-color-scheme: dark)"><link rel="shortcut icon" type="image/svg+xml" href="/img/favicon.png"><link rel="mask-icon" href="/img/favicon.png" color="#0078E7"><link rel="alternate icon" href="/yun.ico"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="preload" href="/js/utils.js" as="script"><link rel="preload" href="/js/hexo-theme-yun.js" as="script"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><script id="yun-config">
+    const Yun = window.Yun || {};
+    window.CONFIG = {"hostname":"blog.subarya.me","root":"/","title":"スバリャ","version":"1.5.3","mode":"time","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"搜尋...","empty":"找不到您所要查詢的內容: ${query}","hits":"找到 ${hits} 筆結果","hits_time":"找到 ${hits} 筆結果（用时 ${time} 毫秒）"},"anonymous_image":"https://cdn.jsdelivr.net/gh/YunYouJun/cdn/img/avatar/none.jpg","say":{"api":"https://v1.hitokoto.cn","hitokoto":true},"fireworks":{"colors":["255, 255, 0","255, 255, 224","255, 255, 153"]}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/utils.js"></script><script src="/js/hexo-theme-yun.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons/dist/css/ionicons.min.css"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-MVRLRVZSZY"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MVRLRVZSZY');
+}</script><meta name="description" content="前言：  這篇是專門對於 GitLab CI&#x2F;CD 而寫的 Writeup，如果是 GitHub 的，僅供參考核心邏輯即可。筆者第一次寫 CI&#x2F;CD，如有誤或改進之處，可以跟我說 &gt;&lt;   目前專案與 remote server 的情境 專案 Nuxt3   Server Ubuntu 23.04 x86_64 主機沒有直接對外的公網 IP，是透過 Cloudfla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端 CI-CD 踩坑與 Cloudflare Zero Trust Access 使用心得">
+<meta property="og:url" content="https://blog.subarya.me/2025/04/12/[2025%20GitLab%20CI%20CD]%E5%89%8D%E7%AB%AFCI-CD%E8%B8%A9%E5%9D%91%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="スバリャノブログ">
+<meta property="og:description" content="前言：  這篇是專門對於 GitLab CI&#x2F;CD 而寫的 Writeup，如果是 GitHub 的，僅供參考核心邏輯即可。筆者第一次寫 CI&#x2F;CD，如有誤或改進之處，可以跟我說 &gt;&lt;   目前專案與 remote server 的情境 專案 Nuxt3   Server Ubuntu 23.04 x86_64 主機沒有直接對外的公網 IP，是透過 Cloudfla">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-1.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-4.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-5.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-6.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-7.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-8.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-9.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-10.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-11.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-2.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-3.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-12.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-13.png">
+<meta property="og:image" content="https://blog.subarya.me/img/gitlabcicd-14.png">
+<meta property="article:published_time" content="2025-04-12T20:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-12T20:00:00.000Z">
+<meta property="article:author" content="SubaRya">
+<meta property="article:tag" content="2025">
+<meta property="article:tag" content="remote_server">
+<meta property="article:tag" content="CI&#x2F;CD">
+<meta property="article:tag" content="GitLab">
+<meta property="article:tag" content="DevOps">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.subarya.me/img/gitlabcicd-1.png"><script src="/js/ui/mode.js"></script></head><body><script defer src="https://cdn.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目錄"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-list-ordered"></use></svg></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="網站概覽"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-passport-line"></use></svg></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="SubaRya"><img width="96" loading="lazy" src="/img/honoka.webp" alt="SubaRya"></a><div class="site-author-name"><a href="/about/">SubaRya</a></div><a class="site-name" href="/about/site.html">スバリャノブログ</a><sub class="site-subtitle"></sub><div class="site-desciption"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首頁"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-home-4-line"></use></svg></span></a><div class="site-state-item"><a href="/archives/" title="歸檔"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-archive-line"></use></svg></span><span class="site-state-item-count">42</span></a></div><div class="site-state-item"><a href="/categories/" title="分類"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-2-line"></use></svg></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/tags/" title="標籤"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="site-state-item-count">91</span></a></div><a class="site-state-item hty-icon-button" target="_blank" rel="noopener" href="https://yun.yunyoujun.cn/" title="Hexo-Theme-Yun"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-settings-line"></use></svg></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/KutsunaSubaRya" title="GitHub" target="_blank" style="color:#6e5494"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-github-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://twitter.com/Kutsuna_SubaRya" title="Twitter" target="_blank" style="color:#1da1f2"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-twitter-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://t.me/Kutsuna_SubaRya" title="Telegram" target="_blank" style="color:#0088CC"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-telegram-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="index20010928@gmail.com" title="E-Mail" target="_blank" style="color:#8E71C1"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-mail-line"></use></svg></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.facebook.com/srya3906/" title="Facebook" target="_blank" style="color:#1da1f2"><i class="ion-logo-facebook"></i></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="友情連結" style="color:dodgerblue"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-open-arm-line"></use></svg></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-contrast-2-line"></use></svg></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%89%8D%E5%B0%88%E6%A1%88%E8%88%87-remote-server-%E7%9A%84%E6%83%85%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">目前專案與 remote server 的情境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pipeline-%E7%B5%90%E6%A7%8B"><span class="toc-number">2.</span> <span class="toc-text">Pipeline 結構</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8E%E6%AE%B5%E7%B4%B0%E7%AF%80"><span class="toc-number">3.</span> <span class="toc-text">階段細節</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-dependencies"><span class="toc-number">3.1.</span> <span class="toc-text">1. dependencies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-lint"><span class="toc-number">3.2.</span> <span class="toc-text">2. lint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-build-develop%EF%BC%88%E5%83%85%E9%99%90-develop-%E5%88%86%E6%94%AF%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">3. build_develop（僅限 develop 分支）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-deploy-develop%EF%BC%88%E5%83%85%E9%99%90-develop-%E5%88%86%E6%94%AF%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">4. deploy_develop（僅限 develop 分支）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E7%92%B0%E5%A2%83%E5%89%8D%E7%BD%AE%E6%AD%A5%E9%A9%9F"><span class="toc-number">3.4.1.</span> <span class="toc-text">部署環境前置步驟</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSH-%E9%80%A3%E7%B7%9A%E6%B8%AC%E8%A9%A6"><span class="toc-number">3.4.2.</span> <span class="toc-text">SSH 連線測試</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%AD%A5%E9%A9%9F"><span class="toc-number">3.4.3.</span> <span class="toc-text">部署步驟</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-GitLab-CI-%E8%AE%8A%E6%95%B8"><span class="toc-number">4.</span> <span class="toc-text">使用到的 GitLab CI 變數</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B-Cloudflare-Zero-Trust-Access-%E5%B0%8F%E7%A7%91%E6%99%AE"><span class="toc-number">5.</span> <span class="toc-text">一些 Cloudflare Zero Trust Access 小科普</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC-SSH-%E5%92%8C-SCP-%E9%9C%80%E8%A6%81-CF-ACCESS-CLIENT-ID-%E5%92%8C-CF-ACCESS-CLIENT-SECRET%EF%BC%9F"><span class="toc-number">5.1.</span> <span class="toc-text">為什麼 SSH 和 SCP 需要 CF_ACCESS_CLIENT_ID 和 CF_ACCESS_CLIENT_SECRET？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Cloudflare-Zero-Trust-%E7%9A%84%E8%BA%AB%E4%BB%BD%E9%A9%97%E8%AD%89%E6%A9%9F%E5%88%B6"><span class="toc-number">5.1.1.</span> <span class="toc-text">1. Cloudflare Zero Trust 的身份驗證機制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8F%96%E4%BB%A3%E5%82%B3%E7%B5%B1-SSH-%E9%91%B0%E5%8C%99%E7%9A%84%E7%9F%AD%E6%9A%AB%E6%86%91%E8%AD%89"><span class="toc-number">5.1.2.</span> <span class="toc-text">2. 取代傳統 SSH 鑰匙的短暫憑證</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%94%AF%E6%8F%B4%E8%87%AA%E5%8B%95%E5%8C%96%E7%B3%BB%E7%B5%B1"><span class="toc-number">5.1.3.</span> <span class="toc-text">3. 支援自動化系統</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cloudflare-Application-%E8%88%87-Policy-%E7%9A%84%E9%97%9C%E4%BF%82"><span class="toc-number">5.2.</span> <span class="toc-text">Cloudflare Application 與 Policy 的關係</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Cloudflare-Application"><span class="toc-number">5.2.1.</span> <span class="toc-text">1. Cloudflare Application</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Cloudflare-Policy"><span class="toc-number">5.2.2.</span> <span class="toc-text">2. Cloudflare Policy</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%88%87%E6%B5%81%E7%A8%8B%E6%88%AA%E5%9C%96"><span class="toc-number">6.</span> <span class="toc-text">使用與流程截圖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-Token"><span class="toc-number">6.1.</span> <span class="toc-text">建立 Token</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-Policy"><span class="toc-number">6.2.</span> <span class="toc-text">建立 Policy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B-Application"><span class="toc-number">6.3.</span> <span class="toc-text">建立 Application</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E6%9D%9F%E5%B7%A5%E4%BD%9C"><span class="toc-number">6.4.</span> <span class="toc-text">結束工作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%8C%E7%BA%8C%E6%AD%A4-CI-x2F-CD-%E6%9C%89%E5%BE%85%E6%93%B4%E5%85%85"><span class="toc-number">7.</span> <span class="toc-text">後續此 CI&#x2F;CD 有待擴充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%E4%B8%8A%E6%88%91-Develop-%E7%89%88%E6%9C%AC%E7%9A%84-gitlab-ci-yml"><span class="toc-number">8.</span> <span class="toc-text">附上我 Develop 版本的 gitlab-ci.yml</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article"><link itemprop="mainEntityOfPage" href="https://blog.subarya.me/2025/04/12/%5B2025%20GitLab%20CI%20CD%5D%E5%89%8D%E7%AB%AFCI-CD%E8%B8%A9%E5%9D%91%E5%BF%83%E5%BE%97/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="SubaRya"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="スバリャノブログ"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">前端 CI-CD 踩坑與 Cloudflare Zero Trust Access 使用心得</h1><div class="post-meta"><div class="post-time" style="display:inline-block"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-calendar-line"></use></svg></span> <time title="創建時間：2025-04-12 20:00:00" itemprop="dateCreated datePublished" datetime="2025-04-12T20:00:00+00:00">2025-04-12</time></div><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-folder-line"></use></svg></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category" href="/categories/%E5%BF%83%E5%BE%97/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">心得</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag" href="/tags/2025/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">2025</span></a><a class="tag" href="/tags/remote-server/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">remote_server</span></a><a class="tag" href="/tags/CI-CD/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">CI/CD</span></a><a class="tag" href="/tags/GitLab/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">GitLab</span></a><a class="tag" href="/tags/DevOps/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-price-tag-3-line"></use></svg></span><span class="tag-name">DevOps</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body" style="--smc-primary:#0078E7;"><p>前言：</p>
+<blockquote>
+<p>這篇是專門對於 GitLab CI&#x2F;CD 而寫的 Writeup，如果是 GitHub 的，僅供參考核心邏輯即可。<br>筆者第一次寫 CI&#x2F;CD，如有誤或改進之處，可以跟我說 &gt;&lt;</p>
+</blockquote>
+<hr>
+<h2 id="目前專案與-remote-server-的情境"><a href="#目前專案與-remote-server-的情境" class="headerlink" title="目前專案與 remote server 的情境"></a>目前專案與 remote server 的情境</h2><ul>
+<li>專案<ul>
+<li>Nuxt3</li>
+</ul>
+</li>
+<li>Server<ul>
+<li>Ubuntu 23.04 x86_64</li>
+<li>主機沒有直接對外的公網 IP，是透過 Cloudflare Tunnel 建立一個對外可訪問的通道</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Pipeline-結構"><a href="#Pipeline-結構" class="headerlink" title="Pipeline 結構"></a>Pipeline 結構</h2><p>Pipeline 依序分為以下階段：</p>
+<ol>
+<li><strong>dependencies</strong>：安裝依賴套件。</li>
+<li><strong>lint</strong>：靜態分析與型別檢查。</li>
+<li><strong>build</strong>：建置 Nuxt 專案。</li>
+<li><strong>deploy</strong>：部署至指定開發環境(自己的 remote server)。</li>
+</ol>
+<hr>
+<h2 id="階段細節"><a href="#階段細節" class="headerlink" title="階段細節"></a>階段細節</h2><h3 id="1-dependencies"><a href="#1-dependencies" class="headerlink" title="1. dependencies"></a>1. dependencies</h3><ul>
+<li><strong>作用</strong>：安裝與緩存專案依賴套件</li>
+<li><strong>指令</strong>：</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">pnpm</span> <span class="token function">install</span>
+<span class="token function">pnpm</span> run prepare<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<ul>
+<li><strong>Artifacts</strong>：<code>.nuxt</code></li>
+</ul>
+<hr>
+<h3 id="2-lint"><a href="#2-lint" class="headerlink" title="2. lint"></a>2. lint</h3><ul>
+<li><strong>作用</strong>：確保程式碼符合規範且無型別錯誤</li>
+<li><strong>指令</strong>：</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">pnpm</span> lint
+<span class="token function">pnpm</span> vue-tsc <span class="token parameter variable">--noEmit</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="3-build-develop（僅限-develop-分支）"><a href="#3-build-develop（僅限-develop-分支）" class="headerlink" title="3. build_develop（僅限 develop 分支）"></a>3. build_develop（僅限 develop 分支）</h3><ul>
+<li>Environment 可以在 <code>側邊欄 &gt; Operate &gt; Environments &gt; New environment</code></li>
+</ul>
+<ul>
+<li><strong>目的</strong>：將 Nuxt 專案編譯為可部署的靜態檔案。</li>
+<li><strong>指令</strong>：<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">pnpm</span> build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><strong>Artifacts</strong>：<code>.output/</code></li>
+<li><strong>環境設定</strong>：<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">environment</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> develop
+<span class="token key atrule">only</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> develop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<hr>
+<h3 id="4-deploy-develop（僅限-develop-分支）"><a href="#4-deploy-develop（僅限-develop-分支）" class="headerlink" title="4. deploy_develop（僅限 develop 分支）"></a>4. deploy_develop（僅限 develop 分支）</h3><ul>
+<li><strong>目的</strong>：將建置好的檔案透過 Cloudflare Tunnel 與 SSH Proxy 安全部署至開發主機。</li>
+</ul>
+<h4 id="部署環境前置步驟"><a href="#部署環境前置步驟" class="headerlink" title="部署環境前置步驟"></a>部署環境前置步驟</h4><ul>
+<li>安裝必備工具：<ul>
+<li><code>openssh-client</code></li>
+<li><code>cloudflared</code></li>
+</ul>
+</li>
+<li>建立 SSH 金鑰</li>
+</ul>
+<h4 id="SSH-連線測試"><a href="#SSH-連線測試" class="headerlink" title="SSH 連線測試"></a>SSH 連線測試</h4><p>透過 Cloudflare Tunnel 建立 SSH Proxy 並測試連線：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> <span class="token parameter variable">-o</span> <span class="token string">"ProxyCommand=/usr/local/bin/cloudflared access ssh --hostname <span class="token variable">$DEPLOY_HOST</span> \
+--service-token-id <span class="token variable">$CF_ACCESS_CLIENT_ID</span> \
+--service-token-secret <span class="token variable">$CF_ACCESS_CLIENT_SECRET</span>"</span> <span class="token punctuation">\</span>
+<span class="token parameter variable">-o</span> <span class="token assign-left variable">StrictHostKeyChecking</span><span class="token operator">=</span>no <span class="token punctuation">\</span>
+<span class="token variable">$DEPLOY_USER</span>@<span class="token variable">$DEPLOY_HOST</span> <span class="token string">"echo ✅ SSH via Cloudflare Access succeeded"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="部署步驟"><a href="#部署步驟" class="headerlink" title="部署步驟"></a>部署步驟</h4><ul>
+<li>將 artifacts 上傳至指定伺服器目錄：</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">scp</span> <span class="token parameter variable">-o</span> <span class="token string">"ProxyCommand=/usr/local/bin/cloudflared access ssh --hostname <span class="token variable">$DEPLOY_HOST</span> \
+--service-token-id <span class="token variable">$CF_ACCESS_CLIENT_ID</span> \
+--service-token-secret <span class="token variable">$CF_ACCESS_CLIENT_SECRET</span>"</span> <span class="token punctuation">\</span>
+<span class="token parameter variable">-o</span> <span class="token assign-left variable">StrictHostKeyChecking</span><span class="token operator">=</span>no <span class="token punctuation">\</span>
+<span class="token parameter variable">-r</span> .output/* <span class="token variable">$DEPLOY_USER</span>@<span class="token variable">$DEPLOY_HOST</span>:/var/www/nuxt-develop/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>登入遠端主機並執行部署腳本：</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ssh</span> <span class="token parameter variable">-o</span> <span class="token string">"ProxyCommand=/usr/local/bin/cloudflared access ssh --hostname <span class="token variable">$DEPLOY_HOST</span> \
+--service-token-id <span class="token variable">$CF_ACCESS_CLIENT_ID</span> \
+--service-token-secret <span class="token variable">$CF_ACCESS_CLIENT_SECRET</span>"</span> <span class="token punctuation">\</span>
+<span class="token parameter variable">-o</span> <span class="token assign-left variable">StrictHostKeyChecking</span><span class="token operator">=</span>no <span class="token punctuation">\</span>
+<span class="token variable">$DEPLOY_USER</span>@<span class="token variable">$DEPLOY_HOST</span> <span class="token string">"bash -c <span class="token entity" title="\&quot;">\"</span>
+  cd /var/www/nuxt-develop &amp;&amp;
+  pm2 delete nuxt-develop || true &amp;&amp;
+  pm2 start ecosystem.config.js &amp;&amp;
+  pm2 save<span class="token entity" title="\&quot;">\"</span>"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="使用到的-GitLab-CI-變數"><a href="#使用到的-GitLab-CI-變數" class="headerlink" title="使用到的 GitLab CI 變數"></a>使用到的 GitLab CI 變數</h2><ul>
+<li>確保以下變數已安全儲存在 GitLab CI 中：<ul>
+<li><code>側邊欄 &gt; Settings &gt; CI/CD &gt; Variables</code></li>
+</ul>
+</li>
+<li>設定 Variable 時記得開啟 Mask &amp; Protected</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>變數名稱</th>
+<th>說明</th>
+<th>範例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DEPLOY_HOST</code></td>
+<td>部署伺服器域名</td>
+<td><code>example.com</code></td>
+</tr>
+<tr>
+<td><code>DEPLOY_USER</code></td>
+<td>部署伺服器登入使用者</td>
+<td><code>serverusername</code></td>
+</tr>
+<tr>
+<td><code>CF_ACCESS_CLIENT_ID</code></td>
+<td>Cloudflare Access 的服務 Token ID</td>
+<td><code>12345678.access</code></td>
+</tr>
+<tr>
+<td><code>CF_ACCESS_CLIENT_SECRET</code></td>
+<td>Cloudflare Access 的服務密鑰</td>
+<td><code>abcdef1234567890</code></td>
+</tr>
+<tr>
+<td><code>SSH_PRIVATE_KEY</code></td>
+<td>SSH 私鑰</td>
+<td>儲存在 GitLab Secure 內</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="一些-Cloudflare-Zero-Trust-Access-小科普"><a href="#一些-Cloudflare-Zero-Trust-Access-小科普" class="headerlink" title="一些 Cloudflare Zero Trust Access 小科普"></a>一些 Cloudflare Zero Trust Access 小科普</h2><h3 id="為什麼-SSH-和-SCP-需要-CF-ACCESS-CLIENT-ID-和-CF-ACCESS-CLIENT-SECRET？"><a href="#為什麼-SSH-和-SCP-需要-CF-ACCESS-CLIENT-ID-和-CF-ACCESS-CLIENT-SECRET？" class="headerlink" title="為什麼 SSH 和 SCP 需要 CF_ACCESS_CLIENT_ID 和 CF_ACCESS_CLIENT_SECRET？"></a>為什麼 SSH 和 SCP 需要 CF_ACCESS_CLIENT_ID 和 CF_ACCESS_CLIENT_SECRET？</h3><h4 id="1-Cloudflare-Zero-Trust-的身份驗證機制"><a href="#1-Cloudflare-Zero-Trust-的身份驗證機制" class="headerlink" title="1. Cloudflare Zero Trust 的身份驗證機制"></a>1. <strong>Cloudflare Zero Trust 的身份驗證機制</strong></h4><p>我的 <code>.gitlab-ci.yml</code> 中，<code>ssh</code> 和 <code>scp</code> 命令使用了 <code>cloudflared</code> 作為代理（<code>ProxyCommand</code>），Cloudflare 提供此工具以建立與 Cloudflare 網路的安全連線。</p>
+<p>為了確保「只有授權的用戶或系統」可以存取我的 server，Cloudflare Zero Trust 要求進行身份驗證。</p>
+<p>這時後就需要 <code>CF_ACCESS_CLIENT_ID</code> 和 <code>CF_ACCESS_CLIENT_SECRET</code> 這一對 Service Token，用來允許我的 CI&#x2F;CD 流水線以程式化的方式存取受保護的資源，而不需要手動登錄身份提供者（Identity Provider, IdP）。</p>
+<p>如果沒有這對 Service Token，就會在 job 執行中看到以下這個「要你點連結以登入」的互動式登入方法，這明顯與我們自動化背道而馳。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Please <span class="token function">open</span> the following URL and log <span class="token keyword">in</span> with your Cloudflare account:
+https://aaa/cdn-cgi/access/cli?aud<span class="token operator">=</span>xxx<span class="token operator">&amp;</span><span class="token assign-left variable">edge_token_transfer</span><span class="token operator">=</span>true<span class="token operator">&amp;</span><span class="token assign-left variable">redirect_url</span><span class="token operator">=</span>yyy<span class="token operator">&amp;</span><span class="token assign-left variable">send_org_token</span><span class="token operator">=</span>true<span class="token operator">&amp;</span><span class="token assign-left variable">token</span><span class="token operator">=</span>zzz
+Leave cloudflared running to download the token automatically.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>具體來說：</p>
+<ul>
+<li><strong>CF_ACCESS_CLIENT_ID</strong>：就是一個公開的識別碼，用來標識 Service Token。</li>
+<li><strong>CF_ACCESS_CLIENT_SECRET</strong>：就是一個秘密金鑰，與 <code>Client ID</code> 配對，用來驗證請求的合法性。</li>
+</ul>
+<p>在我的腳本中，<code>cloudflared access ssh</code> 命令會使用這對 token 來與 Cloudflare 進行身份驗證：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">ProxyCommand</span><span class="token operator">=</span>/usr/local/bin/cloudflared access <span class="token function">ssh</span> <span class="token parameter variable">--hostname</span> <span class="token variable">$DEPLOY_HOST</span> <span class="token punctuation">\</span>
+--service-token-id <span class="token variable">$CF_ACCESS_CLIENT_ID</span> <span class="token punctuation">\</span>
+--service-token-secret <span class="token variable">$CF_ACCESS_CLIENT_SECRET</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>當 <code>cloudflared</code> 執行時，它會將這對 Token 發送到 Cloudflare，Cloudflare 會驗證 token 的有效性。如果驗證通過，Cloudflare 會生成一個臨時的 JSON Web Token（JWT），允許我的 <code>ssh</code> 或 <code>scp</code> 命令通過 Cloudflare 的網路連接到目標伺服器。</p>
+<h4 id="2-取代傳統-SSH-鑰匙的短暫憑證"><a href="#2-取代傳統-SSH-鑰匙的短暫憑證" class="headerlink" title="2. 取代傳統 SSH 鑰匙的短暫憑證"></a>2. <strong>取代傳統 SSH 鑰匙的短暫憑證</strong></h4><p>傳統的 SSH 連線通常依賴長期存在的 SSH 鑰匙（例如 <code>~/.ssh/id_rsa</code>）。然而，Cloudflare Zero Trust 引入了一個更安全的機制：使用短暫的 SSH 憑證（short-lived certificates）。這些憑證是由 Cloudflare 的憑證機構（CA）簽發的，並且有效期很短（通常幾小時），從而降低了長期憑證被盜用的風險。</p>
+<p>在我的部署流程中，<code>CF_ACCESS_CLIENT_ID</code> 和 <code>CF_ACCESS_CLIENT_SECRET</code> 被用來向 Cloudflare 請求這些短暫憑證。Cloudflare 會根據我的身份（由 Service Token 驗證）和存取策略（Access Policy）來決定是否簽發憑證。如果策略允許，Cloudflare 會簽發一個短暫憑證，<code>cloudflared</code> 會使用這個憑證來完成與伺服器的 SSH 連線。</p>
+<p>這種方法的好處是：</p>
+<ul>
+<li><strong>無需管理長期 SSH 鑰匙</strong>：我不需要在伺服器上維護多個用戶的公鑰。</li>
+<li><strong>更高的安全性</strong>：短暫憑證過期後就無效，即使被盜用，影響範圍也有限。</li>
+</ul>
+<h4 id="3-支援自動化系統"><a href="#3-支援自動化系統" class="headerlink" title="3. 支援自動化系統"></a>3. <strong>支援自動化系統</strong></h4><p>我的 GitLab CI&#x2F;CD 流水線是一個自動化系統，無法像人類用戶一樣通過瀏覽器登錄身份提供者（例如 Google 或 Okta）來進行身份驗證。<code>CF_ACCESS_CLIENT_ID</code> 和 <code>CF_ACCESS_CLIENT_SECRET</code> 提供了一種程式化的身份驗證方式，允許我的流水線以「服務身份」（Service Auth）的方式存取受保護的資源。</p>
+<p>如果我沒有使用 Service Token，Cloudflare 會要求我的流水線通過身份提供者進行互動式登錄，這在 CI&#x2F;CD 環境中是不切實際的。因此，Service Token 是自動化部署的關鍵。</p>
+<p>這裡呼應上面第一點說的：</p>
+<blockquote>
+<p>這個「要你點連結以登入」的互動式登入方法，這明顯與我們自動化背道而馳。</p>
+</blockquote>
+<h3 id="Cloudflare-Application-與-Policy-的關係"><a href="#Cloudflare-Application-與-Policy-的關係" class="headerlink" title="Cloudflare Application 與 Policy 的關係"></a>Cloudflare Application 與 Policy 的關係</h3><p><img src="/img/gitlabcicd-1.png" alt="alt text" loading="lazy"></p>
+<p>上圖是 Cloudflare Zero Trust 的側邊欄</p>
+<h4 id="1-Cloudflare-Application"><a href="#1-Cloudflare-Application" class="headerlink" title="1. Cloudflare Application"></a>1. <strong>Cloudflare Application</strong></h4><ul>
+<li><p><strong>Cloudflare Application</strong></p>
+<ul>
+<li>在 Cloudflare Zero Trust 中，<code>Application</code> 是一個受保護的資源（例如我的 SSH Server）。</li>
+</ul>
+</li>
+<li><p><strong>Application Config</strong>：</p>
+<ul>
+<li>這裡需要指定目標伺服器的主機名 (例如 <code>xxx.subarya.me</code>)</li>
+</ul>
+</li>
+<li><p><strong>Service Token 與 Application 的關係</strong>：</p>
+<ul>
+<li>在 New Application 時，通常會配置存取策略（Access Policy），指定哪些用戶或服務可以存取這個應用。</li>
+<li>我的 Service Token（<code>CF_ACCESS_CLIENT_ID</code> 和 <code>CF_ACCESS_CLIENT_SECRET</code>）是與這個 Application 綁定的。當 <code>cloudflared</code> 使用這對 Token 進行身份驗證時，Cloudflare 會檢查該 Token 是否被授權存取這個特定的應用。</li>
+<li>如果 Token 有效，Cloudflare 會生成一個 JWT，允許我的流水線存取應用（即我的 SSH 伺服器）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-Cloudflare-Policy"><a href="#2-Cloudflare-Policy" class="headerlink" title="2. Cloudflare Policy"></a>2. <strong>Cloudflare Policy</strong></h4><p>Cloudflare Zero Trust 的存取策略（Access Policy）定義了誰（或什麼）可以存取我的應用，以及在什麼條件下可以存取。</p>
+<ul>
+<li><p><strong>Policy Config</strong>：</p>
+<ul>
+<li>在 Cloudflare Zero Trust 儀表板中，我可以為我的 Application 創建一個 Policy，例如：<ul>
+<li><strong>動作（Action）</strong>：設為 <code>Service Auth</code>，表示允許使用 Service Token (那一對 Client ID 和 Secret) 進行身份驗證。</li>
+<li><strong>條件（Conditions）</strong>：指定允許的 Service Token（例如我的 <code>CF_ACCESS_CLIENT_ID</code>）。</li>
+<li><strong>其他條件</strong>：我可以添加額外的條件，例如限制存取的 IP 範圍、設備姿態（Device Posture）等。</li>
+</ul>
+</li>
+<li>例如，我可以配置一個 Policy，只允許特定的 Service Token 存取我的伺服器，而其他未授權的 Token 或用戶會被拒絕。</li>
+</ul>
+</li>
+<li><p><strong>Policy 執行</strong>：</p>
+<ul>
+<li>當我的流水線使用 <code>CF_ACCESS_CLIENT_ID</code> 和 <code>CF_ACCESS_CLIENT_SECRET</code> 進行身份驗證時，Cloudflare 會檢查這些 Token 「是否符合 Application 的 Access Policy」。</li>
+<li>如果符合，Cloudflare 會允許連線，並簽發短暫憑證給 <code>cloudflared</code>，用於與伺服器建立 SSH 連線。</li>
+<li>如果不符合（例如 Token 已過期或被撤銷），Cloudflare 會拒絕連線，並記錄一個「存取被拒」（Access Denied）事件。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="使用與流程截圖"><a href="#使用與流程截圖" class="headerlink" title="使用與流程截圖"></a>使用與流程截圖</h2><h3 id="建立-Token"><a href="#建立-Token" class="headerlink" title="建立 Token"></a>建立 Token</h3><ol>
+<li>進入 Cloudflare Zero Trust Access 的 服務驗證</li>
+<li>點選「建立服務 Token」</li>
+</ol>
+<p><img src="/img/gitlabcicd-4.png" alt="alt text" loading="lazy"></p>
+<ol start="3">
+<li>填寫完名稱和持續時間</li>
+</ol>
+<p><img src="/img/gitlabcicd-5.png" alt="alt text" loading="lazy"></p>
+<ol start="4">
+<li>第三點作完後點「產生 Token」並「自己存好用戶端 ID 和 密碼」後如下圖</li>
+</ol>
+<p><img src="/img/gitlabcicd-6.png" alt="alt text" loading="lazy"></p>
+<h3 id="建立-Policy"><a href="#建立-Policy" class="headerlink" title="建立 Policy"></a>建立 Policy</h3><ol>
+<li>進入 Cloudflare Zero Trust Access 的 原則</li>
+<li>點選「新增原則」</li>
+</ol>
+<p><img src="/img/gitlabcicd-7.png" alt="alt text" loading="lazy"></p>
+<ol start="3">
+<li>輸入與選擇：<ol>
+<li>填寫原則名稱</li>
+<li>動作選 Service Auth</li>
+<li>下面新增規則處的「選取器」選擇「Service Token」</li>
+<li>值 選擇 上面建立 Token 時取的名稱</li>
+<li>確認新增規則處 3, 4 點都是使用「包含 OR」</li>
+<li>右下角儲存</li>
+</ol>
+</li>
+</ol>
+<p><img src="/img/gitlabcicd-8.png" alt="alt text" loading="lazy"></p>
+<ol start="4">
+<li>如果你的 Server 本身進入方法就是用 Tunnel 再看以下的解釋<ul>
+<li>你會發現規則建立後，如果先去把 Application 串起來，你會發現你在本地端 ssh 進 remote server 時被擋在外面了</li>
+<li>原因是你在原本自己的裝置上應該在 <code>~/.ssh/config</code> 中有設定過…</li>
+<li><img src="/img/gitlabcicd-9.png" alt="alt text" loading="lazy"></li>
+<li>恭喜、你沒有那一對 Service Token</li>
+<li>因此你需要再建立一個 Policy，這次動作選 Allow (不是 Service Auth)</li>
+<li>選取器我是選 Email，然後填入你的 Email 即可 (選什麼看你本地端的需求是什麼)</li>
+<li><img src="/img/gitlabcicd-10.png" alt="alt text" loading="lazy"></li>
+<li>儲存後你就會得到下圖…</li>
+</ul>
+</li>
+</ol>
+<p><img src="/img/gitlabcicd-11.png" alt="alt text" loading="lazy"></p>
+<h3 id="建立-Application"><a href="#建立-Application" class="headerlink" title="建立 Application"></a>建立 Application</h3><ol>
+<li>進入 Cloudflare Zero Trust Access 的 應用程式</li>
+</ol>
+<p><img src="/img/gitlabcicd-2.png" alt="alt text" loading="lazy"></p>
+<ol start="2">
+<li>點選 <code>加入應用程式 &gt; 自我裝載的選取</code></li>
+</ol>
+<p><img src="/img/gitlabcicd-3.png" alt="alt text" loading="lazy"></p>
+<ol start="3">
+<li>填完名稱與持續時間後</li>
+<li>點選「新增公用主機名稱」，然後填寫網域和子網域 (這裡看你要加入的是什麼，我是公用主機，這裡反而要去看你原本 Tunnel 或是其他是怎麼設定的)</li>
+<li>點選下面 Access 原則 的「選取現有規則」</li>
+</ol>
+<p><img src="/img/gitlabcicd-12.png" alt="alt text" loading="lazy"></p>
+<ol start="6">
+<li>選擇剛才建立的那兩條 Policy</li>
+</ol>
+<p><img src="/img/gitlabcicd-13.png" alt="alt text" loading="lazy"></p>
+<ol start="7">
+<li>一直右下角下一步到儲存</li>
+</ol>
+<p><img src="/img/gitlabcicd-14.png" alt="alt text" loading="lazy"></p>
+<h3 id="結束工作"><a href="#結束工作" class="headerlink" title="結束工作"></a>結束工作</h3><p>恭喜你完成「建立 Service Token」、「建立 Policy」、「建立 Application」啦！</p>
+<p>接著把 Service Token 放入你的 GitLab CI&#x2F;CD Variables 裡吧</p>
+<hr>
+<h2 id="後續此-CI-x2F-CD-有待擴充"><a href="#後續此-CI-x2F-CD-有待擴充" class="headerlink" title="後續此 CI&#x2F;CD 有待擴充"></a>後續此 CI&#x2F;CD 有待擴充</h2><ul>
+<li>建立其他分支流程（如 <code>staging</code>, <code>production</code>）</li>
+<li>導入測試（如整合測試、E2E 測試）</li>
+</ul>
+<hr>
+<h2 id="附上我-Develop-版本的-gitlab-ci-yml"><a href="#附上我-Develop-版本的-gitlab-ci-yml" class="headerlink" title="附上我 Develop 版本的 gitlab-ci.yml"></a>附上我 Develop 版本的 gitlab-ci.yml</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">stages</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> dependencies
+  <span class="token punctuation">-</span> lint
+  <span class="token punctuation">-</span> build
+  <span class="token punctuation">-</span> deploy
+
+<span class="token key atrule">image</span><span class="token punctuation">:</span> node<span class="token punctuation">:</span><span class="token number">22</span>
+
+<span class="token key atrule">variables</span><span class="token punctuation">:</span>
+  <span class="token key atrule">USER_NAME</span><span class="token punctuation">:</span> ntnu_tow
+  <span class="token key atrule">REPOSITORY_NAME</span><span class="token punctuation">:</span> nuxt<span class="token punctuation">-</span>3<span class="token punctuation">-</span>ntnutow<span class="token punctuation">-</span>dev
+
+<span class="token key atrule">before_script</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> npm install <span class="token punctuation">-</span><span class="token punctuation">-</span>location=global pnpm@9.15.0
+  <span class="token punctuation">-</span> pnpm config set store<span class="token punctuation">-</span>dir .pnpm<span class="token punctuation">-</span>store
+
+<span class="token key atrule">default</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cache</span><span class="token punctuation">:</span> <span class="token important">&amp;cache</span>
+    <span class="token key atrule">key</span><span class="token punctuation">:</span>
+      <span class="token key atrule">files</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> pnpm<span class="token punctuation">-</span>lock.yaml
+    <span class="token key atrule">paths</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> .pnpm<span class="token punctuation">-</span>store
+      <span class="token punctuation">-</span> ./node_modules
+    <span class="token key atrule">policy</span><span class="token punctuation">:</span> pull
+
+<span class="token key atrule">install dependencies</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> dependencies
+  <span class="token key atrule">interruptible</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">when</span><span class="token punctuation">:</span> always
+  <span class="token key atrule">cache</span><span class="token punctuation">:</span>
+    <span class="token key atrule">&lt;&lt;</span><span class="token punctuation">:</span> <span class="token important">*cache</span>
+    <span class="token key atrule">policy</span><span class="token punctuation">:</span> push
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> pnpm install
+    <span class="token punctuation">-</span> pnpm run prepare
+  <span class="token key atrule">artifacts</span><span class="token punctuation">:</span>
+    <span class="token key atrule">paths</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> .nuxt
+    <span class="token key atrule">expire_in</span><span class="token punctuation">:</span> 1 hour
+
+<span class="token comment"># Lint job 使用 node image</span>
+<span class="token key atrule">lint</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> lint
+  <span class="token key atrule">interruptible</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> echo "📝 Skipping tests (not implemented yet)"
+    <span class="token punctuation">-</span> echo "🔍 Running lint<span class="token punctuation">...</span>"
+    <span class="token punctuation">-</span> pnpm lint
+    <span class="token punctuation">-</span> echo "🔍 Running TypeScript type check<span class="token punctuation">...</span>"
+    <span class="token punctuation">-</span> pnpm vue<span class="token punctuation">-</span>tsc <span class="token punctuation">-</span><span class="token punctuation">-</span>noEmit
+
+<span class="token key atrule">build_develop</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> build
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> node<span class="token punctuation">:</span><span class="token number">22</span>
+  <span class="token key atrule">interruptible</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">cache</span><span class="token punctuation">:</span>
+    <span class="token key atrule">&lt;&lt;</span><span class="token punctuation">:</span> <span class="token important">*cache</span>
+    <span class="token key atrule">policy</span><span class="token punctuation">:</span> pull
+  <span class="token key atrule">dependencies</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> install dependencies
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> echo "🏗️ Building Nuxt 3 project<span class="token punctuation">...</span>"
+    <span class="token punctuation">-</span> pnpm build
+  <span class="token key atrule">artifacts</span><span class="token punctuation">:</span>
+    <span class="token key atrule">paths</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> .output/
+    <span class="token key atrule">expire_in</span><span class="token punctuation">:</span> 1 hour
+  <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> develop
+  <span class="token key atrule">only</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> develop
+
+<span class="token key atrule">deploy_develop</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> deploy
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> alpine<span class="token punctuation">:</span>latest
+  <span class="token key atrule">dependencies</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> build_develop
+  <span class="token key atrule">before_script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> apk add <span class="token punctuation">-</span><span class="token punctuation">-</span>no<span class="token punctuation">-</span>cache openssh<span class="token punctuation">-</span>client bash curl
+    <span class="token punctuation">-</span> command <span class="token punctuation">-</span>v ssh<span class="token punctuation">-</span>agent <span class="token punctuation">></span>/dev/null <span class="token punctuation">|</span><span class="token punctuation">|</span> ( apk add <span class="token punctuation">-</span><span class="token punctuation">-</span>update openssh )
+    <span class="token punctuation">-</span> curl <span class="token punctuation">-</span>L https<span class="token punctuation">:</span>//github.com/cloudflare/cloudflared/releases/latest/download/cloudflared<span class="token punctuation">-</span>linux<span class="token punctuation">-</span>amd64 <span class="token punctuation">-</span>o /usr/local/bin/cloudflared
+    <span class="token punctuation">-</span> chmod +x /usr/local/bin/cloudflared
+    <span class="token punctuation">-</span> cloudflared <span class="token punctuation">-</span><span class="token punctuation">-</span>version
+    <span class="token punctuation">-</span> mkdir <span class="token punctuation">-</span>p ~/.ssh
+    <span class="token punctuation">-</span> chmod 700 ~/.ssh
+    <span class="token punctuation">-</span> echo "$SSH_PRIVATE_KEY" <span class="token punctuation">|</span> tr <span class="token punctuation">-</span>d '\r' <span class="token punctuation">></span> ~/.ssh/id_rsa
+    <span class="token punctuation">-</span> chmod 600 ~/.ssh/id_rsa
+    <span class="token punctuation">-</span> eval "$(ssh<span class="token punctuation">-</span>agent <span class="token punctuation">-</span>s)"
+    <span class="token punctuation">-</span> ssh<span class="token punctuation">-</span>add ~/.ssh/id_rsa
+    <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
+      ssh -o "ProxyCommand=/usr/local/bin/cloudflared access ssh --hostname $DEPLOY_HOST \
+      --service-token-id $CF_ACCESS_CLIENT_ID \
+      --service-token-secret $CF_ACCESS_CLIENT_SECRET" \
+      -o StrictHostKeyChecking=no \
+      $DEPLOY_USER@$DEPLOY_HOST "echo ✅ SSH via Cloudflare Access succeeded"</span>
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> echo "🚀 Deploying to ta.subarya.me (develop)<span class="token punctuation">...</span>"
+    <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
+      scp -o "ProxyCommand=/usr/local/bin/cloudflared access ssh --hostname $DEPLOY_HOST \
+      --service-token-id $CF_ACCESS_CLIENT_ID \
+      --service-token-secret $CF_ACCESS_CLIENT_SECRET" \
+      -o StrictHostKeyChecking=no \
+      -r .output/* $DEPLOY_USER@$DEPLOY_HOST:/var/www/nuxt-develop/</span>
+    <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
+      ssh -o "ProxyCommand=/usr/local/bin/cloudflared access ssh --hostname $DEPLOY_HOST \
+      --service-token-id $CF_ACCESS_CLIENT_ID \
+      --service-token-secret $CF_ACCESS_CLIENT_SECRET" \
+      -o StrictHostKeyChecking=no \
+      $DEPLOY_USER@$DEPLOY_HOST "bash -c \"
+        cd /var/www/nuxt-develop &amp;&amp;
+        pm2 delete nuxt-develop || true &amp;&amp;
+        pm2 start ecosystem.config.js &amp;&amp;
+        pm2 save\""</span>
+  <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> develop
+    <span class="token key atrule">url</span><span class="token punctuation">:</span> $ENV_URL
+  <span class="token key atrule">only</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> develop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div><ul class="post-copyright"><li class="post-copyright-author"><strong>本文作者：</strong>SubaRya</li><li class="post-copyright-link"><strong>本文連結：</strong><a href="https://blog.subarya.me/2025/04/12/[2025%20GitLab%20CI%20CD]%E5%89%8D%E7%AB%AFCI-CD%E8%B8%A9%E5%9D%91%E5%BF%83%E5%BE%97/" title="前端 CI-CD 踩坑與 Cloudflare Zero Trust Access 使用心得">https://blog.subarya.me/2025/04/12/[2025%20GitLab%20CI%20CD]%E5%89%8D%E7%AB%AFCI-CD%E8%B8%A9%E5%9D%91%E5%BF%83%E5%BE%97/</a></li><li class="post-copyright-license"><strong>版權聲明：</strong>本Blog所有文章除了特別聲明外，均默認採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" title="CC BY-NC-SA 4.0 "><svg class="icon"><use xlink:href="#icon-creative-commons-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-by-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-nc-line"></use></svg><svg class="icon"><use xlink:href="#icon-creative-commons-sa-line"></use></svg></a> 許可之協議。</li></ul></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/11/05/%5BMinecraft%5D%20server%20%E5%92%8C%20client%20%E5%BB%BA%E7%AB%8B%E5%BF%83%E5%BE%97/" rel="next" title="Minecraft - Server And Client Setup (Main RLCraft)"><span class="post-nav-text">Minecraft - Server And Client Setup (Main RLCraft)</span><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-right-s-line"></use></svg></a></div></div></div></main><footer class="sidebar-translate" id="footer"><div class="copyright"><span>&copy; 2019 – 2025 </span><a class="with-love" id="animate" target="_blank" rel="noopener" href="https://sponsors.yunyoujun.cn" title="云游君的赞助者们"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-cloud-line"></use></svg></a><span class="author"> SubaRya</span></div><div class="powered"><span>由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驅動 v5.4.2</span><span class="footer-separator">|</span><span>主題 - <a rel="noopener" href="https://github.com/YunYouJun/hexo-theme-yun" target="_blank"><span>Yun</span></a> v1.5.3</span></div></footer><a class="hty-icon-button" id="goUp" aria-label="back-to-top" href="#"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-arrow-up-s-line"></use></svg><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" target="_blank" rel="noopener" href="https://www.google.com/search?q=site:blog.subarya.me" title="搜尋"><span class="site-state-item-icon"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-search-line"></use></svg></span></a></div></body></html>

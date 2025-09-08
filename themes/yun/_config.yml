@@ -52,9 +52,9 @@ social:
     link: https://github.com/KutsunaSubaRya
     icon: icon-github-line
     color: "#6e5494"
-  - name: Twitter
-    link: https://twitter.com/Kutsuna_SubaRya
-    icon: icon-twitter-line
+  - name: My-Site
+    link: https://subarya.me
+    icon: icon-user-line
     color: "#1da1f2"
   - name: Telegram
     link: https://t.me/Kutsuna_SubaRya

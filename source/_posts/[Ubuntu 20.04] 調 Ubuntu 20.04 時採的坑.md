@@ -99,4 +99,4 @@ $ sudo ./change-gdm-background [your image path]
 
 ## 雜項
 ### Vimrc 配置
-我是參考 [余原齊](https://blog.smallten.tk/) 電神的文章 [Use Vim as IDE](https://hackmd.io/@Adam7066/SJ5ERzgHv)
+我是參考 [Smallten](https://adam7066.github.io/) 電神的文章 [Use Vim as IDE](https://hackmd.io/@Adam7066/SJ5ERzgHv)

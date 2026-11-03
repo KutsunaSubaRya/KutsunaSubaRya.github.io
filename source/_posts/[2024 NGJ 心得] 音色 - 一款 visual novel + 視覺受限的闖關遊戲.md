@@ -71,7 +71,7 @@ Beck: 來找一下可能會使用到的引擎或 tool，看看有哪些可以套
 Beck: 就 Godot 吧
 Hsujinho: (進來語音討論)
 
-(開始一系列的討論做什麼為主題，直到 [Smallten](https://smallten.me/) 電神出現)
+(開始一系列的討論做什麼為主題，直到 [Smallten](https://adam7066.github.io/) 電神出現)
 
 --- 講述玩要做的給 Smallten ---
 
